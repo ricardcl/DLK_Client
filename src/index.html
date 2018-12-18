@@ -16,9 +16,22 @@
     <p><input type="button" value="Envoyer un message au serveur" id="boutonVersServeur" /></p>
   </div>
 
-  <div class="selection_fichier_Vemgsa"><input type="file" id="inputFileVemgsa" /></div>
-  <div class="selection_fichier_Lpln"> <input type="file" id="inputFileLpln" /></div>
-  <p><input type="button" value="charger_fichiers" id="boutonCharger" /></p>
+  <!-- chargement des fichiers -->
+  <form action="/ma-page-de-traitement" method="post">
+    <div>
+        <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
+        <input type="file" id="inputFileVemgsa" multiple/>
+    </div>
+    <div>
+        <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
+        <input type="file" id="inputFileLpln" />
+    </div>
+    <div>
+        <label for="arcid">id :</label>
+        <input type="text" id="arcid" />
+    </div>
+</form>
+<p><input type="button" value="charger fichiers" id="boutonCharger" /></p>
 
   <app-root></app-root>
 </body>

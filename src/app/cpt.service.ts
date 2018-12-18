@@ -16,6 +16,7 @@ export class CptService {
     var uploader = new siofu(this.socket);
    uploader.listenOnSubmit(document.getElementById("boutonCharger"), document.getElementById("inputFileVemgsa"));
    uploader.listenOnSubmit(document.getElementById("boutonCharger"), document.getElementById("inputFileLpln"));
+
    
   //gestion des connexions pour mettre a jour un compteur
     this.socket.on('cptUpdate', (cpt: number) => {
@@ -33,6 +34,10 @@ export class CptService {
      console.log("Salut serveur, ça va ");
        sock.emit('message', 'Salut serveur, ça va ?');
     });
+
+    document.getElementById('boutonCharger').addEventListener('click',function ()   {
+        sock.emit('chargement_des_fichiers');
+     });
 
 
 
