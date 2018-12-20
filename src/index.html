@@ -17,18 +17,22 @@
   </div>
 
   <!-- chargement des fichiers -->
-  <form action="/ma-page-de-traitement" method="post">
+  <form action="/ma-page-de-traitement" method="post" name="formulaire">
     <div>
         <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
-        <input type="file" id="inputFileVemgsa" multiple/>
+        <input type="file" id="inputFileVemgsa" name="inputFileVemgsa" multiple/>
     </div>
     <div>
         <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
-        <input type="file" id="inputFileLpln" />
+        <input type="file" id="inputFileLpln" name="inputFileLpln"/>
     </div>
     <div>
-        <label for="arcid">id :</label>
-        <input type="text" id="arcid" />
+        <label for="arcid">arcid :</label>
+        <input type="text" id="arcid" name="arcid" />
+    </div>
+    <div>
+        <label for="plnid">plnid :</label>
+        <input type="text" id="plnid" name="plnid" />
     </div>
 </form>
 <p><input type="button" value="charger fichiers" id="boutonCharger" /></p>
