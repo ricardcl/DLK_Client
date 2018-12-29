@@ -21,4 +21,4 @@
         <input type="text" />
     </div>
   </form>
-<button (click)="uploadFiles()">Upload</button>
+<button mat-raised-button color="primary" [class.uploadingButton]="isUploading" [disabled]="!isUploadEnable" (click)="uploadFiles()">{{isUploading ? 'Uploading...' : 'Upload'}}</button>
