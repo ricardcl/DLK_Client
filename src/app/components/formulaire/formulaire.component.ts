@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadService } from '../../servces/upload.service';
 import {UploaderState} from '../../models/uploaderState';
+import {vol} from '../../models/vol';
 
 @Component({
   selector: 'app-formulaire',
@@ -10,7 +11,10 @@ import {UploaderState} from '../../models/uploaderState';
 export class FormulaireComponent implements OnInit {
   private selectedLplnFile : File;
   private selectedVemgsaFile : File;
-  
+  private selected = 'option2';
+  //private listeVols = [{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK 0","plnid":"1149","listeLogs":{},"sl":"AIX"}]
+  private listeVols;
+
   constructor( private _chargerFormulaireService: UploadService) { 
 
   }
@@ -49,5 +53,26 @@ export class FormulaireComponent implements OnInit {
 
   public get isUploadEnable () : boolean {
     return ( !this.isNoFileSelected && !this.isUploading );
+  }
+
+
+  /* -- -- */
+
+
+  public analyseFiles (file : string) : void {
+    this._chargerFormulaireService.analyseFiles(this.selectedLplnFile.name);
+
+  }
+
+  public listePlnid () : void {
+    this.listeVols = this._chargerFormulaireService.getPlnids();
+    //console.log("ma liste : "+"\n"+ this.listeVols);
+  }
+
+
+
+  public get isAnalyseEnable () : boolean {
+    this.listePlnid();
+    return this._chargerFormulaireService.AnalyseState === UploaderState.IDLE;
   }
 }

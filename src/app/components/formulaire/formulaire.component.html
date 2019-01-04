@@ -22,3 +22,22 @@
     </div>
   </form>
 <button mat-raised-button color="primary" [class.uploadingButton]="isUploading" [disabled]="!isUploadEnable" (click)="uploadFiles()">{{isUploading ? 'Uploading...' : 'Upload'}}</button>
+
+
+<button mat-raised-button color="primary"  (click)="analyseFiles()">"analyse"</button>
+
+
+
+  
+  <h4>liste plnid</h4>
+  <mat-form-field>
+    <mat-select placeholder="plnid" [(ngModel)]="selectedValue" name="plnid"  [disabled]="!isAnalyseEnable" >
+      <mat-option *ngFor="let vol of listeVols" [value]="vol.plnid">
+        {{vol.plnid}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <p> Selected plnid: {{selectedValue}} </p>
+
+
+  

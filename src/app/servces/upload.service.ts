@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import * as SocketIOFileUpload from 'socketio-file-upload';
-import {UploaderState} from '../models/uploaderState';
+import { UploaderState } from '../models/uploaderState';
+import { parse } from 'url';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
-  private uploadState : UploaderState = UploaderState.IDLE;
-
+  private uploadState: UploaderState = UploaderState.IDLE;
   private socket: SocketIOClient.Socket;
-  private socketUploader : SocketIOFileUpload;
+  private socketUploader: SocketIOFileUpload;
+
+  private analyseState: UploaderState = UploaderState.UPLOADING;
+  private listeVols;
 
   constructor() {
     this.socket = io.connect('http://localhost:4000');
     this.socketUploader = new SocketIOFileUpload(this.socket);
     this.initUploaderState();
+    this.initSocket();
   }
 
-  private initUploaderState () : void {
+  private initUploaderState(): void {
     this.socketUploader.addEventListener('start', () => {
       this.uploadState = UploaderState.UPLOADING;
     });
@@ -30,16 +34,43 @@ export class UploadService {
     });
   }
 
-  public get UploaderState () : UploaderState {
+  public get UploaderState(): UploaderState {
     return this.uploadState;
   }
 
-  public uploadFiles (files : File[]) : void {
+  public uploadFiles(files: File[]): void {
     this.socketUploader.submitFiles(files);
   }
 
-  public isUploading () : boolean {
+  public isUploading(): boolean {
     return false;
   }
 
+/**  FIN UPLOAD*/
+
+  public analyseFiles(file: string): void {
+    this.socket.emit('analysing', file);
+  }
+
+  public getPlnids() {
+    return JSON.stringify(this.listeVols) ;
+  }
+
+  private initSocket(){
+    this.socket.on('analysed',(array)=>{
+      this.listeVols = array ;
+
+      for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        console.log('donnes analysees' + array[i].arcid+"\n"+ array[i].plnid+"\n"+ array[i].sl);
+        console.log(JSON.stringify(this.listeVols));
+        this.analyseState = UploaderState.IDLE;
+      }
+    });
+  }
+  public get AnalyseState(): UploaderState {
+    return this.analyseState;
+  }
+
 }
+
