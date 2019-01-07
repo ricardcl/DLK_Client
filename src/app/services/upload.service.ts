@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import * as io from 'socket.io-client';
 import * as SocketIOFileUpload from 'socketio-file-upload';
 import { UploaderState } from '../models/uploaderState';
-import { parse } from 'url';
+import { ConnectService }  from './connect.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class UploadService {
   private analyseState: UploaderState = UploaderState.UPLOADING;
   private listeVols;
 
-  constructor() {
-    this.socket = io.connect('http://localhost:4000');
+  constructor(private _connectService : ConnectService) {
+    this.socket = _connectService.connexionSocket;
     this.socketUploader = new SocketIOFileUpload(this.socket);
     this.initUploaderState();
     this.initSocket();
@@ -62,7 +62,7 @@ export class UploadService {
 
       for (let i = 0; i < array.length; i++) {
         const element = array[i];
-        console.log('donnes analysees' + array[i].arcid+"\n"+ array[i].plnid+"\n"+ array[i].sl);
+        console.log('donnees analysees' + array[i].arcid+"\n"+ array[i].plnid+"\n"+ array[i].sl);
         console.log(JSON.stringify(this.listeVols));
         this.analyseState = UploaderState.IDLE;
       }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UploadService } from '../../servces/upload.service';
+import { UploadService } from '../../services/upload.service';
 import {UploaderState} from '../../models/uploaderState';
 import {vol} from '../../models/vol';
+import {ConnectService} from '../../services/connect.service'
 
 @Component({
   selector: 'app-formulaire',
@@ -15,7 +16,7 @@ export class FormulaireComponent implements OnInit {
   //private listeVols = [{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK 0","plnid":"1149","listeLogs":{},"sl":"AIX"}]
   private listeVols;
 
-  constructor( private _chargerFormulaireService: UploadService) { 
+  constructor(private _chargerFormulaireService: UploadService) { 
 
   }
 
