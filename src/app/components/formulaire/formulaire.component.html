@@ -31,8 +31,8 @@
   
   <h4>liste plnid</h4>
   <mat-form-field>
-    <mat-select placeholder="plnid" [(ngModel)]="selectedValue" name="plnid"  [disabled]="!isAnalyseEnable" >
-      <mat-option *ngFor="let vol of listeVols" [value]="vol.plnid">
+    <mat-select placeholder="plnid" [(ngModel)]="selectedValue" name="plnid"  >
+      <mat-option *ngFor="let vol of ListeVols" [value]="vol.plnid">
         {{vol.plnid}}
       </mat-option>
     </mat-select>

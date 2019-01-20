@@ -3,6 +3,7 @@ import { UploadService } from '../../services/upload.service';
 import {UploaderState} from '../../models/uploaderState';
 import {vol} from '../../models/vol';
 import {ConnectService} from '../../services/connect.service'
+import { ExchangeService } from 'src/app/services/exchange.service';
 
 @Component({
   selector: 'app-formulaire',
@@ -12,11 +13,8 @@ import {ConnectService} from '../../services/connect.service'
 export class FormulaireComponent implements OnInit {
   private selectedLplnFile : File;
   private selectedVemgsaFile : File;
-  private selected = 'option2';
-  //private listeVols = [{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH37F","plnid":"9352","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"DLH72K","plnid":"9317","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK","plnid":"1149","listeLogs":{},"sl":"AIX"},{"arcid":"CFG4AK 0","plnid":"1149","listeLogs":{},"sl":"AIX"}]
-  private listeVols;
 
-  constructor(private _chargerFormulaireService: UploadService) { 
+  constructor(private _chargerFormulaireService: UploadService,private _exchangeService: ExchangeService ) { 
 
   }
 
@@ -56,24 +54,18 @@ export class FormulaireComponent implements OnInit {
     return ( !this.isNoFileSelected && !this.isUploading );
   }
 
+  public get ListeVols () : Array<any> {
+    return this._exchangeService.getListeVols();
+  }
+
 
   /* -- -- */
 
 
   public analyseFiles (file : string) : void {
-    this._chargerFormulaireService.analyseFiles(this.selectedLplnFile.name);
+    console.log("analyseFiles", file, this.selectedLplnFile.name);
+    this._exchangeService.analyseFiles(this.selectedLplnFile.name);
 
   }
 
-  public listePlnid () : void {
-    this.listeVols = this._chargerFormulaireService.getPlnids();
-    //console.log("ma liste : "+"\n"+ this.listeVols);
-  }
-
-
-
-  public get isAnalyseEnable () : boolean {
-    this.listePlnid();
-    return this._chargerFormulaireService.AnalyseState === UploaderState.IDLE;
-  }
 }

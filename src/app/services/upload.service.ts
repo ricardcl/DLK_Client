@@ -12,14 +12,12 @@ export class UploadService {
   private socket: SocketIOClient.Socket;
   private socketUploader: SocketIOFileUpload;
 
-  private analyseState: UploaderState = UploaderState.UPLOADING;
-  private listeVols;
 
   constructor(private _connectService : ConnectService) {
     this.socket = _connectService.connexionSocket;
     this.socketUploader = new SocketIOFileUpload(this.socket);
     this.initUploaderState();
-    this.initSocket();
+   
   }
 
   private initUploaderState(): void {
@@ -48,29 +46,4 @@ export class UploadService {
 
 /**  FIN UPLOAD*/
 
-  public analyseFiles(file: string): void {
-    this.socket.emit('analysing', file);
-  }
-
-  public getPlnids() {
-    return JSON.stringify(this.listeVols) ;
-  }
-
-  private initSocket(){
-    this.socket.on('analysed',(array)=>{
-      this.listeVols = array ;
-
-      for (let i = 0; i < array.length; i++) {
-        const element = array[i];
-        console.log('donnees analysees' + array[i].arcid+"\n"+ array[i].plnid+"\n"+ array[i].sl);
-        console.log(JSON.stringify(this.listeVols));
-        this.analyseState = UploaderState.IDLE;
-      }
-    });
-  }
-  public get AnalyseState(): UploaderState {
-    return this.analyseState;
-  }
-
 }
-
