@@ -9,12 +9,16 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
+import { ProutComponent } from './components/prout/prout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormulaireComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    ProutComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatToolbarModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
