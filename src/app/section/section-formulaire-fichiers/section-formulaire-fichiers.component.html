@@ -1,13 +1,30 @@
-<div class="bouton">
+<!--<div class="bouton">
   <p><input type="button" value="Envoyer un message au serveur" /></p>
-</div>
+</div> -->
 
 <!-- chargement des fichiers -->
-<form action="/ma-page-de-traitement">
+<!--<form action="/ma-page-de-traitement">
   <div>
       <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
       <input #vemgsaForm (change)="updateSelectedVemgsa(vemgsaForm.files[0])"type="file"/>
+  </div>-->
+  <!-- chargement des fichiers -->
+<form #choseFileForm="ngForm"> <!-- creation dune variable choseFile-->
+  <div>
+      <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
+      <input
+      type="file"
+      required
+      multiple
+      #vemgsaForm (change)="updateSelectedVemgsa(vemgsaForm.files[0])"     
+      /> 
+    <!--        [(ngModel)]="selectedVemgsaFile" 
+      #vemgsaFormValidity="ngModel" 
+      pbm :  [(ngModel)]="selectedVemgsaFile"  ne renvoie que le nom du fichier (string) et pas lobject fichier
+       -->
   </div>
+
+  
   <div>
       <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
       <input #lplnForm (change)="updateSelectedLpln(lplnForm.files[0])" type="file" />
@@ -24,12 +41,10 @@
 <button mat-raised-button color="primary" [class.uploadingButton]="isUploading" [disabled]="!isUploadEnable" (click)="uploadFiles()">{{isUploading ? 'Uploading...' : 'Upload'}}</button>
 
 
-<button mat-raised-button color="primary"  (click)="analyseFiles()">"analyse"</button>
 
 
-
-
-<h4>liste plnid</h4>
+<div class="listePlnId" *ngIf="isAnalyzed">
+  <h4>liste plnid</h4>
 <mat-form-field>
   <mat-select placeholder="plnid" [(ngModel)]="selectedValue" name="plnid"  >
     <mat-option *ngFor="let vol of ListeVols" [value]="vol.plnid">
@@ -39,4 +54,17 @@
 </mat-form-field>
 <p> Selected plnid: {{selectedValue}} </p>
 
+
+<button mat-raised-button color="primary"  [disabled]="!selectedValue" (click)=navigateToVisualisation()>"analyse"</button>
+
+</div>
+
+
+
+
+
+<!--<div class="bouton">
+  <p><input type="button" value="Envoyer un message au serveur" /></p>
+</div>
+-->
 
