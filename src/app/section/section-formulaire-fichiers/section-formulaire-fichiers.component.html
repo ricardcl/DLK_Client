@@ -46,16 +46,16 @@
 <div class="listePlnId" *ngIf="isAnalyzed">
   <h4>liste plnid</h4>
 <mat-form-field>
-  <mat-select placeholder="plnid" [(ngModel)]="selectedValue" name="plnid"  >
+  <mat-select placeholder="plnid" [(ngModel)]="selectedPlnid" name="plnid"  >
     <mat-option *ngFor="let vol of ListeVols" [value]="vol.plnid">
       {{vol.plnid}}
     </mat-option>
   </mat-select>
 </mat-form-field>
-<p> Selected plnid: {{selectedValue}} </p>
+<p> Selected plnid: {{selectedPlnid}} </p>
 
 
-<button mat-raised-button color="primary"  [disabled]="!selectedValue" (click)=navigateToVisualisation()>"analyse"</button>
+<button mat-raised-button color="primary"  [disabled]="!selectedPlnid" (click)=analyseFiles()>"analyse"</button>
 
 </div>
 

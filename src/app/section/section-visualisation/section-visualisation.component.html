@@ -1,4 +1,14 @@
 <p>
   section-visualisation works!
 </p>
-<button (click)=navigateToFormulaire()>Formulaire</button>
+<button (click)="ListEtats">afficher les donnees du vol</button>
+<!--<code {{ListEtats}}> </code> -->
+<div class="listePlnId" >
+  <h4>liste infos</h4>
+<mat-form-field>
+  <mat-select placeholder="plnid"  name="etat"  >
+    <mat-option *ngFor="let vol of ListEtats" [value]="vol.etat">
+      {{vol.etat}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
 import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { UploaderState } from 'src/app/models/uploaderState';
-import {vol} from '../../models/vol';
+import {Vol} from '../../models/vol';
 import {ConnectService} from '../../services/connect.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+
 
 
 @Component({
@@ -12,12 +13,15 @@ import { NavigationService } from 'src/app/services/navigation.service';
   templateUrl: './section-formulaire-fichiers.component.html',
   styleUrls: ['./section-formulaire-fichiers.component.css']
 })
-export class SectionFormulaireFichiersComponent  {
+export class SectionFormulaireFichiersComponent implements OnInit {
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
+
 
   private selectedLplnFile : File;
   private selectedVemgsaFile : File;
+  private selectedPlnid : number;
   private analyseState : boolean = false;
+  private vemgsaFilesNames : string[] = [];
 
 
 constructor(private _chargerFormulaireService: UploadService,private _exchangeService: ExchangeService, private _navigationService: NavigationService ) { 
@@ -65,7 +69,7 @@ constructor(private _chargerFormulaireService: UploadService,private _exchangeSe
   }
 
   public get ListeVols () : Array<any> {
-    return this._exchangeService.getListeVols();
+    return this._exchangeService.getListeVolsTrouves();
   }
 
 
@@ -77,14 +81,25 @@ constructor(private _chargerFormulaireService: UploadService,private _exchangeSe
   }
 
   public analysePlnId (file : File) : void {
-    console.log("analyseFiles", "file", file.name);
-    this._exchangeService.analyseFiles(file.name);
+    console.log("analyseFilesPlnid", "file", file.name);
+    this._exchangeService.analysePlnId(file.name);
     this.analyseState = true;
   }
 
+  public analyseFiles () : void {  
+    console.log("analyseFiles");
+    console.log("selectedVemgsaFileName: ", this.selectedVemgsaFile.name);
+    this.vemgsaFilesNames.push(this.selectedVemgsaFile.name);
 
-  public navigateToVisualisation(){
+    console.log("this.vemgsaFilesNames[0]: ", this.vemgsaFilesNames[0]);
+    this._exchangeService.analyseFiles(this.selectedPlnid, this.selectedLplnFile.name,  this.vemgsaFilesNames);
     this._navigationService.navigateToVisualisation();
   }
+
+  
+  ngOnInit() {
+    this._exchangeService.testJson();
+  }
+
 }
  
