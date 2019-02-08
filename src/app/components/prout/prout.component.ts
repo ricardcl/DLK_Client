@@ -8,13 +8,10 @@ import { NavigationService } from 'src/app/services/navigation.service';
 })
 export class ProutComponent implements OnInit {
 
-  constructor(private _navigationService : NavigationService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  public navigateToFormulaire () : void {
-    this._navigationService.navigateToFormulaire();
-  }
 
 }

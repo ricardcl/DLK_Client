@@ -11,4 +11,8 @@ export class NavigationService {
   public navigateToFormulaire () {
     this._router.navigateByUrl('/formulaire');
   }
+
+  public navigateToVisualisation () {
+    this._router.navigateByUrl('/visualisation');
+  }
 }
