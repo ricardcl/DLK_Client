@@ -98,7 +98,7 @@ constructor(private _chargerFormulaireService: UploadService,private _exchangeSe
 
   
   ngOnInit() {
-    this._exchangeService.testJson();
+   // this._exchangeService.testJson();
   }
 
 }

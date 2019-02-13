@@ -27,7 +27,7 @@ export class ExchangeService {
 
   
   public testJson(){
-    let plnid = 8474;
+    let plnid = 9694;
     let lplnfilename = "lpln";
     let  vemgsafilename = ["vemgsa"];
     this.socket.emit('analysing', plnid, lplnfilename, vemgsafilename);
@@ -72,7 +72,8 @@ export class ExchangeService {
       console.log('analysedVol from serveur : ',array);
       this.listeEtats = array ;
       //DEBUG :
-      let data : Array<any> = this.getListEtats();
+    //  let data : Array<any> = this.getListEtats();
+     let data : Array<any> = array;
     console.log("donnes recuperes : ",data);
     console.log("arcid : ",data['arcid']);
     console.log("plnid : ",data['plnid']);
@@ -93,16 +94,24 @@ export class ExchangeService {
       let etat =etatCpdlcTemp['etat'] ;
       let associable = etatCpdlcTemp['associable'] ;
       console.log("id: ",id, "title: ", title, "date: ",date);
-      let etatCpldcTemp : EtatCpdlc = new EtatCpdlc(id, title, date, heure, etat, associable); 
-      let infomap : TSMap<string,string> = etatCpldcTemp.getInfoMap();
+      let etatCpldc : EtatCpdlc = new EtatCpdlc(id, title, date, heure, etat, associable); 
+      let infomap : TSMap<string,string> = new TSMap();  //etatCpldcTemp.getInfoMap();
+      console.log("infomap recuperee : ", etatCpdlcTemp['infoMap']);
+      console.log("infomap recuperee : ", etatCpdlcTemp['detailLog']);
+      
       Object.keys(etatCpdlcTemp['infoMap']).forEach(function (value){
         infomap[value]=etatCpdlcTemp['infoMap'][value];
         // {TITLE :  CPCEND} de la forme {value,etatCpdlcTemp['infoMap'][value] }
         console.log("test value: ",infomap[value]);
-        console.log("test index: ",value);
+        console.log("test index: ",value); 
       });
+      etatCpldc.setInfoMap(infomap);
+      console.log("infomap 1: ",infomap);
+      console.log("infomap 2: ",etatCpldc.getInfoMap());
+      console.log("contenu infoMap: ",etatCpldc.getMapCpdlc());
       
-      console.log(data['listeLogs'][key]['infoMap']);
+      
+      console.log("liste logs: ",data['listeLogs'][key]['infoMap']);
   });
 
 

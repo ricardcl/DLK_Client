@@ -74,6 +74,10 @@ export class EtatCpdlc {
     return this.date
   }
 
+//SETTERS
+  setInfoMap( infoMap : TSMap<string, string>) {
+    this.infoMap = infoMap;
+  }
 }
 
 

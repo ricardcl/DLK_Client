@@ -14,8 +14,8 @@ export class SectionVisualisationComponent  {
   constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService, private _navigationService: NavigationService ) { }
 
  public get ListEtats () : Array<any> {
-   console.log(" visu donnes recuperes : ",this._exchangeService.getListEtats());
-   console.log(" visu JSONvdonnes recuperes : ",JSON.stringify(this._exchangeService.getListEtats()));
+   //console.log(" visu donnes recuperes : ",this._exchangeService.getListEtats());
+   //console.log(" visu JSONvdonnes recuperes : ",JSON.stringify(this._exchangeService.getListEtats()));
    
     return this._exchangeService.getListEtats();
   }
