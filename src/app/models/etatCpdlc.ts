@@ -1,5 +1,6 @@
 import { TSMap } from "typescript-map";
 import { Etat } from './enumEtat';
+import { DetailCpdlc } from './detailCpdlc';
 
 export class EtatCpdlc {
   private id: number = 0;
@@ -8,59 +9,67 @@ export class EtatCpdlc {
   private heure: string = "";
   private etat: Etat = Etat.NonLogue;
   private associable: boolean = false;
-  private infoMap: TSMap<string, string>;
+  private detailLog : DetailCpdlc[];
 
 
-  constructor(id: number, title: string, date: string, heure: string, etat: Etat, associable: boolean) {
+
+
+
+  constructor(id: number, title: string, date: string, heure: string, etat: Etat, associable: boolean, detailLog : DetailCpdlc[]) {
     this.id = id;
     this.title = title;
     this.date = date;
     this.heure = heure;
     this.etat = etat;
     this.associable = associable;
-    this.infoMap = new TSMap();
+    this.detailLog = detailLog;
   }
 
-  /*getLogCpdlc() {
-
-    return "\n InfoLog :  \n id = " +this.id + "\n date = " + this.date +  "\n heure = " + this.heure + "\n associable = " + this.associable +  this.etat.getEtatCpdlc();
-  }*/
-
-
-  getInfoMap(): TSMap<string, string> {
-    return this.infoMap;
-  }
   getEtatCpdlc(): string {
 
-    return "\nINfos EtatCpdlc :\n id = " + this.id + "\n title = " + this.title + "\n info = " + this.getMapCpdlc();
+    return "\nINfos EtatCpdlc :\n id = " + this.id + "\n title = " + this.title + "\n info = " + this.getDetaillog();
   }
 
-  getMapCpdlc(): string {
-    var infoString = "";
-    this.infoMap.forEach((value, key, info) => {
-      infoString += key + ':' + value + "\n";
-    })
-    //console.log(this.info.keys()); // [1, [2], true]
-    //console.log(this.info.values()); // ["hello", "ts", "map"]
 
-    return infoString;
 
+  isDetail(key : string):boolean{
+    let trouve:boolean =false;
+    this.detailLog.forEach(element => {
+      if ( key === element.key) trouve =true;;
+    });
+    return trouve;
   }
 
-  getFrequence(): string {
-    if (this.infoMap.get("FREQ") !== undefined) {
-      var freq = this.infoMap.get("FREQ");
-      return freq;
+  getDetail(key : string){
+    if (this.isDetail ( key)) {
+      let result:string;
+      this.detailLog.forEach(element => {
+        if ( key == element.key) {
+          result = element.value;
+        }
+      });
+      return result;
     }
-    else {
-      return null;
-    }
+    else return undefined;
+
 
   }
 
-  getHeureLogCpdlc(): string {
+  setDetailLog(array : DetailCpdlc[]){
+    this.detailLog = array;
+  }
 
-    return "heure = " + this.heure;
+  addDetail(detail : DetailCpdlc){
+    if (this.isDetail(detail.key) ) {
+  
+      this.detailLog.forEach((element,index) => {
+        if ( detail.key === element.key) {
+          delete  this.detailLog[index];
+        }
+      });
+    }
+      this.detailLog.push(detail);
+   
   }
 
   //GETTERS
@@ -74,9 +83,29 @@ export class EtatCpdlc {
     return this.date
   }
 
-//SETTERS
-  setInfoMap( infoMap : TSMap<string, string>) {
-    this.infoMap = infoMap;
+  //SETTERS
+  setTitle(title: string) {
+    this.title = title;
+  }
+  setDate(date: string) {
+    this.date = date;
+  }
+  setHeure(heure: string) {
+    this.heure = heure;
+  }
+
+  
+  setEtat(etat: Etat) {
+    this.etat = etat;
+  }
+  setAssociable(associable: boolean) {
+    this.associable = associable;
+  }
+
+
+
+  getDetaillog(){
+    return this.detailLog;
   }
 }
 

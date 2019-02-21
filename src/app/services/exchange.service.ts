@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import * as SocketIOFileUpload from 'socketio-file-upload';
 import { ConnectService }  from './connect.service';
 import { Vol } from '../models/vol';
-import { TSMap } from 'typescript-map';
 import { EtatCpdlc } from '../models/etatCpdlc';
+import { DetailCpdlc } from '../models/detailCpdlc';
 
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ExchangeService {
   private socket: SocketIOClient.Socket;
 
   private listeVols;
-  private listeEtats;
+  private etatCpldc : EtatCpdlc;
   private selectedplnid : number = 0;
   private vemgsaFileName : string;
   private lplnFileName : string;
@@ -57,9 +57,9 @@ export class ExchangeService {
     return this.listeVols;
   }
 
-  public getListEtats() : Array<any> {
+  public getListEtats() : EtatCpdlc {
     console.log('Exchange : getListEtats');
-    return this.listeEtats;
+    return this.etatCpldc;
   }
 
   private initSocket(){
@@ -70,19 +70,16 @@ export class ExchangeService {
     });
     this.socket.on('analysedVol',(array)=>{
       console.log('analysedVol from serveur : ',array);
-      this.listeEtats = array ;
+
       //DEBUG :
     //  let data : Array<any> = this.getListEtats();
      let data : Array<any> = array;
     console.log("donnes recuperes : ",data);
     console.log("arcid : ",data['arcid']);
     console.log("plnid : ",data['plnid']);
-    console.log("listeLogs: ",data['listeLogs']);
       let arcid : string = data['arcid'];
       let plnid : number = data['plnid'];
       let vol = new Vol(arcid, plnid);
-      console.log("listeLogs: 0 ",data['listeLogs'][0]);
-      console.log("listeLogs: 1 ",data['listeLogs'][1]);
       console.log("longueur :  ",data['listeLogs'].length);
  
     Object.keys(data['listeLogs']).forEach(function (key){
@@ -93,25 +90,14 @@ export class ExchangeService {
       let heure = etatCpdlcTemp['heure'] ;
       let etat =etatCpdlcTemp['etat'] ;
       let associable = etatCpdlcTemp['associable'] ;
-      console.log("id: ",id, "title: ", title, "date: ",date);
-      let etatCpldc : EtatCpdlc = new EtatCpdlc(id, title, date, heure, etat, associable); 
-      let infomap : TSMap<string,string> = new TSMap();  //etatCpldcTemp.getInfoMap();
-      console.log("infomap recuperee : ", etatCpdlcTemp['infoMap']);
-      console.log("infomap recuperee : ", etatCpdlcTemp['detailLog']);
-      
-      Object.keys(etatCpdlcTemp['infoMap']).forEach(function (value){
-        infomap[value]=etatCpdlcTemp['infoMap'][value];
-        // {TITLE :  CPCEND} de la forme {value,etatCpdlcTemp['infoMap'][value] }
-        console.log("test value: ",infomap[value]);
+      let detailLog : DetailCpdlc[] = etatCpdlcTemp['detailLog'];
+      console.log("test 1");
+      this.etatCpldc= new EtatCpdlc(id, title, date, heure, etat, associable, detailLog); 
+      console.log("test 2");
+      Object.keys(this.etatCpldc.getDetaillog()).forEach(function (value){
+        console.log("test value: ",etatCpdlcTemp['detailLog'][value]);
         console.log("test index: ",value); 
       });
-      etatCpldc.setInfoMap(infomap);
-      console.log("infomap 1: ",infomap);
-      console.log("infomap 2: ",etatCpldc.getInfoMap());
-      console.log("contenu infoMap: ",etatCpldc.getMapCpdlc());
-      
-      
-      console.log("liste logs: ",data['listeLogs'][key]['infoMap']);
   });
 
 
