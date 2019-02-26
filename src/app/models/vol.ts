@@ -14,15 +14,13 @@ export class Vol {
 
 
 
-    constructor( arcid: string,plnid : number) {
+    constructor( arcid: string,plnid : number, sl : string,listeLogs: EtatCpdlc[] ) {
         this.arcid = arcid ;
         this.plnid = plnid ;
-        this.listeLogs = [];
+        this.sl = sl;
+        this.listeLogs = listeLogs;
     }
 
-    public setSL( sl : string):void {
-        this.sl = sl;
-    }
 
     public setArcid( arcid : string):void {
         this.arcid = arcid;
@@ -31,9 +29,18 @@ export class Vol {
     public setReqid(vol : Vol, reqid : number):void {
         vol.reqid = reqid;
     }
+    public setSL( sl : string):void {
+        this.sl = sl;
+    }
 
 
+    public getArcid( ):string {
+       return  this.arcid;
+    }
 
+    public getPlnid( ):number {
+        return  this.plnid;
+     }
      getVol(vol : Vol):string {
         console.log(vol.reqid);
         return "InfosVol :  " + vol.reqid;

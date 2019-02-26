@@ -7,23 +7,26 @@ export class EtatCpdlc {
   private title: string = "";
   private date: string = "";
   private heure: string = "";
-  private etat: Etat = Etat.NonLogue;
+  private etat: string ="";
   private associable: boolean = false;
   private detailLog : DetailCpdlc[];
 
 
-
-
-
-  constructor(id: number, title: string, date: string, heure: string, etat: Etat, associable: boolean, detailLog : DetailCpdlc[]) {
+  constructor(id: number, title: string, date: string, heure: string, etat: string, associable: boolean, detailLog: DetailCpdlc[]) {
     this.id = id;
     this.title = title;
     this.date = date;
     this.heure = heure;
     this.etat = etat;
     this.associable = associable;
-    this.detailLog = detailLog;
+    this.detailLog = [];
   }
+
+  /*getLogCpdlc() {
+
+    return "\n InfoLog :  \n id = " +this.id + "\n date = " + this.date +  "\n heure = " + this.heure + "\n associable = " + this.associable +  this.etat.getEtatCpdlc();
+  }*/
+
 
   getEtatCpdlc(): string {
 
@@ -82,6 +85,10 @@ export class EtatCpdlc {
   getHeure(): string {
     return this.date
   }
+  getEtat(): string {
+    return this.etat
+  }
+
 
   //SETTERS
   setTitle(title: string) {
@@ -107,6 +114,7 @@ export class EtatCpdlc {
   getDetaillog(){
     return this.detailLog;
   }
+
 }
 
 
