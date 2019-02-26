@@ -1,4 +1,207 @@
 <p>
   section-visualisation works!
 </p>
-<button (click)=navigateToFormulaire()>Formulaire</button>
+
+
+<br>
+<div>
+  <table mat-table [dataSource]="dataGenerale" class="tabGen">
+
+    <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Colonne Donnee  -->
+    <ng-container matColumnDef="donnee">
+      <th mat-header-cell *matHeaderCellDef> Donnee </th>
+      <td mat-cell *matCellDef="let element"> {{element.plnid}} </td>
+    </ng-container>
+
+    <!-- Colonne Valeur -->
+    <ng-container matColumnDef="valeur">
+      <th mat-header-cell *matHeaderCellDef> Valeur </th>
+      <td mat-cell *matCellDef="let element"> {{element.arcid}} </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsGen"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsGen;"></tr>
+  </table>
+
+</div>
+
+<br>
+<div>
+  <table mat-table [dataSource]="dataDetail" class="tabDet ">
+
+
+    <!-- Colonne title -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+
+    <!-- Colonne etat -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    </ng-container>
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Colonne Donnee  -->
+    <ng-container matColumnDef="etat">
+      <th mat-header-cell *matHeaderCellDef> Etat </th>
+      <td mat-cell *matCellDef="let element"> {{element.etat}} </td>
+    </ng-container>
+
+    <!-- Colonne Valeur -->
+    <ng-container matColumnDef="valeur">
+      <th mat-header-cell *matHeaderCellDef> Valeur </th>
+      <td mat-cell *matCellDef="let element"> {{element.detailLog}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+  </table>
+</div>
+
+
+
+
+ 
+
+
+<div class="container">
+  <div class="page-header">
+    <h1 id="timeline">Timeline</h1>
+  </div>
+  <ul class="timeline">
+    <li *ngFor="let entry of dataDetail">
+      <ul *ngIf="isPositionated(entry.id) != true">
+        <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+        <div class="timeline-panel">
+          <div class="timeline-heading">
+            <h4 class="timeline-title"> {{entry.title}} </h4>
+            <p><small class="text-muted"> {{entry.id}} </small></p>
+          </div>
+          <div class="timeline-body">
+            <p>{{entrytitle}} </p>
+          </div>
+        </div>
+      </ul>
+      <ul class="timeline-inverted" *ngIf="isPositionated(entry.id) == true">
+        <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+        <div class="timeline-panel">
+          <div class="timeline-heading">
+            <h4 class="timeline-title"> {{entry.title}} </h4>
+            <p><small class="text-muted"> {{entry.id}} </small></p>
+          </div>
+          <div class="timeline-body">
+            <p> {{entry.title}} </p>
+          </div>
+        </div>
+      </ul>
+    </li>
+
+
+  </ul>
+</div>
+
+
+<div class="container">
+    <div class="page-header">
+        <h1 id="timeline">Timeline</h1>
+    </div>
+    <ul class="timeline">
+        <li>
+          <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>
+            </div>
+            <div class="timeline-body">
+              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+            </div>
+          </div>
+        </li>
+        <li class="timeline-inverted">
+          <div class="timeline-badge warning"><i class="glyphicon glyphicon-credit-card"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+            </div>
+            <div class="timeline-body">
+              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+              <p>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Ut scelerisque neque et turpis posuere pulvinar pellentesque nibh ullamcorper. Pharetra in mattis molestie, volutpat elementum justo. Aenean ut ante turpis. Pellentesque laoreet mé vel lectus scelerisque interdum cursus velit auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac mauris lectus, non scelerisque augue. Aenean justo massa.</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="timeline-badge danger"><i class="glyphicon glyphicon-credit-card"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+            </div>
+            <div class="timeline-body">
+              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+            </div>
+          </div>
+        </li>
+        <li class="timeline-inverted">
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+            </div>
+            <div class="timeline-body">
+              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="timeline-badge info"><i class="glyphicon glyphicon-floppy-disk"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+            </div>
+            <div class="timeline-body">
+              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+              <hr>
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="glyphicon glyphicon-cog"></i> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+            </div>
+            <div class="timeline-body">
+              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+            </div>
+          </div>
+        </li>
+        <li class="timeline-inverted">
+          <div class="timeline-badge success"><i class="glyphicon glyphicon-thumbs-up"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+            </div>
+            <div class="timeline-body">
+              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+            </div>
+          </div>
+        </li>
+    </ul>
+</div>

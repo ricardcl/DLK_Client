@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormulaireComponent } from './formulaire.component';
+import { ProutComponent } from './prout.component';
 
-describe('FormulaireComponent', () => {
-  let component: FormulaireComponent;
-  let fixture: ComponentFixture<FormulaireComponent>;
+describe('ProutComponent', () => {
+  let component: ProutComponent;
+  let fixture: ComponentFixture<ProutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormulaireComponent ]
+      declarations: [ ProutComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormulaireComponent);
+    fixture = TestBed.createComponent(ProutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

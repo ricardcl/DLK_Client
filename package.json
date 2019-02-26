@@ -22,11 +22,14 @@
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
     "@types/socket.io-client": "^1.4.32",
+    "angular-mgl-timeline": "^0.3.1",
+    "angular-vertical-timeline": "^0.6.0",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "socket.io-client": "^2.2.0",
     "socketio-file-upload": "^0.7.0",
     "tslib": "^1.9.0",
+    "typescript-map": "0.0.7",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
