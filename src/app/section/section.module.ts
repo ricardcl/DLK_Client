@@ -8,6 +8,13 @@ import { SectionFormulaireComponent } from './section-formulaire/section-formula
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material';
+import {MatTableModule} from '@angular/material/table'; 
+import {MatToolbarModule} from '@angular/material/toolbar'; 
+import { VerticalTimelineModule } from 'angular-vertical-timeline';
+
+
+
+
 
 
 
@@ -18,7 +25,10 @@ import { MatButtonModule } from '@angular/material';
     CommonModule,
     FormsModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule,
+    VerticalTimelineModule,
+    MatToolbarModule,
   ],
   exports: [SectionComponent]
 })

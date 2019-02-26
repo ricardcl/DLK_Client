@@ -93,12 +93,12 @@ constructor(private _chargerFormulaireService: UploadService,private _exchangeSe
 
     console.log("this.vemgsaFilesNames[0]: ", this.vemgsaFilesNames[0]);
     this._exchangeService.analyseFiles(this.selectedPlnid, this.selectedLplnFile.name,  this.vemgsaFilesNames);
-    this._navigationService.navigateToVisualisation();
+    //this._navigationService.navigateToVisualisation();
   }
 
   
   ngOnInit() {
-    this._exchangeService.testJson();
+   // this._exchangeService.testJson();
   }
 
 }
