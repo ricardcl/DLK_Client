@@ -15,18 +15,18 @@ import { DetailCpdlc } from '../models/detailCpdlc';
 })
 export class ExchangeService {
   private socket: SocketIOClient.Socket;
-
   private listeVols;
-  private listeEtats;
+  private listeEtats: EtatCpdlc[];
   private selectedplnid: number = 0;
   private vemgsaFileName: string;
   private lplnFileName: string;
-  private vol;
+  private vol: Vol;
 
 
 
   constructor(private _connectService: ConnectService, private _navigationService: NavigationService) {
     this.socket = _connectService.connexionSocket;
+    this.listeEtats = [];
     this.initSocket();
   }
 
@@ -63,10 +63,8 @@ export class ExchangeService {
     return this.listeVols;
   }
 
-  public getListEtats(): Array<any> {
-    console.log('Exchange : getListEtats');
-    return this.listeEtats;
-  }
+
+
 
   public getVol(): Vol{
     console.log('fonction getVol de exchange service');
@@ -81,63 +79,42 @@ export class ExchangeService {
     });
     this.socket.on('analysedVol', (array) => {
       console.log('analysedVol from serveur : ', array);
-      this.listeEtats = array;
       //DEBUG :
-      let data: Array<any> = this.getListEtats();
+      let data: Array<any> = array;
       //console.log("donnes recuperes : ", data);
       console.log("arcid : ", data['arcid']);
       console.log("plnid : ", data['plnid']);
       console.log("listeLogs: ", data['listeLogs']);
       let arcid: string = data['arcid'];
       let plnid: number = data['plnid'];
-
       
-     let etatCpldcTemp0= new EtatCpdlc(0, "CPCNXTCNTR", "26/09/2018", "07H56'49\"", "NON_LOGUE", false,null); 
+      for (let key = 0; key < data['listeLogs'].length; key++) {
+        const etatCpdlcTemp = data['listeLogs'][key];
+        let id = etatCpdlcTemp['id'] ;
+        let title = etatCpdlcTemp['title'] ;
+        let date = etatCpdlcTemp['date'] ;
+        let heure = etatCpdlcTemp['heure'] ;
+        let etat =etatCpdlcTemp['etat'] ;
+        let associable = etatCpdlcTemp['associable'] ;
+        let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'] ;
+        this.listeEtats.push(new EtatCpdlc(id, title, date, heure, etat, associable, detailLog));
+        Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value){
+          console.log("test value: ",etatCpdlcTemp['detailLog'][value]);
+          console.log("test index: ",value);
+        });           
+      }
+
+    this.vol = new Vol(arcid, plnid,"AIX",  this.listeEtats );
+    console.log("donnes recuperes : ", this.vol);
+    this._navigationService.navigateToVisualisation();
+    
+      
+     /** let etatCpldcTemp0= new EtatCpdlc(0, "CPCNXTCNTR", "26/09/2018", "07H56'49\"", "NON_LOGUE", false,null); 
      let etatCpldcTemp1= new EtatCpdlc(1, "CPCNXTCNTR2", "27/09/2018", "08H56'49\"", "NON_LOGUE", true,null); 
      let etatCpldcTemp2= new EtatCpdlc(2, "CPCNXTCNTR3", "26/09/2018", "07H56'49\"", "NON_LOGUE", false, null); 
      let etatCpldcTemp3= new EtatCpdlc(3, "CPCNXTCNTR4", "27/09/2018", "08H56'49\"", "NON_LOGUE", true, null); 
-      let etatCpldcTemp : EtatCpdlc[] = [etatCpldcTemp0,etatCpldcTemp1,etatCpldcTemp2,etatCpldcTemp3];
-      this.vol = new Vol("ESY123", plnid,"AIX", etatCpldcTemp);
-      console.log("donnes recuperes : ", this.vol);
-      this._navigationService.navigateToVisualisation();
+      let etatCpldcTemp : EtatCpdlc[] = [etatCpldcTemp0,etatCpldcTemp1,etatCpldcTemp2,etatCpldcTemp3]; */
       
-
-        /** 
-         * {
-            "id": 0,
-            "title": "CPCNXTCNTR",
-            "date": "26/09/2018",
-            "heure": "07H56'49\"",
-            "etat" : "NON_LOGUE",
-            "associable": false,
-            "detailLog":
-              [{ "key": "TITLE", "value": "CPCNXTCNTR" },
-              { "key": "PLNID", "value": "8474" },
-              { "key": "UNITID", "value": "LSAG" },
-              { "key": "TFLOGONMODE", "value": "A" }
-              ]
-          }
-         */
-        
-
-         Object.keys(data['listeLogs']).forEach(function (key){
-           const etatCpdlcTemp = data['listeLogs'][key];
-           let id = etatCpdlcTemp['id'] ;
-           let title = etatCpdlcTemp['title'] ;
-           let date = etatCpdlcTemp['date'] ;
-           let heure = etatCpdlcTemp['heure'] ;
-           let etat =etatCpdlcTemp['etat'] ;
-           let associable = etatCpdlcTemp['associable'] ;
-           let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'] ;
-           this.etatCpdlc = new EtatCpdlc(id, title, date, heure, etat, associable, detailLog); 
-           Object.keys(this.etatCpdlc.getDetailLog()).forEach(function (value){
-             console.log("test value: ",etatCpdlcTemp['detailLog'][value]);
-             console.log("test index: ",value);
-           });
-           
-           console.log(data['listeLogs'][key]['infoMap']);
-       });
-
 
       });
 
