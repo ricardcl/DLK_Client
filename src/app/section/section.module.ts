@@ -11,9 +11,7 @@ import { MatButtonModule } from '@angular/material';
 import {MatTableModule} from '@angular/material/table'; 
 import {MatToolbarModule} from '@angular/material/toolbar'; 
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
-import { ReactiveFormsModule } from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+
 
 
 @NgModule({
@@ -26,10 +24,6 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
     MatTableModule,
     VerticalTimelineModule,
     MatToolbarModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
   ],
   exports: [SectionComponent]
 })

@@ -5,9 +5,7 @@ import { UploaderState } from 'src/app/models/uploaderState';
 import {Vol} from '../../models/vol';
 import {ConnectService} from '../../services/connect.service';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { FormControl } from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+
 
 
 @Component({
@@ -15,7 +13,7 @@ import {map, startWith} from 'rxjs/operators';
   templateUrl: './section-formulaire-fichiers.component.html',
   styleUrls: ['./section-formulaire-fichiers.component.css']
 })
-export class SectionFormulaireFichiersComponent implements OnInit {
+export class SectionFormulaireFichiersComponent  {
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
 
 
@@ -24,10 +22,6 @@ export class SectionFormulaireFichiersComponent implements OnInit {
   private selectedPlnid : number;
   private analyseState : boolean = false;
   private vemgsaFilesNames : string[] = [];
-  myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
-
 
 constructor(private _chargerFormulaireService: UploadService,private _exchangeService: ExchangeService, private _navigationService: NavigationService ) { 
 
@@ -77,6 +71,10 @@ constructor(private _chargerFormulaireService: UploadService,private _exchangeSe
     return this._exchangeService.getListeVolsTrouves();
   }
 
+  public getListeArcid () : string[] {
+    return this._exchangeService.getListeArcidTrouves();
+
+  }
 
   /* -- -- */
 
@@ -102,18 +100,7 @@ constructor(private _chargerFormulaireService: UploadService,private _exchangeSe
   }
 
   
-  ngOnInit() {
-   // this._exchangeService.testJson();
-   this.filteredOptions = this.myControl.valueChanges
-   .pipe(
-     startWith(''),
-     map(value => this._filter(value))
-   );
-  }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
-  }
+
 }
  

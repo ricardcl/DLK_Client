@@ -15,9 +15,6 @@ import { NavbarModule } from './navbar/navbar.module';
 import { HeaderModule } from './header/header.module';
 import { FooterModule } from './footer/footer.module';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
-import { ReactiveFormsModule } from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -30,11 +27,7 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
     MatToolbarModule,
     MatSelectModule,
     MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
     VerticalTimelineModule,
     AppRoutingModule,
     SectionModule,

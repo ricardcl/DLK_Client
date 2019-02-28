@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as SocketIOFileUpload from 'socketio-file-upload';
 import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
-import { TSMap } from 'typescript-map';
 import { EtatCpdlc } from '../models/etatCpdlc';
 import { Etat } from '../models/enumEtat';
 import { NavigationService } from './navigation.service';
@@ -15,7 +14,8 @@ import { DetailCpdlc } from '../models/detailCpdlc';
 })
 export class ExchangeService {
   private socket: SocketIOClient.Socket;
-  private listeVols;
+  private listeVols : any[];
+
   private listeEtats: EtatCpdlc[];
   private selectedplnid: number = 0;
   private vemgsaFileName: string;
@@ -63,6 +63,22 @@ export class ExchangeService {
     return this.listeVols;
   }
 
+  public getListeArcidTrouves(): string[] {
+    console.log(" listeVols : " , this.listeVols);
+    
+    const arcidTab : string[] = ["test arcid 1","test arcid 2","test arcid 3"];
+    if (this.listeVols !== undefined ) {
+      this.listeVols.forEach(element => {
+        arcidTab.push(element.arcid);
+      });
+    }
+    /** console.log('Exchange : getListeVolsTrouves');
+    this.listeVols.forEach(element => {
+      arcidTab.push(element.arcid);
+    });*/
+    return arcidTab; 
+  }
+  
 
 
 
