@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule } from '@angular/material';
+import { MatRadioModule } from '@angular/material/radio';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table'; 
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input'; 
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { SectionModule } from './section/section.module';
@@ -23,11 +25,14 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatToolbarModule,
     MatSelectModule,
     MatTableModule,
-    FormsModule,
+    MatInputModule,
+    MatRadioModule,
     VerticalTimelineModule,
     AppRoutingModule,
     SectionModule,

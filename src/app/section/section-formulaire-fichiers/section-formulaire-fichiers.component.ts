@@ -1,4 +1,5 @@
-import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { UploaderState } from 'src/app/models/uploaderState';
@@ -22,6 +23,18 @@ export class SectionFormulaireFichiersComponent  {
   private selectedPlnid : number;
   private analyseState : boolean = false;
   private vemgsaFilesNames : string[] = [];
+
+  favoriteSeason: string ;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+
+  email = new FormControl('', [Validators.required, Validators.email]);
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'You must enter a value' :
+        this.email.hasError('email') ? 'Not a valid email' :
+            '';
+  }
+
+
 
 constructor(private _chargerFormulaireService: UploadService,private _exchangeService: ExchangeService, private _navigationService: NavigationService ) { 
 
@@ -103,4 +116,6 @@ constructor(private _chargerFormulaireService: UploadService,private _exchangeSe
 
 
 }
+
+
  

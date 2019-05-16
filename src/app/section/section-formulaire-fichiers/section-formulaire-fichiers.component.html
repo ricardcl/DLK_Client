@@ -37,7 +37,33 @@
       <label for="plnid">plnid :</label>
       <input type="text" />
   </div>
+
+
+  <label id="example-radio-group-label">Pick your favorite season</label>
+<mat-radio-group
+aria-labelledby="example-radio-group-label"
+class="example-radio-group"
+  [(ngModel)]="favoriteSeason" [ngModelOptions]="{standalone: true}">
+  <mat-radio-button  *ngFor="let season of seasons" [value]="season">
+    {{season}}
+  </mat-radio-button>
+</mat-radio-group>
+<div>Your favorite season is: {{favoriteSeason}}</div>
+
+
+
+<mat-form-field>
+  <input matInput placeholder="Enter your email" [formControl]="email" required>
+  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+</mat-form-field>
+
+
 </form>
+
+
+
+
+
 <button mat-raised-button color="primary" [class.uploadingButton]="isUploading" [disabled]="!isUploadEnable" (click)="uploadFiles()">{{isUploading ? 'Uploading...' : 'Upload'}}</button>
 
 
@@ -56,6 +82,7 @@
 
 
 <button mat-raised-button color="primary"  [disabled]="!selectedPlnid" (click)=analyseFiles()>"analyse"</button>
+
 
 </div>
 
