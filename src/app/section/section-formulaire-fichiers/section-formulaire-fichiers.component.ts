@@ -24,14 +24,39 @@ export class SectionFormulaireFichiersComponent  {
   private analyseState : boolean = false;
   private vemgsaFilesNames : string[] = [];
 
-  favoriteSeason: string ;
-  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+  identifiantSelectionne: string = 'Plnid';
+  identifiants: string[] = ['Arcid', 'Plnid'];
 
-  email = new FormControl('', [Validators.required, Validators.email]);
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-        this.email.hasError('email') ? 'Not a valid email' :
-            '';
+  /**
+   *  static minLength(minLength: number): ValidatorFn
+  static maxLength(maxLength: number): ValidatorFn
+  static pattern(pattern: string | RegExp): ValidatorFn
+  Validators.pattern('[a-zA-Z ]*')
+   */
+  private regexpPlnid : RegExp = /^\d{4}$/;
+
+  private plnid = new FormControl('', [Validators.required,   Validators.pattern(this.regexpPlnid)]);
+  private getErrorMessagePlnid() {
+    if (this.plnid.hasError('required') ) { return 'Valeur obligatoire' ;}
+    if (!(this.regexpPlnid.test(this.plnid.value))) { return "format incorrect :un plnid est composé de 4 chiffres"; }
+    return "";
+  }
+
+  private regexpArcid : RegExp = /^[a-z][a-z|0-9]{3,5}$/;
+
+  private arcid = new FormControl('', [Validators.required,   Validators.pattern(this.regexpArcid)]);
+  private getErrorMessageArcid() {
+    if (this.arcid.hasError('required') ) { return 'Valeur obligatoire' ;}
+    if (!(this.regexpArcid.test(this.arcid.value))) { return "format incorrect arcid "; }
+    return "";
+  }
+
+private get isArcid() : boolean {
+return this.identifiantSelectionne === this.identifiants[0]
+}
+
+private get isPlnid() : boolean {
+  return this.identifiantSelectionne === this.identifiants[1];
   }
 
 

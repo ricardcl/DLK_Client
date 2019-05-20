@@ -43,20 +43,28 @@
 <mat-radio-group
 aria-labelledby="example-radio-group-label"
 class="example-radio-group"
-  [(ngModel)]="favoriteSeason" [ngModelOptions]="{standalone: true}">
-  <mat-radio-button  *ngFor="let season of seasons" [value]="season">
-    {{season}}
+  [(ngModel)]="identifiantSelectionne" [ngModelOptions]="{standalone: true}">
+  <mat-radio-button  *ngFor="let id of identifiants" [value]="id">
+    {{id}}
   </mat-radio-button>
 </mat-radio-group>
-<div>Your favorite season is: {{favoriteSeason}}</div>
+<div>Vous avez choisi de rentre le : {{identifiantSelectionne}}
+  
+</div>
 
-
-
+<div *ngIf="isPlnid">
 <mat-form-field>
-  <input matInput placeholder="Enter your email" [formControl]="email" required>
-  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  <input matInput placeholder="Rentrez l'identifiant plnid" [formControl]="plnid" required>
+  <mat-error *ngIf="plnid.invalid">{{getErrorMessagePlnid()}}</mat-error>
 </mat-form-field>
+</div>
 
+<div>
+<mat-form-field *ngIf="isArcid">
+  <input matInput placeholder="Rentrez l'identifiant arcid" [formControl]="arcid" required>
+  <mat-error *ngIf="arcid.invalid">{{getErrorMessageArcid()}}</mat-error>
+</mat-form-field>
+</div>
 
 </form>
 
