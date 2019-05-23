@@ -36,8 +36,8 @@ export class UploadService {
     return this.uploadState;
   }
 
-  public uploadFiles(files: File[]): void {
-    this.socketUploader.submitFiles(files);
+  public uploadFiles(file: File, files: File[]): void {
+    this.socketUploader.submitFiles(file, files);
   }
 
   public isUploading(): boolean {

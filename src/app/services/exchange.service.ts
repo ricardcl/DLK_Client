@@ -6,6 +6,8 @@ import { EtatCpdlc } from '../models/etatCpdlc';
 import { Etat } from '../models/enumEtat';
 import { NavigationService } from './navigation.service';
 import { DetailCpdlc } from '../models/detailCpdlc';
+import { checkAnswer } from '../models/checkAnswer';
+import { CheckState } from '../models/CheckState';
 
 
 
@@ -18,11 +20,13 @@ export class ExchangeService {
 
   private listeEtats: EtatCpdlc[];
   private selectedplnid: number = 0;
-  private vemgsaFileName: string;
-  private lplnFileName: string;
+  //private vemgsaFileName: string;
+  //private lplnFileName: string;
   private vol: Vol;
 
 
+  private checkAnswerInitial = <checkAnswer>{};
+  private checkAnswer = <checkAnswer>{};
 
   constructor(private _connectService: ConnectService, private _navigationService: NavigationService) {
     this.socket = _connectService.connexionSocket;
@@ -40,23 +44,23 @@ export class ExchangeService {
   }
 
 
-  public analyseFiles(plnid: number, lplnfilename: string, vemgsafilename: string[]): void {
-    console.log("analyseFilesService ", "plnid: ", plnid, 'lplnfilename : ', lplnfilename, 'vemgsafilename : ', vemgsafilename);
-    this.socket.emit('analysing', plnid, lplnfilename, vemgsafilename);
+  public analyseFiles(arcid: string, plnid: number, lplnfilename: string, vemgsafilename: string[]): void {
+    console.log("analyseFilesService ", "arcid: ", arcid,"plnid: ", plnid, 'lplnfilename : ', lplnfilename, 'vemgsafilename : ', vemgsafilename);
+    this.socket.emit('analysing', arcid, plnid, lplnfilename, vemgsafilename);
   }
   
 
-  public analysePlnId(file: string): void {
-    console.log("analyseFilesService", file);
-    this.socket.emit('analysingPlnid', file);
+  public analyseDataInput(arcid : string, plnid : number, fileLpln : string, fileVemgsa : string[]): void {
+    console.log("analyseDataInputService");
+    this.socket.emit('analyseDataInput', arcid, plnid, fileLpln,fileVemgsa );
   }
+
+  
 
 
   public getPlnid(): number {
     return this.selectedplnid;
   }
-
-
 
   public getListeVolsTrouves(): Array<any> {
     console.log('Exchange : getListeVolsTrouves');
@@ -87,12 +91,64 @@ export class ExchangeService {
     return this.vol;
   }
 
+  public getcheckState() {
+    return this.checkState;
+  }
+
+  public getcheckResult() {
+    return this.checkAnswer;
+  }
+  public getcheckInitialResult() {
+    return this.checkAnswerInitial;
+  }
+  
+
+  private checkState: CheckState = CheckState.IDLE;
+
+
+
+
   private initSocket() {
     this.socket.on('analysedPlnid', (array) => {
       console.log('analysedPlnid from serveur : ', array);
       this.listeVols = array;
 
     });
+    
+    this.socket.on('checkInitial', (array) => {
+      console.log('analysedDataInput from serveur : checkinitial : ', array);
+      this.checkAnswerInitial.valeurRetour=array['valeurRetour'];
+      this.checkAnswerInitial.messageRetour=array['messageRetour'];
+      if (  this.checkAnswerInitial.valeurRetour === 0) {
+        this.checkState = CheckState.CHECK_INI_OK;
+        console.log("CheckState.CHECK_INI_OK");
+        
+      }
+      else{
+        this.checkState = CheckState.CHECK_INI_KO;
+        console.log("CheckState.CHECK_INI_KO");
+      }
+
+      console.log('analysedDataInput from serveur : this.checkResult : ',this.checkAnswerInitial.valeurRetour, this.checkAnswerInitial.messageRetour);
+
+    });
+
+    this.socket.on('check', (array) => {
+      console.log('analysedDataInput from serveur : check : ', array);
+      this.checkAnswer.valeurRetour=array['valeurRetour'];
+      this.checkAnswer.messageRetour=array['messageRetour'];
+      this.checkAnswer.arcid=array['arcid'];
+      this.checkAnswer.plnid=array['plnid'];
+      if (  this.checkAnswer.valeurRetour === 0) {
+        this.checkState = CheckState.CHECK_OK;
+        console.log("CheckState.CHECK_OK");
+      }
+      else{
+        this.checkState = CheckState.CHECK_KO;
+        console.log("CheckState.CHECK_KO");
+      }
+    });
+
     this.socket.on('analysedVol', (array) => {
       console.log('analysedVol from serveur : ', array);
       //DEBUG :

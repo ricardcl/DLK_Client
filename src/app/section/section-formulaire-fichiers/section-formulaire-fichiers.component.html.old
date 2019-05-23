@@ -1,0 +1,100 @@
+<!--<div class="bouton">
+  <p><input type="button" value="Envoyer un message au serveur" /></p>
+</div> -->
+
+<!-- chargement des fichiers -->
+<!--<form action="/ma-page-de-traitement">
+  <div>
+      <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
+      <input #vemgsaForm (change)="updateSelectedVemgsa(vemgsaForm.files[0])"type="file"/>
+  </div>-->
+  <!-- chargement des fichiers -->
+<form #choseFileForm="ngForm"> <!-- creation dune variable choseFile-->
+  <div>
+      <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
+      <input
+      type="file"
+      required
+      multiple
+      #vemgsaForm (change)="updateSelectedVemgsa(vemgsaForm.files[0])"     
+      /> 
+    <!--        [(ngModel)]="selectedVemgsaFile" 
+      #vemgsaFormValidity="ngModel" 
+      pbm :  [(ngModel)]="selectedVemgsaFile"  ne renvoie que le nom du fichier (string) et pas lobject fichier
+       -->
+  </div>
+
+  
+  <div>
+      <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
+      <input #lplnForm (change)="updateSelectedLpln(lplnForm.files[0])" type="file" />
+  </div>
+  <div>
+      <label for="arcid">arcid :</label>
+      <input type="text" />
+  </div>
+  <div>
+      <label for="plnid">plnid :</label>
+      <input type="text" />
+  </div>
+
+
+  <label id="example-radio-group-label">Pick your favorite season</label>
+<mat-radio-group
+aria-labelledby="example-radio-group-label"
+class="example-radio-group"
+  [(ngModel)]="identifiantSelectionne" [ngModelOptions]="{standalone: true}">
+  <mat-radio-button  *ngFor="let id of identifiants" [value]="id">
+    {{id}}
+  </mat-radio-button>
+</mat-radio-group>
+<div>Vous avez choisi de rentre le : {{identifiantSelectionne}}
+  
+</div>
+
+<div *ngIf="isPlnid">
+<mat-form-field>
+  <input matInput placeholder="Rentrez l'identifiant plnid" [formControl]="plnid" required>
+  <mat-error *ngIf="plnid.invalid">{{getErrorMessagePlnid()}}</mat-error>
+</mat-form-field>
+</div>
+
+<div>
+<mat-form-field *ngIf="isArcid">
+  <input matInput placeholder="Rentrez l'identifiant arcid" [formControl]="arcid" required>
+  <mat-error *ngIf="arcid.invalid">{{getErrorMessageArcid()}}</mat-error>
+</mat-form-field>
+</div>
+
+</form>
+
+
+
+
+
+<button mat-raised-button color="primary" [class.uploadingButton]="isUploading" [disabled]="!isUploadEnable" (click)="uploadFiles()">{{isUploading ? 'Uploading...' : 'Upload'}}</button>
+
+
+
+
+<div class="listePlnId" *ngIf="isAnalyzed">
+  <h4>liste plnid</h4>
+<mat-form-field>
+  <mat-select placeholder="plnid" [(ngModel)]="selectedPlnid" name="plnid"  >
+    <mat-option *ngFor="let vol of ListeVols" [value]="vol.plnid">
+      {{vol.plnid}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<p> Selected plnid: {{selectedPlnid}} </p>
+
+
+<button mat-raised-button color="primary"  [disabled]="!selectedPlnid" (click)=analyseFiles()>"analyse"</button>
+
+
+</div>
+
+
+  
+  
+    

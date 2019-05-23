@@ -15,4 +15,10 @@ export class NavigationService {
   public navigateToVisualisation () {
     this._router.navigateByUrl('/visualisation');
   }
+
+  public navigateToAccueil () {
+    this._router.navigateByUrl('/accueil');
+  }
+
+
 }

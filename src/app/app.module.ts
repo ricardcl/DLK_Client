@@ -17,6 +17,7 @@ import { NavbarModule } from './navbar/navbar.module';
 import { HeaderModule } from './header/header.module';
 import { FooterModule } from './footer/footer.module';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
     MatInputModule,
     MatRadioModule,
     VerticalTimelineModule,
+    MatSidenavModule,
     AppRoutingModule,
     SectionModule,
     NavbarModule,
