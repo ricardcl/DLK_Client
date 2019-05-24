@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/services/navigation.service';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { ExchangeService } from 'src/app/services/exchange.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,14 +11,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 export class NavbarComponent {
 
   
-  constructor(private _navigationService: NavigationService) {
+  constructor() {
 
   }
 
-  public navigateToAccueil(): void {
-    this._navigationService.navigateToAccueil();
-
-  }
 
 
 

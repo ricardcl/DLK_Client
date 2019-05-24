@@ -1,2 +1,5 @@
-<app-section-formulaire></app-section-formulaire>
-<app-section-visualisation></app-section-visualisation>
+<div class="section"  *ngIf="!retourAccueil">
+<app-section-formulaire *ngIf="afficherFormulaire"></app-section-formulaire>
+
+<app-section-visualisation *ngIf="afficherVisualisation"></app-section-visualisation>
+</div>

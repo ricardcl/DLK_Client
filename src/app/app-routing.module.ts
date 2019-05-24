@@ -8,10 +8,11 @@ import { AppComponent } from './app.component';
 
 
 const routes: Routes = [
-  { path: 'accueil', component: SectionFormulaireComponent },
+  { path: 'accueil', component: SectionComponent },
   { path: 'formulaire', component: SectionFormulaireComponent },
-  { path: 'visualisation', component: SectionVisualisationComponent },
-  { path: '', redirectTo: '/formulaire', pathMatch: 'full' }
+ // { path: 'visualisation', component: SectionVisualisationComponent },
+ // { path: 'documentation', component: SectionDocumentationComponent },
+  { path: '', redirectTo: '/accueil', pathMatch: 'full' }
 ];
 
  

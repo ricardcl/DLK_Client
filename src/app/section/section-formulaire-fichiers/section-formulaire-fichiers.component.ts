@@ -18,7 +18,7 @@ import { CheckState } from 'src/app/models/CheckState';
 export class SectionFormulaireFichiersComponent {
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
 
-
+  @Output() outgoingEvent = new EventEmitter();
  
   constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService) {
 
@@ -181,7 +181,6 @@ export class SectionFormulaireFichiersComponent {
     console.log("this.vemgsaFilesNames.length: ", this.vemgsaFilesNames.length);
     let arcid:string = this._exchangeService.getcheckResult().arcid;
     let plnid:number = this._exchangeService.getcheckResult().plnid;
-
 
     this._exchangeService.analyseFiles( arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
   }

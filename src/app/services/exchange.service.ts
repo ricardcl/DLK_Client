@@ -23,7 +23,7 @@ export class ExchangeService {
   //private vemgsaFileName: string;
   //private lplnFileName: string;
   private vol: Vol;
-
+  private gestionPage: number =0; // 0 : page section-formulaire, 1 : page section-visualisation
 
   private checkAnswerInitial = <checkAnswer>{};
   private checkAnswer = <checkAnswer>{};
@@ -102,6 +102,13 @@ export class ExchangeService {
     return this.checkAnswerInitial;
   }
   
+  public getGestionPage() {
+    return this.gestionPage;
+  }
+
+  public setGestionPage(value : number) {
+     this.gestionPage=value;
+  }
 
   private checkState: CheckState = CheckState.IDLE;
 
@@ -178,15 +185,10 @@ export class ExchangeService {
 
     this.vol = new Vol(arcid, plnid,"AIX",  this.listeEtats );
     console.log("donnes recuperes : ", this.vol);
-    this._navigationService.navigateToVisualisation();
-    
+   // this._navigationService.navigateToVisualisation();
+    this.gestionPage=2;
       
-     /** let etatCpldcTemp0= new EtatCpdlc(0, "CPCNXTCNTR", "26/09/2018", "07H56'49\"", "NON_LOGUE", false,null); 
-     let etatCpldcTemp1= new EtatCpdlc(1, "CPCNXTCNTR2", "27/09/2018", "08H56'49\"", "NON_LOGUE", true,null); 
-     let etatCpldcTemp2= new EtatCpdlc(2, "CPCNXTCNTR3", "26/09/2018", "07H56'49\"", "NON_LOGUE", false, null); 
-     let etatCpldcTemp3= new EtatCpdlc(3, "CPCNXTCNTR4", "27/09/2018", "08H56'49\"", "NON_LOGUE", true, null); 
-      let etatCpldcTemp : EtatCpdlc[] = [etatCpldcTemp0,etatCpldcTemp1,etatCpldcTemp2,etatCpldcTemp3]; */
-      
+
 
       });
 

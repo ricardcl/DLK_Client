@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule } from '@angular/material';
+import {MatButtonModule, MatDividerModule, MatListModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
@@ -36,6 +36,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatRadioModule,
     VerticalTimelineModule,
     MatSidenavModule,
+    MatDividerModule,
+    MatListModule,
     AppRoutingModule,
     SectionModule,
     NavbarModule,
