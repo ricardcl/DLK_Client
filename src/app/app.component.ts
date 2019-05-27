@@ -15,6 +15,8 @@ export class AppComponent {
 
   }
 
+  
+
   public navigateToAccueil(): void {
     this._exchangeService.setGestionPage(0);
     this._navigationService.navigateToAccueil();

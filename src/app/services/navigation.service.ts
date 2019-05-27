@@ -12,9 +12,9 @@ export class NavigationService {
     this._router.navigateByUrl('/formulaire');
   }
 
-  public navigateToVisualisation () {
+ /** public navigateToVisualisation () {
     this._router.navigateByUrl('/visualisation');
-  }
+  }*/ 
 
   public navigateToAccueil () {
     this._router.navigateByUrl('/accueil');
