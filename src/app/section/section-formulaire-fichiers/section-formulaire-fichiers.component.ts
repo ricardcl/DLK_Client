@@ -19,14 +19,14 @@ export class SectionFormulaireFichiersComponent {
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
 
   @Output() outgoingEvent = new EventEmitter();
- 
+
   constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService) {
 
   }
 
 
 
-  private selectedLplnFile: File;
+  private selectedLplnFile: File = null;
   private selectedVemgsaFile: File[] = [];
   //private selectedPlnid : number;
   private analyseState: boolean = false;
@@ -84,21 +84,25 @@ export class SectionFormulaireFichiersComponent {
   }
 
   public updateSelectedVemgsa(file: File[]): void {
-   for (let i = 0; i < file.length; i++) {
-    console.log('hello' + file[i].name);
-    this.selectedVemgsaFile.push(file[i]);
-    this.vemgsaFilesNames.push(file[i].name);
-   }
+    for (let i = 0; i < file.length; i++) {
+      console.log('hello' + file[i].name);
+      this.selectedVemgsaFile.push(file[i]);
+      this.vemgsaFilesNames.push(file[i].name);
+    }
     this.analyseState = false;
   }
 
   public uploadFiles(): void {
-    /** console.log('type lpln' + typeof this.selectedLplnFile);
-    console.log('lpln' + this.selectedLplnFile.name);
-    console.log('type vemgsa' + typeof this.selectedVemgsaFile);
-    console.log('vemgsa' + this.selectedVemgsaFile.name);*/
     this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile);
-    this.analyseDataInput(this.selectedLplnFile.name, this.vemgsaFilesNames);
+    if (this.selectedLplnFile !== null) {
+      console.log("this.selectedLplnFile !== null");
+
+      this.analyseDataInput(this.selectedLplnFile.name, this.vemgsaFilesNames);
+    }
+    else {
+      console.log("this.selectedLplnFile == null");
+      this.analyseDataInput("", this.vemgsaFilesNames);
+    }
   }
 
   public get isAnalyzed(): boolean {
@@ -179,10 +183,16 @@ export class SectionFormulaireFichiersComponent {
     console.log("selectedVemgsaFileName: ", this.vemgsaFilesNames);
 
     console.log("this.vemgsaFilesNames.length: ", this.vemgsaFilesNames.length);
-    let arcid:string = this._exchangeService.getcheckResult().arcid;
-    let plnid:number = this._exchangeService.getcheckResult().plnid;
+    let arcid: string = this._exchangeService.getcheckResult().arcid;
+    let plnid: number = this._exchangeService.getcheckResult().plnid;
+if (this.selectedLplnFile !== null){
+  this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
 
-    this._exchangeService.analyseFiles( arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
+}
+else {
+  this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
+
+}
   }
 
   /*************************************************  ************************************************/

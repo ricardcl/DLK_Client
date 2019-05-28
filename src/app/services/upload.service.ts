@@ -22,12 +22,15 @@ export class UploadService {
 
   private initUploaderState(): void {
     this.socketUploader.addEventListener('start', () => {
+      console.log("addEventListener start");
       this.uploadState = UploaderState.UPLOADING;
     });
     this.socketUploader.addEventListener('error', () => {
+      console.log("addEventListener error");
       this.uploadState = UploaderState.ERROR;
     });
     this.socketUploader.addEventListener('complete', () => {
+      console.log("addEventListener complete");
       this.uploadState = UploaderState.IDLE;
     });
   }
@@ -37,7 +40,15 @@ export class UploadService {
   }
 
   public uploadFiles(file: File, files: File[]): void {
-    this.socketUploader.submitFiles(file, files);
+   
+    if (file !== null){
+      console.log("Fonction services : uploadFiles", file.name);
+      this.socketUploader.submitFiles(file);
+    }
+  
+    console.log("Fonction services : uploadFiles", files);
+    
+    this.socketUploader.submitFiles( files);
   }
 
   public isUploading(): boolean {
