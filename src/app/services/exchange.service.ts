@@ -27,6 +27,7 @@ export class ExchangeService {
 
   private checkAnswerInitial = <checkAnswer>{};
   private checkAnswer = <checkAnswer>{};
+  private checkState: CheckState = CheckState.IDLE;
 
   constructor(private _connectService: ConnectService, private _navigationService: NavigationService) {
     this.socket = _connectService.connexionSocket;
@@ -34,86 +35,17 @@ export class ExchangeService {
     this.initSocket();
   }
 
-
-  public testJson() {
-    let plnid = 8474;
-    let lplnfilename = "lpln";
-    let vemgsafilename = ["vemgsa"];
-    this.socket.emit('analysing', plnid, lplnfilename, vemgsafilename);
-
+  public initExchange(){
+    this.listeVols=[];
+    this.listeEtats=[];
+    this.selectedplnid=0;
+    this.vol =null;
+    this.gestionPage=0;
+    this.checkState = CheckState.IDLE;
   }
 
 
-  public analyseFiles(arcid: string, plnid: number, lplnfilename: string, vemgsafilename: string[]): void {
-    console.log("analyseFilesService ", "arcid: ", arcid,"plnid: ", plnid, 'lplnfilename : ', lplnfilename, 'vemgsafilename : ', vemgsafilename);
-    this.socket.emit('analysing', arcid, plnid, lplnfilename, vemgsafilename);
-  }
-  
-
-  public analyseDataInput(arcid : string, plnid : number, fileLpln : string, fileVemgsa : string[]): void {
-    console.log("analyseDataInputService");
-    this.socket.emit('analyseDataInput', arcid, plnid, fileLpln,fileVemgsa );
-  }
-
-  
-
-
-  public getPlnid(): number {
-    return this.selectedplnid;
-  }
-
-  public getListeVolsTrouves(): Array<any> {
-    console.log('Exchange : getListeVolsTrouves');
-    return this.listeVols;
-  }
-
-  public getListeArcidTrouves(): string[] {
-    console.log(" listeVols : " , this.listeVols);
-    
-    const arcidTab : string[] = ["test arcid 1","test arcid 2","test arcid 3"];
-    if (this.listeVols !== undefined ) {
-      this.listeVols.forEach(element => {
-        arcidTab.push(element.arcid);
-      });
-    }
-    /** console.log('Exchange : getListeVolsTrouves');
-    this.listeVols.forEach(element => {
-      arcidTab.push(element.arcid);
-    });*/
-    return arcidTab; 
-  }
-  
-
-
-
-  public getVol(): Vol{
-    console.log('fonction getVol de exchange service');
-    return this.vol;
-  }
-
-  public getcheckState() {
-    return this.checkState;
-  }
-
-  public getcheckResult() {
-    return this.checkAnswer;
-  }
-  public getcheckInitialResult() {
-    return this.checkAnswerInitial;
-  }
-  
-  public getGestionPage() {
-    return this.gestionPage;
-  }
-
-  public setGestionPage(value : number) {
-     this.gestionPage=value;
-  }
-
-  private checkState: CheckState = CheckState.IDLE;
-
-
-
+ 
 
   private initSocket() {
     this.socket.on('analysedPlnid', (array) => {
@@ -123,6 +55,7 @@ export class ExchangeService {
     });
     
     this.socket.on('checkInitial', (array) => {
+
       console.log('analysedDataInput from serveur : checkinitial : ', array);
       this.checkAnswerInitial.valeurRetour=array['valeurRetour'];
       this.checkAnswerInitial.messageRetour=array['messageRetour'];
@@ -194,6 +127,74 @@ export class ExchangeService {
 
   }
 
+
+  
+
+  public analyseFiles(arcid: string, plnid: number, lplnfilename: string, vemgsafilename: string[]): void {
+    console.log("analyseFilesService ", "arcid: ", arcid,"plnid: ", plnid, 'lplnfilename : ', lplnfilename, 'vemgsafilename : ', vemgsafilename);
+    this.socket.emit('analysing', arcid, plnid, lplnfilename, vemgsafilename);
+  }
+  
+
+  public analyseDataInput(arcid : string, plnid : number, fileLpln : string, fileVemgsa : string[]): void {
+    console.log("analyseDataInputService");
+    this.socket.emit('analyseDataInput', arcid, plnid, fileLpln,fileVemgsa );
+  }
+
+  
+
+
+  public getPlnid(): number {
+    return this.selectedplnid;
+  }
+
+  public getListeVolsTrouves(): Array<any> {
+    console.log('Exchange : getListeVolsTrouves');
+    return this.listeVols;
+  }
+
+  public getListeArcidTrouves(): string[] {
+    console.log(" listeVols : " , this.listeVols);
+    
+    const arcidTab : string[] = ["test arcid 1","test arcid 2","test arcid 3"];
+    if (this.listeVols !== undefined ) {
+      this.listeVols.forEach(element => {
+        arcidTab.push(element.arcid);
+      });
+    }
+    /** console.log('Exchange : getListeVolsTrouves');
+    this.listeVols.forEach(element => {
+      arcidTab.push(element.arcid);
+    });*/
+    return arcidTab; 
+  }
+  
+
+
+
+  public getVol(): Vol{
+    console.log('fonction getVol de exchange service');
+    return this.vol;
+  }
+
+  public getcheckState() {
+    return this.checkState;
+  }
+
+  public getcheckResult() {
+    return this.checkAnswer;
+  }
+  public getcheckInitialResult() {
+    return this.checkAnswerInitial;
+  }
+  
+  public getGestionPage() {
+    return this.gestionPage;
+  }
+
+  public setGestionPage(value : number) {
+     this.gestionPage=value;
+  }
 
 }
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ExchangeService } from 'src/app/services/exchange.service';
 
 @Component({
   selector: 'app-section-formulaire',
@@ -7,7 +8,9 @@ import { Component } from '@angular/core';
 })
 export class SectionFormulaireComponent {
 
-  constructor() { }
+  constructor(private _exchangeService : ExchangeService) { 
+   // this._exchangeService.initExchange();
+  }
 
 
 
