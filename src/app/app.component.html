@@ -2,8 +2,14 @@
 <app-navbar></app-navbar>
 
 
-<mat-sidenav-container class="sidenav" >
-  <mat-sidenav mode="side" opened >
+
+<!--<ul>
+    <li><a class="active"  routerLink="/accueil" routerLinkActive="active">Accueil</a></li>
+    <li><a  routerLink="/formulaire" routerLinkActive="active">Formulaire</a></li>
+    <li><a routerLink="/item3" routerLinkActive="active"> Item 3</a></li>
+  </ul>
+ -->
+ 
       <mat-list>
        <mat-list-item class="sidenav-section" routerLink="/accueil" routerLinkActive="active">Accueil</mat-list-item> 
           <mat-divider></mat-divider>
@@ -15,11 +21,9 @@
         
 
 
-  </mat-sidenav>
-  <mat-sidenav-content>
+<div class="page-principale">
     <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
 
 
 

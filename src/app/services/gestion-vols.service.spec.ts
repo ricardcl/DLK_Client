@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NavigationService } from './navigation.service';
+import { GestionVolsService } from './gestion-vols.service';
 
-describe('NavigationService', () => {
+describe('GestionVolsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: NavigationService = TestBed.get(NavigationService);
+    const service: GestionVolsService = TestBed.get(GestionVolsService);
     expect(service).toBeTruthy();
   });
 });

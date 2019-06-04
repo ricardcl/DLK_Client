@@ -5,8 +5,8 @@ import { ExchangeService } from 'src/app/services/exchange.service';
 import { UploaderState } from 'src/app/models/uploaderState';
 import { Vol } from '../../models/vol';
 import { ConnectService } from '../../services/connect.service';
-import { NavigationService } from 'src/app/services/navigation.service';
 import { CheckState } from 'src/app/models/CheckState';
+import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 
 
 
@@ -17,10 +17,10 @@ import { CheckState } from 'src/app/models/CheckState';
 })
 export class SectionFormulaireFichiersComponent {
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
+ // @Output() alerteCanicule = new EventEmitter<number>();
+ 
 
-  @Output() outgoingEvent = new EventEmitter();
-
-  constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService) {
+  constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService,  private _gestionVolsService : GestionVolsService) {
 
   }
 
@@ -193,6 +193,7 @@ else {
   this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
 
 }
+//this.alerteCanicule.emit(2);
   }
 
   /*************************************************  ************************************************/

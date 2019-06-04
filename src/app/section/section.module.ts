@@ -13,8 +13,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input'; 
 import {MatToolbarModule} from '@angular/material/toolbar'; 
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
-
-
+import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatTabsModule, MatCheckboxModule } from '@angular/material';
 
 @NgModule({
   declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationComponent, SectionFormulaireFichiersComponent, SectionFormulaireIdComponent],
@@ -29,6 +29,9 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
     MatToolbarModule,
     MatRadioModule,
     MatInputModule,
+    MatExpansionModule,
+    MatTabsModule, 
+    MatCheckboxModule
   ],
   exports: [SectionComponent]
 })

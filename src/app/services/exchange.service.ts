@@ -4,7 +4,6 @@ import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
 import { EtatCpdlc } from '../models/etatCpdlc';
 import { Etat } from '../models/enumEtat';
-import { NavigationService } from './navigation.service';
 import { DetailCpdlc } from '../models/detailCpdlc';
 import { checkAnswer } from '../models/checkAnswer';
 import { CheckState } from '../models/CheckState';
@@ -23,13 +22,12 @@ export class ExchangeService {
   //private vemgsaFileName: string;
   //private lplnFileName: string;
   private vol: Vol;
-  private gestionPage: number =0; // 0 : page section-formulaire, 1 : page section-visualisation
 
   private checkAnswerInitial = <checkAnswer>{};
   private checkAnswer = <checkAnswer>{};
   private checkState: CheckState = CheckState.IDLE;
 
-  constructor(private _connectService: ConnectService, private _navigationService: NavigationService) {
+  constructor(private _connectService: ConnectService) {
     this.socket = _connectService.connexionSocket;
     this.listeEtats = [];
     this.initSocket();
@@ -40,7 +38,6 @@ export class ExchangeService {
     this.listeEtats=[];
     this.selectedplnid=0;
     this.vol =null;
-    this.gestionPage=0;
     this.checkState = CheckState.IDLE;
   }
 
@@ -117,10 +114,7 @@ export class ExchangeService {
       }
 
     this.vol = new Vol(arcid, plnid,"AIX",  this.listeEtats );
-    console.log("donnes recuperes : ", this.vol);
-   // this._navigationService.navigateToVisualisation();
-    this.gestionPage=2;
-      
+    console.log("donnes recuperes : ", this.vol);      
 
 
       });
@@ -188,13 +182,7 @@ export class ExchangeService {
     return this.checkAnswerInitial;
   }
   
-  public getGestionPage() {
-    return this.gestionPage;
-  }
 
-  public setGestionPage(value : number) {
-     this.gestionPage=value;
-  }
 
 }
 

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatDividerModule, MatListModule } from '@angular/material';
+import {MatButtonModule, MatDividerModule, MatListModule, MatTabsModule, MatCheckboxModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
@@ -19,6 +19,7 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
+import {MatExpansionModule} from '@angular/material/expansion'; 
 
 @NgModule({
   declarations: [
@@ -45,7 +46,10 @@ import { PageAccueilComponent } from './page-accueil/page-accueil.component';
     SectionModule,
     NavbarModule,
     FooterModule,
-    HeaderModule
+    HeaderModule,
+    MatExpansionModule,
+    MatTabsModule, 
+    MatCheckboxModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

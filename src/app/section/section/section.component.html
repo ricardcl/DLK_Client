@@ -1,5 +1,29 @@
-<div class="section"  *ngIf="!retourAccueil">
-<app-section-formulaire *ngIf="afficherFormulaire"></app-section-formulaire>
+<mat-expansion-panel [expanded]=true>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Rubrique Formulaire
+        </mat-panel-title>
+        <mat-panel-description>
+            Rentrer les données à analyser
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-section-formulaire ></app-section-formulaire>
+</mat-expansion-panel>
 
-<app-section-visualisation *ngIf="afficherVisualisation"></app-section-visualisation>
-</div>
+<mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Rubrique Visualisation des Vols
+        </mat-panel-title>
+        <mat-panel-description>
+            {{panelOpenState ? 'Vols Trouves' : 'Visualisez les Vols Trouves'}}
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-section-visualisation></app-section-visualisation>
+</mat-expansion-panel>
+
+
+
+
+
+
