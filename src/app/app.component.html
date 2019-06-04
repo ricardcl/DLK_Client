@@ -5,13 +5,12 @@
 <mat-sidenav-container class="sidenav" >
   <mat-sidenav mode="side" opened >
       <mat-list>
-          <mat-list-item class="sidenav-section"(click)=navigateToAccueil()>Accueil</mat-list-item>
+       <mat-list-item class="sidenav-section" routerLink="/accueil" routerLinkActive="active">Accueil</mat-list-item> 
           <mat-divider></mat-divider>
-          <mat-list-item class="sidenav-section"(click)=navigateToFormulaire()>Formulaire</mat-list-item>
+          <mat-list-item class="sidenav-section" routerLink="/formulaire" routerLinkActive="active">Formulaire</mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item class="sidenav-section">Item 3</mat-list-item>
-          <mat-divider></mat-divider>
-   
+          <mat-list-item class="sidenav-section" routerLink="/item3" routerLinkActive="active"> Item 3</mat-list-item>
+          <mat-divider></mat-divider> 
         </mat-list>
         
 

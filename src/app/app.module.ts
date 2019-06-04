@@ -11,17 +11,20 @@ import {MatTableModule} from '@angular/material/table';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input'; 
 import { AppRoutingModule } from './app-routing.module';
-import { RouterModule } from '@angular/router';
 import { SectionModule } from './section/section.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { HeaderModule } from './header/header.module';
 import { FooterModule } from './footer/footer.module';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageAccueilComponent } from './page-accueil/page-accueil.component';
 
 @NgModule({
   declarations: [
-    AppComponent   
+    AppComponent,
+    PageNotFoundComponent,
+    PageAccueilComponent   
   ],
   imports: [
     BrowserModule,
