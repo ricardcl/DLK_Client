@@ -2,27 +2,213 @@
     section-formulaire-visualisation works!
 </p>
 
-<div>
-    <span class="example-input-label"> Selected tab index: </span>
-    <mat-form-field>
-        <input matInput type="number" [formControl]="selected">
-    </mat-form-field>
+
+
+
+
+
+<div class="isAnalysed" *ngIf="isAnalysed">
+    <a> {{getVol()}} </a>
 </div>
 
-<div>
-    <button mat-raised-button class="example-add-tab-button" (click)="addTab(selectAfterAdding.checked)">
-        Add new tab
-    </button>
-    <mat-checkbox #selectAfterAdding> Select tab after adding </mat-checkbox>
+<div class="isVolCharge" *ngIf="isVolCharge">
+    <mat-tab-group>
+        <mat-tab label="Lpln" *ngIf="isLpln">
+            <div >
+                <table mat-table [dataSource]="dataDetailLpln" class="tabDet ">
+
+
+                    <!-- Colonne title -->
+                    <ng-container matColumnDef="title">
+                        <th mat-header-cell *matHeaderCellDef> Title </th>
+                        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                    </ng-container>
+
+                    <!-- Colonne etat -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
+
+                    <!-- Colonne heure -->
+                    <ng-container matColumnDef="heure">
+                        <th mat-header-cell *matHeaderCellDef> Heure </th>
+                        <td mat-cell *matCellDef="let element"> {{element.heure}} </td>
+                    </ng-container>
+
+                    <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Colonne Donnee  -->
+                    <ng-container matColumnDef="etat">
+                        <th mat-header-cell *matHeaderCellDef> Etat </th>
+                        <td mat-cell *matCellDef="let element"> {{element.etat}} </td>
+                    </ng-container>
+
+                    <!-- Colonne Valeur -->
+                    <ng-container matColumnDef="valeur">
+                        <th mat-header-cell *matHeaderCellDef> Valeur </th>
+                        <td mat-cell *matCellDef="let element"> {{element.detailLog}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+                </table>
+            </div>
+        </mat-tab>
+        <mat-tab label="Vemgsa" *ngIf="isVemgsa">
+            <div >
+                <table mat-table [dataSource]="dataDetailVemgsa" class="tabDet ">
+
+
+                    <!-- Colonne title -->
+                    <ng-container matColumnDef="title">
+                        <th mat-header-cell *matHeaderCellDef> Title </th>
+                        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                    </ng-container>
+
+                    <!-- Colonne etat -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
+
+                    <!-- Colonne heure -->
+                    <ng-container matColumnDef="heure">
+                        <th mat-header-cell *matHeaderCellDef> Heure </th>
+                        <td mat-cell *matCellDef="let element"> {{element.heure}} </td>
+                    </ng-container>
+
+                    <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Colonne Donnee  -->
+                    <ng-container matColumnDef="etat">
+                        <th mat-header-cell *matHeaderCellDef> Etat </th>
+                        <td mat-cell *matCellDef="let element"> {{element.etat}} </td>
+                    </ng-container>
+
+                    <!-- Colonne Valeur -->
+                    <ng-container matColumnDef="valeur">
+                        <th mat-header-cell *matHeaderCellDef> Valeur </th>
+                        <td mat-cell *matCellDef="let element"> {{element.detailLog}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+                </table>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Mix" *ngIf="isMix">
+            <br>
+            <div >
+
+                <table mat-table [dataSource]="dataGenerale" class="tabGen">
+
+                    <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Colonne Donnee  -->
+                    <ng-container matColumnDef="donnee">
+                        <th mat-header-cell *matHeaderCellDef> Donnee </th>
+                        <td mat-cell *matCellDef="let element"> {{element.plnid}} </td>
+                    </ng-container>
+
+                    <!-- Colonne Valeur -->
+                    <ng-container matColumnDef="valeur">
+                        <th mat-header-cell *matHeaderCellDef> Valeur </th>
+                        <td mat-cell *matCellDef="let element"> {{element.arcid}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsGen"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsGen;"></tr>
+                </table>
+
+            </div>
+
+            <br>
+            <div>
+                <table mat-table [dataSource]="dataDetailMix" class="tabDet ">
+
+
+                    <!-- Colonne title -->
+                    <ng-container matColumnDef="title">
+                        <th mat-header-cell *matHeaderCellDef> Title </th>
+                        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                    </ng-container>
+
+                    <!-- Colonne etat -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
+
+                    <!-- Colonne heure -->
+                    <ng-container matColumnDef="heure">
+                        <th mat-header-cell *matHeaderCellDef> Heure </th>
+                        <td mat-cell *matCellDef="let element"> {{element.heure}} </td>
+                    </ng-container>
+                    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Colonne Donnee  -->
+                    <ng-container matColumnDef="etat">
+                        <th mat-header-cell *matHeaderCellDef> Etat </th>
+                        <td mat-cell *matCellDef="let element"> {{element.etat}} </td>
+                    </ng-container>
+
+                    <!-- Colonne Valeur -->
+                    <ng-container matColumnDef="valeur">
+                        <th mat-header-cell *matHeaderCellDef> Valeur </th>
+                        <td mat-cell *matCellDef="let element"> {{element.detailLog}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+                </table>
+            </div>
+
+
+
+
+
+
+
+            <div class="container">
+                <div class="page-header">
+                    <h1 id="timeline">Timeline</h1>
+                </div>
+                <ul class="timeline">
+                    <li *ngFor="let entry of dataDetailMix">
+                        <ul class="timeline-not-inverted" *ngIf="isPositionated(entry.id) != true">
+                            <div class="timeline-badge info"><i class="glyphicon glyphicon-star-empty"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title"> {{entry.title}} </h4>
+                                    <p><small class="text-muted"> {{entry.id}} </small></p>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>{{entrytitle}} </p>
+                                </div>
+                            </div>
+                        </ul>
+                        <ul class="timeline-inverted" *ngIf="isPositionated(entry.id) == true">
+                            <div class="timeline-badge success"><i class="glyphicon glyphicon-floppy-disk"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title"> {{entry.title}} </h4>
+                                    <p><small class="text-muted"> {{entry.id}} </small></p>
+                                </div>
+                                <div class="timeline-body">
+                                    <p> {{entry.title}} </p>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </mat-tab>
+
+    </mat-tab-group>
 </div>
-
-<mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
-    <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
-        Contents for {{tab}} tab
-
-        <button mat-raised-button class="example-delete-tab-button" [disabled]="tabs.length === 1"
-            (click)="removeTab(index)">
-            Delete Tab
-        </button>
-    </mat-tab>
-</mat-tab-group>

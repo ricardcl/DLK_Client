@@ -9,16 +9,20 @@ export class Vol {
      private plnid: number;
      /**nom du secteur logique traverse */
      private sl:string;
-      /*liste des logs concernant le vol */
-     private listeLogs: EtatCpdlc[];
+      /*liste des logs Mix concernant le vol */
+     private listeLogsMix: EtatCpdlc[];
+      /*liste des logs Lpln concernant le vol */
+      private listeLogsLpln: EtatCpdlc[];
+      /*liste des logs Vemgsa concernant le vol */
+      private listeLogsVemgsa: EtatCpdlc[];
 
-
-
-    constructor( arcid: string,plnid : number, sl : string,listeLogs: EtatCpdlc[] ) {
+    constructor( arcid: string,plnid : number, sl : string, listeLogsLpln: EtatCpdlc[] , listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
         this.arcid = arcid ;
         this.plnid = plnid ;
         this.sl = sl;
-        this.listeLogs = listeLogs;
+        this.listeLogsLpln = listeLogsLpln;
+        this.listeLogsVemgsa = listeLogsVemgsa;
+        this.listeLogsMix = listeLogsMix;
     }
 
 
@@ -46,8 +50,13 @@ export class Vol {
         return "InfosVol :  " + vol.reqid;
     }
 
-    public getListeVol():EtatCpdlc[]{
-        return this.listeLogs;
+    public getListeVolLpln():EtatCpdlc[]{
+        return this.listeLogsLpln;
     }
-
+    public getListeVolVemgsa():EtatCpdlc[]{
+        return this.listeLogsVemgsa;
+    }
+    public getListeVolMix():EtatCpdlc[]{
+        return this.listeLogsMix;
+    }
 }

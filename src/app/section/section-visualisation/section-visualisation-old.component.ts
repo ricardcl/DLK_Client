@@ -22,7 +22,7 @@ export class SectionVisualisationComponent  {
     //{title: this.monvol.getListeVol()[0].getTitle(),etat: this.monvol.getListeVol()[0].getEtat() }
   ];
  
-  dataDetail:  EtatCpdlc[] =   this.monvol.getListeVol();
+  dataDetail:  EtatCpdlc[] =   this.monvol.getListeVolMix();
  
 
   alternate: boolean = true;

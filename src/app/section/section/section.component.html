@@ -16,7 +16,13 @@
             Rubrique Visualisation des Vols
         </mat-panel-title>
         <mat-panel-description>
-            {{panelOpenState ? 'Vols Trouves' : 'Visualisez les Vols Trouves'}}
+           <div *ngIf="panelOpenState == true">
+                <a *ngIf="isAnalysed"> 'Vols Trouves'</a>
+           </div> 
+           <div *ngIf="panelOpenState == false">
+                <a *ngIf="isAnalysed"> 'Visualisez les Vols Trouves'</a>
+           </div> 
+          
         </mat-panel-description>
     </mat-expansion-panel-header>
     <app-section-visualisation></app-section-visualisation>
