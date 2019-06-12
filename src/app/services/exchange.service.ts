@@ -40,11 +40,12 @@ export class ExchangeService {
 
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
-    this.socket = _connectService.connexionSocket;
-    this.initSocket();
+//    this.socket = _connectService.connexionSocket;
+  //  this.initSocket();
   }
 
-  public initExchange() {
+
+  private initExchange() {
     this.listeVols = [];
     this.listeEtats = [];
     this.listeEtatsLpln = [];
@@ -57,13 +58,11 @@ export class ExchangeService {
 
 
 
-  private initSocket() {
+  public initSocket() {
+    this.socket = this._connectService.connexionSocket;
     this.socket.on('analysedPlnid', (array) => {
       console.log('analysedPlnid from serveur : ', array);
-      this.listeVols = array;
-      this.listeEtats = [];
-      this.listeEtatsLpln = [];
-      this.listeEtatsVemgsa = [];
+      this.initExchange();
 
     });
 
@@ -133,19 +132,18 @@ export class ExchangeService {
       }
 
       if (type === "LPLN") {
-     console.log("cas LPLN");
-     
+
         this.vol = new Vol(arcid, plnid, "AIX", this.listeEtats, null, null);
-        console.log("fin LPLN");
       }
       if (type === "VEMGSA") {
-        console.log("cas VEMGSA");
         this.vol = new Vol(arcid, plnid, "AIX", null, this.listeEtats, null);
-        console.log("fin VEMGSA");
       }
       console.log("donnes recuperes : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 
+
+
+      this.fermetureSocket();
 
     });
 
@@ -259,7 +257,10 @@ export class ExchangeService {
 
   }
 
-
+  public fermetureSocket(): void {
+    console.log("fermeture_socket_demandee");
+    this.socket.emit('fermeture_socket_demandee');
+  }
 
 
   public getPlnid(): number {

@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
@@ -15,12 +15,27 @@ import { GestionVolsService } from 'src/app/services/gestion-vols.service';
   templateUrl: './section-formulaire-fichiers.component.html',
   styleUrls: ['./section-formulaire-fichiers.component.css']
 })
-export class SectionFormulaireFichiersComponent {
+export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges, OnInit{
+
+  ngOnInit(): void {
+   console.log("OnInit SectionFormulaireFichiersComponent");
+  }
+
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    console.log("OnChanges SectionFormulaireFichiersComponent");
+  }
+
+  ngOnDestroy(): void {
+    console.log("OnDestroy SectionFormulaireFichiersComponent");
+    
+  }
+
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
   // @Output() alerteCanicule = new EventEmitter<number>();
 
-
+ 
   constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService, private _gestionVolsService: GestionVolsService) {
+console.log("coucou constructor");
 
   }
 
@@ -94,10 +109,13 @@ export class SectionFormulaireFichiersComponent {
 
   public uploadFiles(): void {
 
+    let selectedFile: File[] = [];
+    selectedFile =  this.selectedVemgsaFile;
+
      if (this.selectedLplnFile != null) {
-      this.selectedVemgsaFile.push(this.selectedLplnFile);
+      selectedFile.push(this.selectedLplnFile);
      } 
-       this._chargerFormulaireService.uploadFiles( this.selectedVemgsaFile);
+       this._chargerFormulaireService.uploadFiles( selectedFile);
   
     //this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile);
 

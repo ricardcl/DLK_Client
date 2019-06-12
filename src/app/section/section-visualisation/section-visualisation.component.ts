@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Vol } from 'src/app/models/vol';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { EtatCpdlc } from 'src/app/models/etatCpdlc';
@@ -9,11 +9,22 @@ import { EtatCpdlc } from 'src/app/models/etatCpdlc';
     templateUrl: './section-visualisation.component.html',
     styleUrls: ['./section-visualisation.component.css']
 })
-export class SectionVisualisationComponent implements OnInit {
+export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnInit {
     ngOnInit(): void {
+        console.log("OnInit SectionVisualisationComponent");
         this.volCharge = false;
     }
 
+
+       ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+         console.log("OnChanges SectionVisualisationComponent");
+       }
+     
+       ngOnDestroy(): void {
+         console.log("OnDestroy SectionVisualisationComponent");
+         
+       //  this._exchangeService.fermetureSocket();
+       }
     constructor(private _gestionVolsService: GestionVolsService) { }
 
     monvol: Vol;
