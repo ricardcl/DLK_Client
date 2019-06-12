@@ -23,7 +23,7 @@
 
   <div>
     <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
-    <input #lplnForm (change)="updateSelectedLpln(lplnForm.files[0])" type="file" />
+    <input type="file"  #lplnForm (change)="updateSelectedLpln(lplnForm.files[0])" />
   </div>
 
 

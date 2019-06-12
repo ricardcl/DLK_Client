@@ -17,10 +17,10 @@ import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 })
 export class SectionFormulaireFichiersComponent {
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
- // @Output() alerteCanicule = new EventEmitter<number>();
- 
+  // @Output() alerteCanicule = new EventEmitter<number>();
 
-  constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService,  private _gestionVolsService : GestionVolsService) {
+
+  constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService, private _gestionVolsService: GestionVolsService) {
 
   }
 
@@ -93,16 +93,23 @@ export class SectionFormulaireFichiersComponent {
   }
 
   public uploadFiles(): void {
-    this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile);
-    if (this.selectedLplnFile !== null) {
-      console.log("this.selectedLplnFile !== null");
 
-      this.analyseDataInput(this.selectedLplnFile.name, this.vemgsaFilesNames);
-    }
-    else {
-      console.log("this.selectedLplnFile == null");
-      this.analyseDataInput("", this.vemgsaFilesNames);
-    }
+      this.selectedVemgsaFile.push(this.selectedLplnFile);
+       this._chargerFormulaireService.uploadFiles( this.selectedVemgsaFile);
+  
+    //this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile);
+
+ 
+      if (this.selectedLplnFile !== null) {
+        console.log("this.selectedLplnFile !== null");
+
+        this.analyseDataInput(this.selectedLplnFile.name, this.vemgsaFilesNames);
+      }
+      else {
+        console.log("this.selectedLplnFile == null");
+        this.analyseDataInput("", this.vemgsaFilesNames);
+      }
+ 
   }
 
   public get isAnalyzed(): boolean {
@@ -185,15 +192,15 @@ export class SectionFormulaireFichiersComponent {
     console.log("this.vemgsaFilesNames.length: ", this.vemgsaFilesNames.length);
     let arcid: string = this._exchangeService.getcheckResult().arcid;
     let plnid: number = this._exchangeService.getcheckResult().plnid;
-if (this.selectedLplnFile !== null){
-  this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
+    if (this.selectedLplnFile !== null) {
+      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
 
-}
-else {
-  this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
+    }
+    else {
+      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
 
-}
-//this.alerteCanicule.emit(2);
+    }
+    //this.alerteCanicule.emit(2);
   }
 
   /*************************************************  ************************************************/

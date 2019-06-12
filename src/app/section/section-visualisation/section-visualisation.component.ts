@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { UploadService } from 'src/app/services/upload.service';
-import { ExchangeService } from 'src/app/services/exchange.service';
 import { Vol } from 'src/app/models/vol';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
-import { AnalyseState } from 'src/app/models/AnalyseState';
 import { EtatCpdlc } from 'src/app/models/etatCpdlc';
 
 
@@ -63,8 +59,8 @@ export class SectionVisualisationComponent implements OnInit {
 
         }
 
-        setTimeout(() => this.volCharge = true);
-
+       // setTimeout(() => this.volCharge = true);
+        this.volCharge = true
 
 
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as SocketIOFileUpload from 'socketio-file-upload';
 import { UploaderState } from '../models/uploaderState';
-import { ConnectService }  from './connect.service';
+import { ConnectService } from './connect.service';
 
 
 @Injectable({
@@ -13,11 +13,11 @@ export class UploadService {
   private socketUploader: SocketIOFileUpload;
 
 
-  constructor(private _connectService : ConnectService) {
+  constructor(private _connectService: ConnectService) {
     this.socket = _connectService.connexionSocket;
     this.socketUploader = new SocketIOFileUpload(this.socket);
     this.initUploaderState();
-   
+
   }
 
   private initUploaderState(): void {
@@ -39,22 +39,16 @@ export class UploadService {
     return this.uploadState;
   }
 
-  public uploadFiles(file: File, files: File[]): void {
-   
-    if (file !== null){
-      console.log("Fonction services : uploadFiles", file.name);
-      this.socketUploader.submitFiles(file);
-    }
-  
-    console.log("Fonction services : uploadFiles", files);
-    
-    this.socketUploader.submitFiles( files);
+ 
+
+ public uploadFiles(files: File[]): void {
+    this.socketUploader.submitFiles(files);
   }
 
   public isUploading(): boolean {
     return false;
   }
 
-/**  FIN UPLOAD*/
+  /**  FIN UPLOAD*/
 
 }
