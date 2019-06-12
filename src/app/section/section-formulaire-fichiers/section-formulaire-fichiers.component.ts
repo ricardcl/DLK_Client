@@ -94,7 +94,9 @@ export class SectionFormulaireFichiersComponent {
 
   public uploadFiles(): void {
 
+     if (this.selectedLplnFile != null) {
       this.selectedVemgsaFile.push(this.selectedLplnFile);
+     } 
        this._chargerFormulaireService.uploadFiles( this.selectedVemgsaFile);
   
     //this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile);

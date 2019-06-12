@@ -59,8 +59,8 @@ export class SectionVisualisationComponent implements OnInit {
 
         }
 
-       // setTimeout(() => this.volCharge = true);
-        this.volCharge = true
+        setTimeout(() => this.volCharge = true);
+        //this.volCharge = true
 
 
 
