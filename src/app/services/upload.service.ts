@@ -46,7 +46,9 @@ export class UploadService {
   }
 
   public isUploading(): boolean {
-    return false;
+    console.log("etat:",this.uploadFiles);
+    
+    return (this.uploadState == UploaderState.UPLOADING);
   }
 
   /**  FIN UPLOAD*/

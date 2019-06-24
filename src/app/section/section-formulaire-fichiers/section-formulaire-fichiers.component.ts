@@ -15,10 +15,10 @@ import { GestionVolsService } from 'src/app/services/gestion-vols.service';
   templateUrl: './section-formulaire-fichiers.component.html',
   styleUrls: ['./section-formulaire-fichiers.component.css']
 })
-export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges, OnInit{
+export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges, OnInit {
 
   ngOnInit(): void {
-   console.log("OnInit SectionFormulaireFichiersComponent");
+    console.log("OnInit SectionFormulaireFichiersComponent");
   }
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
@@ -27,15 +27,15 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
 
   ngOnDestroy(): void {
     console.log("OnDestroy SectionFormulaireFichiersComponent");
-    
+
   }
 
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
   // @Output() alerteCanicule = new EventEmitter<number>();
 
- 
+
   constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService, private _gestionVolsService: GestionVolsService) {
-console.log("coucou constructor");
+    console.log("coucou constructor");
 
   }
 
@@ -45,6 +45,7 @@ console.log("coucou constructor");
   private selectedVemgsaFile: File[] = [];
   //private selectedPlnid : number;
   private analyseState: boolean = false;
+  private uploadDemande: boolean = false;
   private vemgsaFilesNames: string[] = [];
 
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
@@ -84,6 +85,8 @@ console.log("coucou constructor");
 
   /****************************** PARTIE FONCTIONS  D'UPLOAD *************************** */
   public get isUploading(): boolean {
+    // console.log("etat:",this._chargerFormulaireService.UploaderState);
+
     return this._chargerFormulaireService.UploaderState === UploaderState.UPLOADING;
   }
 
@@ -110,27 +113,37 @@ console.log("coucou constructor");
   public uploadFiles(): void {
 
     let selectedFile: File[] = [];
-    selectedFile =  this.selectedVemgsaFile;
+    selectedFile = this.selectedVemgsaFile;
 
-     if (this.selectedLplnFile != null) {
+    if (this.selectedLplnFile != null) {
       selectedFile.push(this.selectedLplnFile);
-     } 
-       this._chargerFormulaireService.uploadFiles( selectedFile);
-  
-    //this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile);
+    }
+    this._chargerFormulaireService.uploadFiles(selectedFile);
+    this.uploadDemande = true;
+    //this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile); 
 
- 
-      if (this.selectedLplnFile !== null) {
-        console.log("this.selectedLplnFile !== null");
 
-        this.analyseDataInput(this.selectedLplnFile.name, this.vemgsaFilesNames);
-      }
-      else {
-        console.log("this.selectedLplnFile == null");
-        this.analyseDataInput("", this.vemgsaFilesNames);
-      }
- 
+
+    
   }
+  public uploadData(): void {
+   
+    if (this.selectedLplnFile !== null) {
+      console.log("this.selectedLplnFile !== null");
+
+      this.analyseDataInput(this.selectedLplnFile.name, this.vemgsaFilesNames);
+    }
+    else {
+      console.log("this.selectedLplnFile == null");
+      this.analyseDataInput("", this.vemgsaFilesNames);
+    }
+   // this.uploadDemande= false;
+  }
+
+  public get isUploadComplete(): boolean {
+    return (this.uploadDemande && this.isUploaded);
+  }
+
 
   public get isAnalyzed(): boolean {
     return this.analyseState;

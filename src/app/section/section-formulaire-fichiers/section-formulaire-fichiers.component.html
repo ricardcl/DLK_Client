@@ -61,8 +61,11 @@
 <button mat-raised-button color="primary" [class.uploadingButton]="isUploading" [disabled]="!isUploadEnable"
   (click)="uploadFiles()">{{isUploading ? 'Uploading...' : 'Upload'}}</button>
 
-
-
+  <div *ngIf="isUploadComplete">
+      <button mat-raised-button color="primary" 
+      (click)="uploadData()">requete</button>
+  
+  </div>
 
 
 <div *ngIf="isCheckInital">
