@@ -40,8 +40,8 @@ export class ExchangeService {
 
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
-//    this.socket = _connectService.connexionSocket;
-  //  this.initSocket();
+   // this.socket = _connectService.connexionSocket;
+    this.initSocket();
   }
 
 
@@ -58,8 +58,9 @@ export class ExchangeService {
 
 
 
-  public initSocket() {
+  private initSocket() {
     this.socket = this._connectService.connexionSocket;
+   
     this.socket.on('analysedPlnid', (array) => {
       console.log('analysedPlnid from serveur : ', array);
       this.initExchange();
@@ -143,7 +144,7 @@ export class ExchangeService {
 
 
 
-      this.fermetureSocket();
+      //this.fermetureSocket();
 
     });
 
@@ -257,10 +258,10 @@ export class ExchangeService {
 
   }
 
-  public fermetureSocket(): void {
-    console.log("fermeture_socket_demandee");
-    this.socket.emit('fermeture_socket_demandee');
-  }
+ // public fermetureSocket(): void {
+ //   console.log("fermeture_socket_demandee");
+ //   this.socket.emit('fermeture_socket_demandee');
+ // }
 
 
   public getPlnid(): number {

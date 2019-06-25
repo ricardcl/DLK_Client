@@ -11,8 +11,8 @@ import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 export class SectionComponent implements OnDestroy, OnChanges, OnInit {
   ngOnInit(): void {
     console.log("OnInit SectionComponent");
-     this._exchangeService.initSocket();
-    
+    // this._exchangeService.initSocket();
+     
    }
  
    ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
@@ -22,7 +22,7 @@ export class SectionComponent implements OnDestroy, OnChanges, OnInit {
    ngOnDestroy(): void {
      console.log("OnDestroy SectionComponent");
      
-    this._exchangeService.fermetureSocket();
+    //this._exchangeService.fermetureSocket();
    }
  private panelOpenState : boolean = false;
   

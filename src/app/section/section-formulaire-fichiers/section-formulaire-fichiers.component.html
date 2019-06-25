@@ -8,12 +8,20 @@
       <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
       <input #vemgsaForm (change)="updateSelectedVemgsa(vemgsaForm.files[0])"type="file"/>
   </div>-->
+
+  <div >
+    <button mat-raised-button color="primary" 
+    (click)="lplnFile.value = '';vemgsaFile.value = '';  choseFileForm.reset(); initFormulaire() ">Initialisation</button>
+
+</div>
+
+
 <!-- chargement des fichiers -->
 <form #choseFileForm="ngForm">
   <!-- creation dune variable choseFile-->
   <div>
     <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
-    <input type="file" required multiple #vemgsaForm (change)="updateSelectedVemgsa(vemgsaForm.files)" />
+    <input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)" />
     <!--        [(ngModel)]="selectedVemgsaFile" 
       #vemgsaFormValidity="ngModel" 
       pbm :  [(ngModel)]="selectedVemgsaFile"  ne renvoie que le nom du fichier (string) et pas lobject fichier
@@ -23,11 +31,11 @@
 
   <div>
     <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
-    <input type="file"  #lplnForm (change)="updateSelectedLpln(lplnForm.files[0])" />
+    <input type="file"  #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" />
   </div>
 
 
-  <label id="example-radio-group-label">Pick your favorite season</label>
+  
   <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
     [(ngModel)]="identifiantSelectionne" [ngModelOptions]="{standalone: true}">
     <mat-radio-button *ngFor="let id of identifiants" [value]="id">
@@ -40,14 +48,14 @@
 
   <div *ngIf="isPlnid">
     <mat-form-field>
-      <input matInput placeholder="Rentrez l'identifiant plnid" [formControl]="plnid" required>
+      <input matInput  placeholder="Rentrez l'identifiant plnid" [formControl]="plnid" required>
       <mat-error *ngIf="plnid.invalid">{{getErrorMessagePlnid()}}</mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field *ngIf="isArcid">
-      <input matInput placeholder="Rentrez l'identifiant arcid" [formControl]="arcid" required>
+      <input matInput  placeholder="Rentrez l'identifiant arcid" [formControl]="arcid" required>
       <mat-error *ngIf="arcid.invalid">{{getErrorMessageArcid()}}</mat-error>
     </mat-form-field>
   </div>

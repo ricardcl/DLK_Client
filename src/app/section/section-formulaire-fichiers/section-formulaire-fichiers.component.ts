@@ -32,38 +32,51 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
 
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
   // @Output() alerteCanicule = new EventEmitter<number>();
+  
+
+  private selectedLplnFile: File;
+  private selectedVemgsaFile: File[];
+  //private selectedPlnid : number;
+  private analyseState: boolean;
+  private uploadDemande: boolean;
+  private vemgsaFilesNames: string[];
+  private plnid :FormControl;
+  private arcid :FormControl;
+
+  public initFormulaire() : void {
+    console.log("initialisation demandee");
+    this.selectedLplnFile= null;
+    this.selectedVemgsaFile = [];
+    this.analyseState = false;
+    this.uploadDemande = false;
+    this.vemgsaFilesNames= [];
+    this.arcid = new FormControl('', [Validators.required, Validators.pattern(this.regexpArcid)]);
+    this.plnid = new FormControl('', [Validators.required, Validators.pattern(this.regexpPlnid)]);
+  }
 
 
   constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService, private _gestionVolsService: GestionVolsService) {
     console.log("coucou constructor");
+    this.initFormulaire();
 
   }
 
 
 
-  private selectedLplnFile: File = null;
-  private selectedVemgsaFile: File[] = [];
-  //private selectedPlnid : number;
-  private analyseState: boolean = false;
-  private uploadDemande: boolean = false;
-  private vemgsaFilesNames: string[] = [];
+ 
 
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
   private identifiantSelectionne: string = 'Plnid';
   private identifiants: string[] = ['Arcid', 'Plnid'];
   private regexpPlnid: RegExp = /^\d{4}$/;
   private regexpArcid: RegExp = /^[a-z][a-z|0-9]{1,6}$/i;
-
-  private plnid = new FormControl('', [Validators.required, Validators.pattern(this.regexpPlnid)]);
+ 
   private getErrorMessagePlnid() {
     if (this.plnid.hasError('required')) { return 'Valeur obligatoire'; }
     if (!(this.regexpPlnid.test(this.plnid.value))) { return "format incorrect :un plnid est composé de 4 chiffres"; }
     return "";
   }
 
-
-
-  private arcid = new FormControl('', [Validators.required, Validators.pattern(this.regexpArcid)]);
   private getErrorMessageArcid() {
     if (this.arcid.hasError('required')) { return 'Valeur obligatoire'; }
     if (!(this.regexpArcid.test(this.arcid.value))) { return "format incorrect arcid "; }
@@ -247,6 +260,8 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
     return this._exchangeService.getListeArcidTrouves();
 
   }
+
+
 
   /* -- -- */
 
