@@ -52,6 +52,7 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
     this.vemgsaFilesNames= [];
     this.arcid = new FormControl('', [Validators.required, Validators.pattern(this.regexpArcid)]);
     this.plnid = new FormControl('', [Validators.required, Validators.pattern(this.regexpPlnid)]);
+    
   }
 
 

@@ -18,10 +18,10 @@ export class ConnectService implements OnInit{
 
   }
 
-  public  createSocket(){
+  /**  public  createSocket(){
     console.log("creation socket ");
     this.socket = io.connect('http://localhost:4000');
-  };
+  };*/
 
   public get connexionSocket() : SocketIOClient.Socket {
     console.log("appel connexionSocket");
