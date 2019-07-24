@@ -151,3 +151,26 @@ ul:before,
   background-color: #5bc0de !important;
 }
 
+.log.th {
+  text-align:center;
+  width:30%;
+  max-width:30%;
+}
+
+.log.td {
+  text-align:left;
+  width:30%;
+  max-width:30%;
+}
+
+.dates{
+  text-align:center;
+}
+
+.heure{
+  text-align:center;
+}
+
+.etat{
+  text-align:center;
+}

@@ -9,16 +9,18 @@ export class EtatCpdlc {
   private heure: string = "";
   private etat: string ="";
   private associable: boolean = false;
+  private log:string = "";
   private detailLog : DetailCpdlc[];
 
 
-  constructor(id: number, title: string, date: string, heure: string, etat: string, associable: boolean, detailLog: DetailCpdlc[]) {
+  constructor(id: number, title: string, date: string, heure: string, etat: string, associable: boolean, log: string, detailLog: DetailCpdlc[]) {
     this.id = id;
     this.title = title;
     this.date = date;
     this.heure = heure;
     this.etat = etat;
     this.associable = associable;
+    this.log = log;
     this.detailLog = [];
   }
 
@@ -89,6 +91,9 @@ export class EtatCpdlc {
     return this.etat
   }
 
+  getLog(): string{
+    return this.log;
+  }
 
   //SETTERS
   setTitle(title: string) {
@@ -109,7 +114,9 @@ export class EtatCpdlc {
     this.associable = associable;
   }
 
-
+ setLog(log: string) {
+    this.log = log;
+  }
 
   getDetaillog(){
     return this.detailLog;

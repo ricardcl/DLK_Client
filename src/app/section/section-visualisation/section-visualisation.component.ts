@@ -81,7 +81,7 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
     
     ////////////////AFFICHAGE DES LOGS 
     displayedColumnsGen: string[] = ['donnee', 'valeur'];
-    displayedColumnsDet: string[] = ['title', 'date', 'heure','etat', 'valeur'];
+    displayedColumnsDet: string[] = ['date', 'heure', 'title', 'etat'];
 
 
 
