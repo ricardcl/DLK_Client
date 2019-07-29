@@ -28,7 +28,7 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
     constructor(private _gestionVolsService: GestionVolsService) { }
 
     monvol: Vol;
-    dataGenerale: [{ arcid: string, plnid: number }];
+    dataGenerale: [{ arcid: string, plnid: number, adrModeSInf:string, adrDeposee:string , equipementCpdlc:string}];
     dataDetailMix: EtatCpdlc[];
     dataDetailLpln: EtatCpdlc[];
     dataDetailVemgsa: EtatCpdlc[];
@@ -60,7 +60,8 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
 
     public getVol() {
         this.monvol = this._gestionVolsService.getVol(0);
-        this.dataGenerale = [{ arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid() },];
+        this.dataGenerale = [{ arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(),adrModeSInf: this.monvol.getadrModeSInf(), 
+            adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc()  },];
         this.dataDetailMix = this.monvol.getListeVolMix();
         this.dataDetailLpln = this.monvol.getListeVolLpln();
         this.dataDetailVemgsa= this.monvol.getListeVolVemgsa();
@@ -80,7 +81,7 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
 
     
     ////////////////AFFICHAGE DES LOGS 
-    displayedColumnsGen: string[] = ['donnee', 'valeur'];
+    displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc'];
     displayedColumnsDet: string[] = ['date', 'heure', 'title', 'etat'];
 
 

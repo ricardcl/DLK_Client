@@ -115,6 +115,9 @@ export class ExchangeService {
       console.log("listeLogs: ", data['listeLogs']);
       let arcid: string = data['arcid'];
       let plnid: number = data['plnid'];
+      let  adrModeSInf: string = data['adrModeSInf'];
+      let  adrDeposee: string = data['adrDeposee'];
+      let equipementCpdlc: string = data['equipementCpdlc'];
 
       for (let key = 0; key < data['listeLogs'].length; key++) {
         const etatCpdlcTemp = data['listeLogs'][key];
@@ -136,10 +139,10 @@ export class ExchangeService {
 
       if (type === "LPLN") {
 
-        this.vol = new Vol(arcid, plnid, "AIX", this.listeEtats, null, null);
+        this.vol = new Vol(arcid, plnid, "AIX", adrModeSInf, adrDeposee, equipementCpdlc,  this.listeEtats, null, null);
       }
       if (type === "VEMGSA") {
-        this.vol = new Vol(arcid, plnid, "AIX", null, this.listeEtats, null);
+        this.vol = new Vol(arcid, plnid, "AIX", null, null, null, null, this.listeEtats, null);
       }
       console.log("donnes recuperes : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
@@ -164,6 +167,7 @@ export class ExchangeService {
       console.log("listeLogs: ", dataM['listeLogs']);
       let arcid: string = dataM['arcid'];
       let plnid: number = dataM['plnid'];
+
 
       for (let key = 0; key < dataM['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataM['listeLogs'][key];
@@ -192,6 +196,9 @@ export class ExchangeService {
       console.log("listeLogs: ", dataL['listeLogs']);
       let arcidLpln: string = dataL['arcid'];
       let plnidLpln: number = dataL['plnid'];
+      let  adrModeSInfLpln: string = dataL['adrModeSInf'];
+      let  adrDeposeeLpln: string = dataL['adrDeposee'];
+      let equipementCpdlcLpln: string = dataL['equipementCpdlc'];
 
       for (let key = 0; key < dataL['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataL['listeLogs'][key];
@@ -238,7 +245,7 @@ export class ExchangeService {
         });
       };
 
-      this.vol = new Vol(arcid, plnid, "AIX", this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
+      this.vol = new Vol(arcid, plnid, "AIX", adrModeSInfLpln, adrDeposeeLpln,equipementCpdlcLpln,  this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
       console.log("donnes recuperes : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 

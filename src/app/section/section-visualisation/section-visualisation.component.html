@@ -14,7 +14,8 @@
 <div class="isVolCharge" *ngIf="isVolCharge">
     <mat-tab-group>
         <mat-tab label="Lpln" *ngIf="isLpln">
-            <div >
+
+            <div>
                 <table mat-table [dataSource]="dataDetailLpln" class="tabDet ">
 
 
@@ -31,20 +32,20 @@
                         <td mat-cell *matCellDef="let element" class="heure td"> {{element.heure}} </td>
                     </ng-container>
 
-                     <!-- Colonne title -->
-                     <ng-container matColumnDef="title" >
+                    <!-- Colonne title -->
+                    <ng-container matColumnDef="title">
                         <th mat-header-cell *matHeaderCellDef class="log th"> Log </th>
                         <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
                     </ng-container>
-                   
+
 
                     <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
 
                     <!-- Colonne Donnee  -->
                     <ng-container matColumnDef="etat">
-                        <th mat-header-cell *matHeaderCellDef  class="etat th"> Etat </th>
-                        <td mat-cell *matCellDef="let element"  class="etat td"> {{element.etat}} </td>
+                        <th mat-header-cell *matHeaderCellDef class="etat th"> Etat </th>
+                        <td mat-cell *matCellDef="let element" class="etat td"> {{element.etat}} </td>
                     </ng-container>
 
                     <!-- Colonne Valeur -->
@@ -58,7 +59,7 @@
             </div>
         </mat-tab>
         <mat-tab label="Vemgsa" *ngIf="isVemgsa">
-            <div >
+            <div>
                 <table mat-table [dataSource]="dataDetailVemgsa" class="tabDet ">
 
 
@@ -77,10 +78,10 @@
                     </ng-container>
 
                     <!-- Colonne title -->
-                    <ng-container matColumnDef="title" >
+                    <ng-container matColumnDef="title">
                         <th mat-header-cell *matHeaderCellDef class="log th"> Title </th>
-                        <td mat-cell *matCellDef="let element" class="log td" > {{element.log}} </td>
-                    </ng-container>                    
+                        <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
+                    </ng-container>
                     <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
 
@@ -103,7 +104,7 @@
 
         <mat-tab label="Mix" *ngIf="isMix">
             <br>
-            <div >
+            <div>
 
                 <table mat-table [dataSource]="dataGenerale" class="tabGen">
 
@@ -122,6 +123,23 @@
                         <td mat-cell *matCellDef="let element"> {{element.arcid}} </td>
                     </ng-container>
 
+                    <!-- Colonne Valeur -->
+                    <ng-container matColumnDef="adrModeSInf">
+                        <th mat-header-cell *matHeaderCellDef> adrModeSInf </th>
+                        <td mat-cell *matCellDef="let element"> {{element.adrModeSInf}} </td>
+                    </ng-container>
+
+                    <!-- Colonne Valeur -->
+                    <ng-container matColumnDef="adrDeposee">
+                        <th mat-header-cell *matHeaderCellDef> adrDeposee </th>
+                        <td mat-cell *matCellDef="let element"> {{element.adrDeposee}} </td>
+                    </ng-container>
+
+                    <!-- Colonne Valeur -->
+                    <ng-container matColumnDef="equipementCpdlc">
+                            <th mat-header-cell *matHeaderCellDef> equipementCpdlc </th>
+                            <td mat-cell *matCellDef="let element"> {{element.equipementCpdlc}} </td>
+                        </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsGen"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsGen;"></tr>
