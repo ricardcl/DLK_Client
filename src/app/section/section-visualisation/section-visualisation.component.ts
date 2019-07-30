@@ -27,12 +27,12 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
        }
     constructor(private _gestionVolsService: GestionVolsService) { }
 
-    monvol: Vol;
-    dataGenerale: [{ arcid: string, plnid: number, adrModeSInf:string, adrDeposee:string , equipementCpdlc:string}];
-    dataDetailMix: EtatCpdlc[];
-    dataDetailLpln: EtatCpdlc[];
-    dataDetailVemgsa: EtatCpdlc[];
-    volCharge: boolean;
+    private monvol: Vol;
+    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf:string, adrDeposee:string , equipementCpdlc:string }];
+    private dataDetailMix: EtatCpdlc[];
+    private dataDetailLpln: EtatCpdlc[];
+    private dataDetailVemgsa: EtatCpdlc[];
+    private  volCharge: boolean;
 
 
     public get isAnalysed(): boolean {
@@ -59,9 +59,11 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
 
 
     public getVol() {
+
         this.monvol = this._gestionVolsService.getVol(0);
         this.dataGenerale = [{ arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(),adrModeSInf: this.monvol.getadrModeSInf(), 
-            adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc()  },];
+            adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc() },];
+
         this.dataDetailMix = this.monvol.getListeVolMix();
         this.dataDetailLpln = this.monvol.getListeVolLpln();
         this.dataDetailVemgsa= this.monvol.getListeVolVemgsa();
@@ -81,7 +83,8 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
 
     
     ////////////////AFFICHAGE DES LOGS 
-    displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc'];
+    displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc' ];
+
     displayedColumnsDet: string[] = ['date', 'heure', 'title', 'etat'];
 
 

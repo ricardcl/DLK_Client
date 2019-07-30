@@ -115,9 +115,18 @@ export class ExchangeService {
       console.log("listeLogs: ", data['listeLogs']);
       let arcid: string = data['arcid'];
       let plnid: number = data['plnid'];
+      let adep:string = data['adep'];
+      let ades:string = data['ades'];
       let  adrModeSInf: string = data['adrModeSInf'];
       let  adrDeposee: string = data['adrDeposee'];
       let equipementCpdlc: string = data['equipementCpdlc'];
+      let logonInitie: string = data['logonInitie'];
+      let logonAccepte: string = data['logonAccepte'];
+      let cmpAdrModeS: string = data['cmpAdrModeS'];
+      let cmpAdep: string = data['cmpAdep'];
+      let cmpAdes: string = data['cmpAdes'];
+      let cmpArcid: string = data['cmpArcid'];
+      let conditionsLogon: string = data['conditionsLogon'];
 
       for (let key = 0; key < data['listeLogs'].length; key++) {
         const etatCpdlcTemp = data['listeLogs'][key];
@@ -139,12 +148,14 @@ export class ExchangeService {
 
       if (type === "LPLN") {
 
-        this.vol = new Vol(arcid, plnid, "AIX", adrModeSInf, adrDeposee, equipementCpdlc,  this.listeEtats, null, null);
+        this.vol = new Vol(arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie,logonAccepte,cmpAdrModeS,cmpAdep,cmpAdes,
+        cmpArcid, conditionsLogon,  this.listeEtats, null, null);
       }
       if (type === "VEMGSA") {
-        this.vol = new Vol(arcid, plnid, "AIX", null, null, null, null, this.listeEtats, null);
+        this.vol = new Vol(arcid, plnid, "AIX", adep, ades, null, null, null, logonInitie,logonAccepte,cmpAdrModeS,cmpAdep,cmpAdes,
+        cmpArcid, conditionsLogon, null, this.listeEtats, null);
       }
-      console.log("donnes recuperes : ", this.vol);
+      console.log("donnes recuperes de LPLN ou VEMGSA : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 
 
@@ -167,6 +178,18 @@ export class ExchangeService {
       console.log("listeLogs: ", dataM['listeLogs']);
       let arcid: string = dataM['arcid'];
       let plnid: number = dataM['plnid'];
+      let adep: string = dataM['adep'];
+      let ades: string = dataM['ades'];
+      let adrModeSInf: string = dataM['adrModeSInf'];
+      let adrDeposee: string = dataM['adrDeposee'];
+      let equipementCpdlc: string = dataM['equipementCpdlc'];
+      let logonInitie: string = dataM['logonInitie'];
+      let logonAccepte: string = dataM['logonAccepte'];
+      let cmpAdrModeS: string = dataM['cmpAdrModeS'];
+      let cmpAdep: string = dataM['cmpAdep'];
+      let cmpAdes: string = dataM['cmpAdes'];
+      let cmpArcid: string = dataM['cmpArcid'];
+      let conditionsLogon: string = dataM['conditionsLogon'];
 
 
       for (let key = 0; key < dataM['listeLogs'].length; key++) {
@@ -199,6 +222,7 @@ export class ExchangeService {
       let  adrModeSInfLpln: string = dataL['adrModeSInf'];
       let  adrDeposeeLpln: string = dataL['adrDeposee'];
       let equipementCpdlcLpln: string = dataL['equipementCpdlc'];
+
 
       for (let key = 0; key < dataL['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataL['listeLogs'][key];
@@ -245,8 +269,10 @@ export class ExchangeService {
         });
       };
 
-      this.vol = new Vol(arcid, plnid, "AIX", adrModeSInfLpln, adrDeposeeLpln,equipementCpdlcLpln,  this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
-      console.log("donnes recuperes : ", this.vol);
+
+      this.vol = new Vol(arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc,logonInitie,logonAccepte,cmpAdrModeS,cmpAdep,cmpAdes,
+       cmpArcid, conditionsLogon, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
+      console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 
     });
