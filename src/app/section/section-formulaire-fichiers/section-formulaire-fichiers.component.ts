@@ -110,14 +110,14 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
 
 
   public updateSelectedLpln(file: File): void {
-    console.log('hello' + file.name);
+    console.log('updateSelectedLpln ' + file.name);
     this.selectedLplnFile = file;
     this.analyseState = false;
   }
 
   public updateSelectedVemgsa(file: File[]): void {
     for (let i = 0; i < file.length; i++) {
-      console.log('hello' + file[i].name);
+      console.log('updateSelectedVemgsa ' + file[i].name);
       this.selectedVemgsaFile.push(file[i]);
       this.vemgsaFilesNames.push(file[i].name);
     }
@@ -127,7 +127,8 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
   public uploadFiles(): void {
 
     let selectedFile: File[] = [];
-    selectedFile = this.selectedVemgsaFile;
+    // Copy the array pointer in a local var
+    selectedFile = [...this.selectedVemgsaFile];
 
     if (this.selectedLplnFile != null) {
       selectedFile.push(this.selectedLplnFile);
