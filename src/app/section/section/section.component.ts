@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
+import { Vol } from 'src/app/models/vol';
 
 
 @Component({
@@ -32,6 +33,14 @@ export class SectionComponent implements OnDestroy, OnChanges, OnInit {
   public get isAnalysed(): boolean {
     //  return this._exchangeService.getAnalyseState() === AnalyseState.ANALYSED;
     return this._gestionVolsService.getNbVols() !== 0;
+}
+
+public hasVol () : boolean {
+  return this._gestionVolsService.getNbVols() > 0;
+}
+
+public getVol() : Vol {
+  return this._gestionVolsService.getVol(0);
 }
 
 

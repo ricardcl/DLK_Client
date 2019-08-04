@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, Input } from '@angular/core';
 import { Vol } from 'src/app/models/vol';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { EtatCpdlc } from 'src/app/models/etatCpdlc';
@@ -13,6 +13,7 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
     ngOnInit(): void {
         console.log("OnInit SectionVisualisationComponent");
         this.volCharge = false;
+        this.initComponent();
     }
 
 
@@ -26,8 +27,9 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
        //  this._exchangeService.fermetureSocket();
        }
     constructor(private _gestionVolsService: GestionVolsService) { }
+    @Input()
+    public monvol: Vol;
 
-    private monvol: Vol;
     private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf:string, adrDeposee:string , equipementCpdlc:string }];
     private dataDetailMix: EtatCpdlc[];
     private dataDetailLpln: EtatCpdlc[];
@@ -58,9 +60,7 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
     }
 
 
-    public getVol() {
-
-        this.monvol = this._gestionVolsService.getVol(0);
+    public initComponent() {
         this.dataGenerale = [{ arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(),adrModeSInf: this.monvol.getadrModeSInf(), 
             adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc() },];
 
@@ -70,14 +70,9 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
 
         for (let nbVol = 0; nbVol < this._gestionVolsService.getNbVols(); nbVol++) {
             const element = this._gestionVolsService.getVol(nbVol);
-
         }
 
-        setTimeout(() => this.volCharge = true);
-        //this.volCharge = true
-
-
-
+        this.volCharge = true
     }
 
 

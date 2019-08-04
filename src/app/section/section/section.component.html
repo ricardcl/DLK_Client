@@ -25,7 +25,7 @@
           
         </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-section-visualisation></app-section-visualisation>
+    <app-section-visualisation *ngIf="hasVol()" [monvol]="getVol()" ></app-section-visualisation>
 </mat-expansion-panel>
 
 
