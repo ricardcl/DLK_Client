@@ -15,6 +15,10 @@ export class MenuComponent implements OnInit {
     return this._gestionVolsService.getVols();
   }
 
+  public deleteVol (vol : Vol) : void {
+    this._gestionVolsService.deleteVol (vol.getId());
+  }
+
   ngOnInit() {
   }
 

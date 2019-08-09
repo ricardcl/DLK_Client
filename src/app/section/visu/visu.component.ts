@@ -16,6 +16,10 @@ export class VisuComponent implements OnInit {
   ngOnInit() {
   }
 
+  public isVolExisting () : boolean {
+    return this.getVol() !== undefined;
+  }
+
   public getVol(): Vol {
     return this._gestionVolsService.getVolById(this._route.snapshot.params['id']);
   }

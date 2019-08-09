@@ -20,6 +20,16 @@ export class GestionVolsService {
       this.listeVols.push(vol);
   }
 
+  public deleteVol (id : string) : boolean {
+    for (let i : number = 0 ; i < this.getNbVols() ; i++) {
+      if (this.getVols()[i].getId() === id) {
+        this.getVols().splice(i, 1);
+        return true;
+      }
+    }
+    return false;
+  }
+
   public getVols(): Vol[] {
       return this.listeVols;
   }
