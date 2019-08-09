@@ -37,7 +37,6 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
 
 
     public get isAnalysed(): boolean {
-        //  return this._exchangeService.getAnalyseState() === AnalyseState.ANALYSED;
         return this._gestionVolsService.getNbVols() !== 0;
     }
 
@@ -54,7 +53,6 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
     }
 
     public get isVolCharge(): boolean {
-        //  return this._exchangeService.getAnalyseState() === AnalyseState.ANALYSED;
         return this.volCharge === true;
     }
 
@@ -66,10 +64,6 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
         this.dataDetailMix = this.monvol.getListeVolMix();
         this.dataDetailLpln = this.monvol.getListeVolLpln();
         this.dataDetailVemgsa= this.monvol.getListeVolVemgsa();
-
-        for (let nbVol = 0; nbVol < this._gestionVolsService.getNbVols(); nbVol++) {
-            const element = this._gestionVolsService.getVol(nbVol);
-        }
 
         this.volCharge = true
     }

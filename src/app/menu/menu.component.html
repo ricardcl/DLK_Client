@@ -1,0 +1,14 @@
+<mat-list>
+  <mat-list-item class="sidenav-section" routerLink="/accueil" routerLinkActive="active">Accueil</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item class="sidenav-section" routerLink="/formulaire" routerLinkActive="active">Formulaire</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item class="sidenav-section" routerLink="/item3" routerLinkActive="active"> Item 3</mat-list-item>
+  <mat-divider></mat-divider>
+  <div *ngFor="let vol of getVols()">
+    <mat-list-item class="sidenav-section" routerLink="/item3" routerLinkActive="active">
+      {{vol.getArcid()}}
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </div>
+</mat-list>

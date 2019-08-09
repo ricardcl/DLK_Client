@@ -185,13 +185,6 @@ export class Vol {
         return this.conditionsLogon;
     } 
 
-
-
-    public getVol(vol: Vol): string {
-        console.log(vol.reqid);
-        return "InfosVol :  " + vol.reqid;
-    }
-
     public getListeVolLpln(): EtatCpdlc[] {
         return this.listeLogsLpln;
     }

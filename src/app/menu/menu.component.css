@@ -1,0 +1,23 @@
+mat-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+  }
+  
+  mat-list-item  {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+
+  mat-list-item:hover:not(.active) {
+    background-color: #555;
+    color: white;
+  }
+  

@@ -19,13 +19,15 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
-import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MenuComponent } from './menu/menu.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    PageAccueilComponent   
+    PageAccueilComponent,
+    MenuComponent   
   ],
   imports: [
     BrowserModule,
