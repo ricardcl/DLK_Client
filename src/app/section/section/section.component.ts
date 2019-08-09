@@ -23,7 +23,6 @@ export class SectionComponent implements OnDestroy, OnChanges, OnInit {
    ngOnDestroy(): void {
      console.log("OnDestroy SectionComponent");
      
-    //this._exchangeService.fermetureSocket();
    }
  private panelOpenState : boolean = false;
   

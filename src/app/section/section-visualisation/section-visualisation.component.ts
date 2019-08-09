@@ -24,7 +24,6 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
        ngOnDestroy(): void {
          console.log("OnDestroy SectionVisualisationComponent");
          
-       //  this._exchangeService.fermetureSocket();
        }
     constructor(private _gestionVolsService: GestionVolsService) { }
     @Input()

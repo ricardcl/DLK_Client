@@ -160,7 +160,6 @@ export class ExchangeService {
 
 
 
-      //this.fermetureSocket();
 
     });
 
@@ -298,10 +297,7 @@ export class ExchangeService {
 
   }
 
- // public fermetureSocket(): void {
- //   console.log("fermeture_socket_demandee");
- //   this.socket.emit('fermeture_socket_demandee');
- // }
+
 
 
   public getPlnid(): number {
