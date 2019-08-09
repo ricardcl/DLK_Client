@@ -24,4 +24,13 @@ export class GestionVolsService {
       return this.listeVols;
   }
 
+  public getVolById (id : string) : Vol {
+    for (let vol of this.getVols()) {
+      if (vol.getId() === id) {
+        return vol;
+      }
+    }
+    return undefined;
+  }
+
 }

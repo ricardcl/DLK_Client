@@ -33,18 +33,4 @@ export class SectionComponent implements OnDestroy, OnChanges, OnInit {
     return this._gestionVolsService.getNbVols() !== 0;
 }
 
-public hasVol () : boolean {
-  return this._gestionVolsService.getNbVols() > 0;
-}
-
-// TODO : to delete
-public getVol() : Vol {
-  return this._gestionVolsService.getVols()[0];
-}
-
-
-
-  
-
-
 }

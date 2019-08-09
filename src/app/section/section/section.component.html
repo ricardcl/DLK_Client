@@ -9,27 +9,3 @@
     </mat-expansion-panel-header>
     <app-section-formulaire ></app-section-formulaire>
 </mat-expansion-panel>
-
-<mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            Rubrique Visualisation des Vols
-        </mat-panel-title>
-        <mat-panel-description>
-           <div *ngIf="panelOpenState == true">
-                <a *ngIf="isAnalysed"> 'Vols Trouves'</a>
-           </div> 
-           <div *ngIf="panelOpenState == false">
-                <a *ngIf="isAnalysed"> 'Visualisez les Vols Trouves'</a>
-           </div> 
-          
-        </mat-panel-description>
-    </mat-expansion-panel-header>
-    <app-section-visualisation *ngIf="hasVol()" [monvol]="getVol()" ></app-section-visualisation>
-</mat-expansion-panel>
-
-
-
-
-
-
