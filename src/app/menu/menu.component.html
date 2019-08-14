@@ -1,0 +1,17 @@
+<mat-list>
+  <mat-list-item class="sidenav-section" routerLink="/accueil" routerLinkActive="active">Accueil</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item class="sidenav-section" routerLink="/formulaire" routerLinkActive="active">Formulaire</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item class="sidenav-section" routerLink="/item3" routerLinkActive="active"> Item 3</mat-list-item>
+  <mat-divider></mat-divider>
+  <div *ngFor="let vol of getVols()">
+    <mat-list-item class="sidenav-section" [routerLink]="['/visualisation', vol.getId()]" routerLinkActive="active">
+      {{vol.getArcid()}}
+      <button routerLink="/formulaire" (click)="deleteVol(vol)">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" >delete</mat-icon>
+      </button>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </div>
+</mat-list>

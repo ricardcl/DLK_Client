@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Vol } from 'src/app/models/vol';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { EtatCpdlc } from 'src/app/models/etatCpdlc';
@@ -9,22 +9,13 @@ import { EtatCpdlc } from 'src/app/models/etatCpdlc';
     templateUrl: './section-visualisation.component.html',
     styleUrls: ['./section-visualisation.component.css']
 })
-export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnInit {
+export class SectionVisualisationComponent implements OnInit {
     ngOnInit(): void {
         console.log("OnInit SectionVisualisationComponent");
         this.volCharge = false;
         this.initComponent();
     }
 
-
-       ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-         console.log("OnChanges SectionVisualisationComponent");
-       }
-     
-       ngOnDestroy(): void {
-         console.log("OnDestroy SectionVisualisationComponent");
-         
-       }
     constructor(private _gestionVolsService: GestionVolsService) { }
     @Input()
     public monvol: Vol;
@@ -37,7 +28,6 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
 
 
     public get isAnalysed(): boolean {
-        //  return this._exchangeService.getAnalyseState() === AnalyseState.ANALYSED;
         return this._gestionVolsService.getNbVols() !== 0;
     }
 
@@ -54,7 +44,6 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
     }
 
     public get isVolCharge(): boolean {
-        //  return this._exchangeService.getAnalyseState() === AnalyseState.ANALYSED;
         return this.volCharge === true;
     }
 
@@ -66,10 +55,6 @@ export class SectionVisualisationComponent implements OnDestroy, OnChanges, OnIn
         this.dataDetailMix = this.monvol.getListeVolMix();
         this.dataDetailLpln = this.monvol.getListeVolLpln();
         this.dataDetailVemgsa= this.monvol.getListeVolVemgsa();
-
-        for (let nbVol = 0; nbVol < this._gestionVolsService.getNbVols(); nbVol++) {
-            const element = this._gestionVolsService.getVol(nbVol);
-        }
 
         this.volCharge = true
     }

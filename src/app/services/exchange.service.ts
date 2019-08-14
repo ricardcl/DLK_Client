@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import * as SocketIOFileUpload from 'socketio-file-upload';
 import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
 import { EtatCpdlc } from '../models/etatCpdlc';
-import { Etat } from '../models/enumEtat';
 import { DetailCpdlc } from '../models/detailCpdlc';
 import { checkAnswer } from '../models/checkAnswer';
 import { CheckState } from '../models/CheckState';
-import { AnalyseState } from '../models/AnalyseState';
 import { GestionVolsService } from './gestion-vols.service';
 
 

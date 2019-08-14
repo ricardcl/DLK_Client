@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Vol } from '../models/vol';
-import { EventEmitter } from 'events';
-import { AnalyseState } from '../models/analyseState';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +7,6 @@ import { AnalyseState } from '../models/analyseState';
 export class GestionVolsService {
 
   private listeVols: Vol[];
-  private analyseState: AnalyseState = AnalyseState.IDLE;
 
   constructor() { 
     this.listeVols = [];
@@ -21,17 +18,29 @@ export class GestionVolsService {
 
   public addVol(vol: Vol) {
       this.listeVols.push(vol);
-    //  this.analyseState = AnalyseState.ANALYSED;
   }
 
-  public getVol(num: number): Vol {
-      return this.listeVols[num];
+  public deleteVol (id : string) : boolean {
+    for (let i : number = 0 ; i < this.getNbVols() ; i++) {
+      if (this.getVols()[i].getId() === id) {
+        this.getVols().splice(i, 1);
+        return true;
+      }
+    }
+    return false;
   }
 
-  
-  public getAnalyseState() {
-    return this.analyseState;
+  public getVols(): Vol[] {
+      return this.listeVols;
   }
 
+  public getVolById (id : string) : Vol {
+    for (let vol of this.getVols()) {
+      if (vol.getId() === id) {
+        return vol;
+      }
+    }
+    return undefined;
+  }
 
 }

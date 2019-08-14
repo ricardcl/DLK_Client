@@ -67,8 +67,13 @@ export class Vol {
         this.listeLogsMix = listeLogsMix;
     }
 
-
-
+    /**
+     * Unique ID for a vol
+     */
+    public getId () : string {
+        // TODO : Claire. A faire coté server en donnant l'heure en MS à la fin du traitement
+        return this.getArcid();
+    }
 
     public setReqid(vol: Vol, reqid: number): void {
         vol.reqid = reqid;
@@ -184,13 +189,6 @@ export class Vol {
     public getConditionsLogon(): string {
         return this.conditionsLogon;
     } 
-
-
-
-    public getVol(vol: Vol): string {
-        console.log(vol.reqid);
-        return "InfosVol :  " + vol.reqid;
-    }
 
     public getListeVolLpln(): EtatCpdlc[] {
         return this.listeLogsLpln;
