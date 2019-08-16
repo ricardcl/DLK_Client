@@ -102,7 +102,7 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
     return this.identifiantSelectionne === this.identifiants[1];
   }
 
-  private get isFichier(): boolean {
+  private get isFileSelected(): boolean {
     return ((this.selectedVemgsaFile.length !== 0) || (this.selectedLplnFile !== null));
 
   }
@@ -113,17 +113,6 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
 
 
   /****************************** PARTIE FONCTIONS  D'UPLOAD *************************** */
-  public get isUploading(): boolean {
-    // console.log("etat:",this._chargerFormulaireService.UploaderState);
-
-    return this._chargerFormulaireService.UploaderState === UploaderState.UPLOADING;
-  }
-
-  public get isUploaded(): boolean {
-    return this._chargerFormulaireService.UploaderState === UploaderState.IDLE;
-  }
-
-
   public updateSelectedLpln(file: File): void {
     console.log('updateSelectedLpln ' + file.name);
     this.selectedLplnFile = file;
@@ -147,67 +136,37 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
       selectedFile.push(this.selectedLplnFile);
     }
 
-
     this._chargerFormulaireService.uploadFiles(selectedFile);
 
 
-
-
-
-
-
-
   }
-
-
 
 
 
 
   public analyseDataInput(): void {
-
-    let fileLplnName: string = "";
-    let fileVemgsaName: string[] = this.vemgsaFilesNames;
+  
+    let lplnFileName: string = "";
+    let vemgsaFileName: string[] = this.vemgsaFilesNames;
 
     if (this.selectedLplnFile !== null) {
-      fileLplnName = this.selectedLplnFile.name;
+      lplnFileName = this.selectedLplnFile.name;
     }
 
     if (this.isArcid) {
       console.log("analyseDataInput", "this.arcid.value", this.arcid.value);
-      this._exchangeService.analyseDataInput(this.arcid.value, 0, fileLplnName, fileVemgsaName);
+      this._exchangeService.analyseDataInput(this.arcid.value, 0, lplnFileName, vemgsaFileName);
     }
     else {
       console.log("analyseDataInput", "this.plnid.value", this.plnid.value);
-      this._exchangeService.analyseDataInput("", this.plnid.value, fileLplnName, fileVemgsaName);
+      this._exchangeService.analyseDataInput("", this.plnid.value, lplnFileName, vemgsaFileName);
     }
   }
 
-
-  
-  public get isNoFileSelected(): boolean {
-    return ((this.selectedLplnFile === undefined) && (this.selectedVemgsaFile === undefined));
-  }
-
-  public get isUploadEnable(): boolean {
-    return (!this.isNoFileSelected && !this.isUploading);
-  }
-
   /*************************************************  ************************************************/
 
 
 
-
-  /****************************** PARTIE FONCTIONS CHECK INITIAL PAR LE SERVEUR *************************** */
-  public get isCheckInital(): boolean {
-    return this._exchangeService.getcheckState() === CheckState.CHECK_INI_KO;
-  }
-
-  public getErrorInital(): string {
-    return this._exchangeService.getcheckInitialResult().messageRetour;
-  }
-
-  /*************************************************  ************************************************/
 
   /****************************** PARTIE FONCTIONS CHECK PAR LE SERVEUR *************************** */
   public get isCheckOK(): boolean {

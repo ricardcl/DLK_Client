@@ -1,21 +1,20 @@
-
 <mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
-   
+
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Sélection des fichiers à traiter</ng-template>
+      <ng-template matStepLabel>Sélection des fichiers à traiter</ng-template>
       <div>
         <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
-        <input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)"/>
+        <input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)" />
       </div>
       <div>
         <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
         <input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" />
       </div>
       <div *ngIf="!isFichier">
-         Champ obligatoire !
-        </div>
-      <div *ngIf="isFichier">
+        Champ obligatoire !
+      </div>
+      <div *ngIf="isFileSelected">
         <button mat-button matStepperNext (click)="uploadFiles()">Next</button>
       </div>
     </form>
@@ -51,38 +50,27 @@
         <button mat-button matStepperPrevious>Back</button>
       </div>
       <div *ngIf="!(arcid.invalid && plnid.invalid)">
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click)="analyseDataInput()">Next</button>
-        </div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="analyseDataInput()">Next</button>
+      </div>
     </form>
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     You are now done.
-
-    
-
-
-<div *ngIf="isCheckInital">
-    <label for="isCheckInital">resultcheckIniNOK : {{getErrorInital()}} </label>
-  </div>
-  <div *ngIf="isCheckOK">
-    <label for="isCheckOK">Check ok : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
-    <button mat-raised-button color="primary" (click)=analyseFiles()>"analyse"</button>
+    <div *ngIf="isCheckKO">
+      <label for="isCheckKO">Check nok : {{getError()}} </label>
+    </div>
+    <div *ngIf="isCheckOK">
+        <label for="isCheckOK">Check ok : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
+        
   
-  </div>
-  <div *ngIf="isCheckKO">
-    <label for="isCheckKO">Check nok : {{getError()}} </label>
-  </div>
-  
+      </div>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+        <button *ngIf="true" mat-raised-button color="primary" (click)=analyseFiles()>"analyse"</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
-
-
-
-
-

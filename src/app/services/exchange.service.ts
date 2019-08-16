@@ -28,10 +28,7 @@ export class ExchangeService {
   private listeEtatsLpln: EtatCpdlc[];
   private listeEtatsVemgsa: EtatCpdlc[];
   private selectedplnid: number = 0;
-  //private vemgsaFileName: string;
-  //private lplnFileName: string;
   private vol: Vol;
-  private checkAnswerInitial = <checkAnswer>{};
   private checkAnswer = <checkAnswer>{};
   private checkState: CheckState = CheckState.IDLE;
 
@@ -64,25 +61,6 @@ export class ExchangeService {
 
     });
 
-    this.socket.on('checkInitial', (array) => {
-
-      console.log('analysedDataInput from serveur : checkinitial : ', array);
-      this.checkAnswerInitial.valeurRetour = array['valeurRetour'];
-      this.checkAnswerInitial.messageRetour = array['messageRetour'];
-      if (this.checkAnswerInitial.valeurRetour === 0) {
-        this.checkState = CheckState.CHECK_INI_OK;
-        console.log("CheckState.CHECK_INI_OK");
-
-      }
-      else {
-        this.checkState = CheckState.CHECK_INI_KO;
-        console.log("CheckState.CHECK_INI_KO");
-      }
-
-      console.log('analysedDataInput from serveur : this.checkResult : ', this.checkAnswerInitial.valeurRetour, this.checkAnswerInitial.messageRetour);
-
-    });
-
     this.socket.on('check', (array) => {
       console.log('analysedDataInput from serveur : check : ', array);
       this.checkAnswer.valeurRetour = array['valeurRetour'];
@@ -98,6 +76,8 @@ export class ExchangeService {
         console.log("CheckState.CHECK_KO");
       }
     });
+
+
 
     this.socket.on('analysedVol', (type, array) => {
       this.initExchange();
@@ -281,16 +261,16 @@ export class ExchangeService {
 
 
 
-  public analyseFiles(arcid: string, plnid: number, lplnfilename: string, vemgsafilename: string[]): void {
-    console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnfilename : ', lplnfilename, 'vemgsafilename : ', vemgsafilename);
-    this.socket.emit('analysing', arcid, plnid, lplnfilename, vemgsafilename);
+  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[]): void {
+    console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
+    this.socket.emit('analysing', arcid, plnid, lplnFileName, lplnFileName);
 
   }
 
 
-  public analyseDataInput(arcid: string, plnid: number, fileLpln: string, fileVemgsa: string[]): void {
+  public analyseDataInput(arcid: string, plnid: number, fileLplnName: string, fileVemgsaName: string[]): void {
     console.log("analyseDataInputService");
-    this.socket.emit('analyseDataInput', arcid, plnid, fileLpln, fileVemgsa);
+    this.socket.emit('analyseDataInput', arcid, plnid, fileLplnName, fileVemgsaName);
 
   }
 
@@ -337,9 +317,7 @@ export class ExchangeService {
   public getcheckResult() {
     return this.checkAnswer;
   }
-  public getcheckInitialResult() {
-    return this.checkAnswerInitial;
-  }
+
 
 }
 
