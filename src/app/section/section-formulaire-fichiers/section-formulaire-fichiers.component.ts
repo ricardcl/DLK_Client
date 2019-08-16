@@ -1,5 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { UploaderState } from 'src/app/models/uploaderState';
@@ -7,6 +7,7 @@ import { Vol } from '../../models/vol';
 import { ConnectService } from '../../services/connect.service';
 import { CheckState } from 'src/app/models/CheckState';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
+import { stringify } from 'querystring';
 
 
 
@@ -17,10 +18,18 @@ import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 })
 export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges, OnInit {
 
+
+
   ngOnInit(): void {
     console.log("OnInit SectionFormulaireFichiersComponent");
-  }
 
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['']
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['']
+    });
+  }
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     console.log("OnChanges SectionFormulaireFichiersComponent");
   }
@@ -32,46 +41,47 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
 
   @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
   // @Output() alerteCanicule = new EventEmitter<number>();
-  
+
 
   private selectedLplnFile: File;
   private selectedVemgsaFile: File[];
-  //private selectedPlnid : number;
-  private analyseState: boolean;
-  private uploadDemande: boolean;
   private vemgsaFilesNames: string[];
-  private plnid :FormControl;
-  private arcid :FormControl;
+  private plnid: FormControl;
+  private arcid: FormControl;
 
-  public initFormulaire() : void {
+  //attributs pour le stepper
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
+
+  public initFormulaire(): void {
     console.log("initialisation demandee");
-    this.selectedLplnFile= null;
+    this.selectedLplnFile = null;
     this.selectedVemgsaFile = [];
-    this.analyseState = false;
-    this.uploadDemande = false;
-    this.vemgsaFilesNames= [];
+    this.vemgsaFilesNames = [];
     this.arcid = new FormControl('', [Validators.required, Validators.pattern(this.regexpArcid)]);
     this.plnid = new FormControl('', [Validators.required, Validators.pattern(this.regexpPlnid)]);
-    
+
   }
 
 
-  constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService, private _gestionVolsService: GestionVolsService) {
+  constructor(private _chargerFormulaireService: UploadService, private _exchangeService: ExchangeService, private _gestionVolsService: GestionVolsService, private _formBuilder: FormBuilder) {
     console.log("coucou constructor");
+
     this.initFormulaire();
 
   }
 
 
 
- 
+
 
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
   private identifiantSelectionne: string = 'Plnid';
   private identifiants: string[] = ['Arcid', 'Plnid'];
   private regexpPlnid: RegExp = /^\d{4}$/;
   private regexpArcid: RegExp = /^[a-z][a-z|0-9]{1,6}$/i;
- 
+
   private getErrorMessagePlnid() {
     if (this.plnid.hasError('required')) { return 'Valeur obligatoire'; }
     if (!(this.regexpPlnid.test(this.plnid.value))) { return "format incorrect :un plnid est composé de 4 chiffres"; }
@@ -90,6 +100,11 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
 
   private get isPlnid(): boolean {
     return this.identifiantSelectionne === this.identifiants[1];
+  }
+
+  private get isFichier(): boolean {
+    return ((this.selectedVemgsaFile.length !== 0) || (this.selectedLplnFile !== null));
+
   }
 
 
@@ -112,7 +127,6 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
   public updateSelectedLpln(file: File): void {
     console.log('updateSelectedLpln ' + file.name);
     this.selectedLplnFile = file;
-    this.analyseState = false;
   }
 
   public updateSelectedVemgsa(file: File[]): void {
@@ -121,7 +135,6 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
       this.selectedVemgsaFile.push(file[i]);
       this.vemgsaFilesNames.push(file[i].name);
     }
-    this.analyseState = false;
   }
 
   public uploadFiles(): void {
@@ -133,54 +146,45 @@ export class SectionFormulaireFichiersComponent implements OnDestroy, OnChanges,
     if (this.selectedLplnFile != null) {
       selectedFile.push(this.selectedLplnFile);
     }
+
+
     this._chargerFormulaireService.uploadFiles(selectedFile);
-    this.uploadDemande = true;
-    //this._chargerFormulaireService.uploadFiles(this.selectedLplnFile, this.selectedVemgsaFile); 
 
 
 
-    
+
+
+
+
+
   }
-  public uploadData(): void {
-   
+
+
+
+
+
+
+  public analyseDataInput(): void {
+
+    let fileLplnName: string = "";
+    let fileVemgsaName: string[] = this.vemgsaFilesNames;
+
     if (this.selectedLplnFile !== null) {
-      console.log("this.selectedLplnFile !== null");
-
-      this.analyseDataInput(this.selectedLplnFile.name, this.vemgsaFilesNames);
+      fileLplnName = this.selectedLplnFile.name;
     }
-    else {
-      console.log("this.selectedLplnFile == null");
-      this.analyseDataInput("", this.vemgsaFilesNames);
-    }
-   // this.uploadDemande= false;
-  }
 
-  public get isUploadComplete(): boolean {
-    return (this.uploadDemande && this.isUploaded);
-  }
-
-
-  public get isAnalyzed(): boolean {
-    return this.analyseState;
-  }
-
-  public analyseDataInput(fileLpln: string, fileVemgsa: string[]): void {
-    console.log("analyseDataInput", "fileLpln", fileLpln);
-    console.log("analyseDataInput", "fileVemgsa", fileVemgsa);
-    console.log("analyseDataInput", "fileVemgsa.length", fileVemgsa.length);
-    console.log("analyseDataInput", "fileVemgsa[0]", fileVemgsa[0]);
-    console.log("analyseDataInput", "fileVemgsa[1]", fileVemgsa[1]);
     if (this.isArcid) {
       console.log("analyseDataInput", "this.arcid.value", this.arcid.value);
-      this._exchangeService.analyseDataInput(this.arcid.value, 0, fileLpln, fileVemgsa);
+      this._exchangeService.analyseDataInput(this.arcid.value, 0, fileLplnName, fileVemgsaName);
     }
     else {
       console.log("analyseDataInput", "this.plnid.value", this.plnid.value);
-      this._exchangeService.analyseDataInput("", this.plnid.value, fileLpln, fileVemgsa);
+      this._exchangeService.analyseDataInput("", this.plnid.value, fileLplnName, fileVemgsaName);
     }
-    this.analyseState = true;
   }
 
+
+  
   public get isNoFileSelected(): boolean {
     return ((this.selectedLplnFile === undefined) && (this.selectedVemgsaFile === undefined));
   }

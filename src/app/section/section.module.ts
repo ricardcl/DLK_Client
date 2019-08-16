@@ -14,6 +14,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import {MatExpansionModule} from '@angular/material/expansion'; 
 import {MatTabsModule, MatCheckboxModule } from '@angular/material';
+import {MatStepperModule} from '@angular/material/stepper';
 import { VisuComponent } from './visu/visu.component';
 
 @NgModule({
@@ -31,7 +32,8 @@ import { VisuComponent } from './visu/visu.component';
     MatInputModule,
     MatExpansionModule,
     MatTabsModule, 
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatStepperModule
   ],
   exports: [SectionComponent]
 })
