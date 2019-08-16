@@ -1,76 +1,112 @@
-<mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
-
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Sélection des fichiers à traiter</ng-template>
-      <div>
-        <label for="inputFileVemgsa">Sélectionner le fichier Vemgsa a traiter </label>
-        <input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)" />
-      </div>
-      <div>
-        <label for="inputFileLpln">Sélectionner le fichier Lpln a traiter</label>
-        <input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" />
-      </div>
-      <div *ngIf="!isFichier">
-        Champ obligatoire !
-      </div>
-      <div *ngIf="isFileSelected">
-        <button mat-button matStepperNext (click)="uploadFiles()">Next</button>
-      </div>
-    </form>
-  </mat-step>
+<mat-card>
 
 
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Identifiant du vol</ng-template>
-      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-        [(ngModel)]="identifiantSelectionne" [ngModelOptions]="{standalone: true}">
-        <mat-radio-button *ngFor="let id of identifiants" [value]="id">
-          {{id}}
-        </mat-radio-button>
-      </mat-radio-group>
-      <div>Vous avez choisi de rentre le : {{identifiantSelectionne}}
+  <mat-card-header>
 
-      </div>
-      <div *ngIf="isPlnid">
-        <mat-form-field>
-          <input matInput placeholder="Rentrez l'identifiant plnid" [formControl]="plnid" required>
-          <mat-error *ngIf="plnid.invalid">{{getErrorMessagePlnid()}}</mat-error>
-        </mat-form-field>
-      </div>
+    <mat-card-title>
+      <mat-icon aria-hidden="false" aria-label="assignment icon">assignment</mat-icon>
+      Formulaire Datalink
+    </mat-card-title>
+    <mat-card-subtitle>A remplir</mat-card-subtitle>
+  </mat-card-header>
 
-      <div>
-        <mat-form-field *ngIf="isArcid">
-          <input matInput placeholder="Rentrez l'identifiant arcid" [formControl]="arcid" required>
-          <mat-error *ngIf="arcid.invalid">{{getErrorMessageArcid()}}</mat-error>
-        </mat-form-field>
-      </div>
-      <div *ngIf="arcid.invalid && plnid.invalid">
-        <button mat-button matStepperPrevious>Back</button>
-      </div>
-      <div *ngIf="!(arcid.invalid && plnid.invalid)">
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext (click)="analyseDataInput()">Next</button>
-      </div>
-    </form>
-  </mat-step>
+  <mat-card-content>
 
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    You are now done.
-    <div *ngIf="isCheckKO">
-      <label for="isCheckKO">Check nok : {{getError()}} </label>
-    </div>
-    <div *ngIf="isCheckOK">
-        <label for="isCheckOK">Check ok : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
-        
-  
-      </div>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
-        <button *ngIf="true" mat-raised-button color="primary" (click)=analyseFiles()>"analyse"</button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
+
+    <mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
+
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+
+          <ng-template matStepLabel>
+            <mat-icon>insert_drive_file</mat-icon>
+            Sélection des fichiers à traiter
+          </ng-template>
+          <div class="formHeader">
+            <label for="inputFileVemgsa">Fichier(s) Vemgsa</label>
+          </div>
+          <div class="formFile">
+            <input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)" />
+          </div>
+          <div class="formHeader">
+
+            <label for="inputFileLpln">Fichier Lpln</label>
+          </div>
+          <div class="formFile">
+            <input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" />
+          </div>
+          <div *ngIf="!isFichier">
+            Champ obligatoire !
+          </div>
+          <div *ngIf="isFileSelected" class="formButton">
+            <button mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>
+            <mat-icon>fingerprint</mat-icon>
+            Identifiant du vol
+          </ng-template>
+          <div>
+            <label>Type d'identifiant</label>
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+              [(ngModel)]="identifiantSelectionne" [ngModelOptions]="{standalone: true}">
+              <mat-radio-button *ngFor="let id of identifiants" [value]="id">
+                {{id}}
+              </mat-radio-button>
+            </mat-radio-group>
+
+          </div>
+          <div *ngIf="isPlnid">
+            <mat-form-field>
+              <input matInput placeholder="Rentrez l'identifiant plnid" [formControl]="plnid" required>
+              <mat-error *ngIf="plnid.invalid">{{getErrorMessagePlnid()}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field *ngIf="isArcid">
+              <input matInput placeholder="Rentrez l'identifiant arcid" [formControl]="arcid" required>
+              <mat-error *ngIf="arcid.invalid">{{getErrorMessageArcid()}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div *ngIf="arcid.invalid && plnid.invalid" class="formButton">
+            <button mat-stroked-button matStepperPrevious>Back</button>
+          </div>
+          <div *ngIf="!(arcid.invalid && plnid.invalid)" class="formButton">
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button color="primary" matStepperNext (click)="analyseDataInput()">Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>
+          <mat-icon>send</mat-icon>
+          Validation des données
+        </ng-template>
+        <div *ngIf="isCheckKO">
+          <label for="isCheckKO">Check nok : {{getError()}} </label>
+        </div>
+        <div *ngIf="isCheckOK">
+          <label>Check OK </label>
+          <label>Vol Trouvé : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
+
+        </div>
+
+        <div class="formButton">
+          <button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-stroked-button color="primary"
+            (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+          <button *ngIf="true" mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+
+  </mat-card-content>
+</mat-card>

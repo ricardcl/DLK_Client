@@ -1,13 +1,10 @@
-import { Component, ViewChild, Output, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
-import { UploaderState } from 'src/app/models/uploaderState';
-import { Vol } from '../../models/vol';
-import { ConnectService } from '../../services/connect.service';
 import { CheckState } from 'src/app/models/CheckState';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
-import { stringify } from 'querystring';
+
 
 
 
@@ -30,11 +27,6 @@ export class SectionFormulaireComponent implements OnInit {
       secondCtrl: ['']
     });
   }
-
-
-
-  @ViewChild('choseFileForm') choseFileForm; // on fait reference a la variable definie dans le html
-  // @Output() alerteCanicule = new EventEmitter<number>();
 
 
   private selectedLplnFile: File;

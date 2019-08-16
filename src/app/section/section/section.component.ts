@@ -1,6 +1,4 @@
-import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { ExchangeService } from 'src/app/services/exchange.service';
-import { GestionVolsService } from 'src/app/services/gestion-vols.service';
+import { Component } from '@angular/core';
 
 
 @Component({
@@ -8,28 +6,10 @@ import { GestionVolsService } from 'src/app/services/gestion-vols.service';
   templateUrl: './section.component.html',
   styleUrls: ['./section.component.css']
 })
-export class SectionComponent implements OnDestroy, OnChanges, OnInit {
-  ngOnInit(): void {
-    console.log("OnInit SectionComponent");
-    // this._exchangeService.initSocket();
-     
-   }
- 
-   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-     console.log("OnChanges SectionComponent");
-   }
- 
-   ngOnDestroy(): void {
-     console.log("OnDestroy SectionComponent");
-     
-   }
- private panelOpenState : boolean = false;
+export class SectionComponent   {
+
   
-  constructor(private _exchangeService: ExchangeService,  private _gestionVolsService : GestionVolsService) { }
+  constructor() { }
 
-
-  public get isAnalysed(): boolean {
-    return this._gestionVolsService.getNbVols() !== 0;
-}
 
 }

@@ -1,17 +1,17 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SectionComponent } from './section/section/section.component';
-import { SectionVisualisationComponent } from './section/section-visualisation/section-visualisation.component';
+import { SectionVisualisationVolComponent } from './section/section-visualisation-vol/section-visualisation-vol.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
-import { VisuComponent } from './section/visu/visu.component';
+import { SectionVisualisationComponent } from './section/section-visualisation/section-visualisation.component';
+import { SectionFormulaireComponent } from './section/section-formulaire/section-formulaire.component';
 
 
 
 const routes: Routes = [
   { path: 'accueil', component: PageAccueilComponent },
-  { path: 'formulaire', component: SectionComponent },
-  { path: 'visualisation/:id', component: VisuComponent },
+  { path: 'formulaire', component: SectionFormulaireComponent },
+  { path: 'visualisation/:id', component: SectionVisualisationComponent },
 
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

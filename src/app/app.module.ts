@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatDividerModule, MatListModule, MatTabsModule, MatCheckboxModule,MatStepperModule } from '@angular/material';
+import {MatButtonModule, MatDividerModule, MatListModule, MatTabsModule, MatCheckboxModule,MatStepperModule,MatCardModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
@@ -11,7 +11,6 @@ import {MatTableModule} from '@angular/material/table';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input'; 
 import { AppRoutingModule } from './app-routing.module';
-import { SectionModule } from './section/section.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { HeaderModule } from './header/header.module';
 import { FooterModule } from './footer/footer.module';
@@ -22,6 +21,7 @@ import { PageAccueilComponent } from './page-accueil/page-accueil.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MenuComponent } from './menu/menu.component'; 
 import {MatIconModule} from '@angular/material/icon'; 
+import { SectionModule } from './section/section.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +42,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatInputModule,
     MatRadioModule,
     MatStepperModule,
+    MatCardModule,
     VerticalTimelineModule,
     MatSidenavModule,
     MatDividerModule,
