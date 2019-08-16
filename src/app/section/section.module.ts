@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SectionComponent } from './section/section.component';
 import { SectionVisualisationComponent } from './section-visualisation/section-visualisation.component';
-import { SectionFormulaireFichiersComponent } from './section-formulaire-fichiers/section-formulaire-fichiers.component';
 import { SectionFormulaireComponent } from './section-formulaire/section-formulaire.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +17,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { VisuComponent } from './visu/visu.component';
 
 @NgModule({
-  declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationComponent, SectionFormulaireFichiersComponent, VisuComponent],
+  declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationComponent, VisuComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -1,7 +1,6 @@
 import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
-import { Vol } from 'src/app/models/vol';
 
 
 @Component({
