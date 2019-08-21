@@ -1,6 +1,8 @@
 import { EtatCpdlc } from './etatCpdlc';
 
 export class Vol {
+    /** identifiant unique d'un vol (heure en ms ?) */
+    private id: string;
     /** identifiant echange entre le serveur air et le STPV pour designer un vol */
     private reqid: number;
     /**Identifiant du vol (code OACI ?) */
@@ -44,36 +46,30 @@ export class Vol {
     /**conditions du logon remplies/ logon effectue  */
     private conditionsLogon: string;
     /** */
-    constructor(arcid: string, plnid: number, sl: string,adep:string, ades:string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
-        logonInitie: string,logonAccepte: string,cmpAdrModeS: string, cmpAdep: string,cmpAdes: string, cmpArcid: string, 
-        conditionsLogon: string,   listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
+    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
+        logonInitie: string, logonAccepte: string, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
+        conditionsLogon: string, listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
+        this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
         this.sl = sl;
         this.adep = adep;
-        this.ades = ades ;
+        this.ades = ades;
         this.adrModeSInf = adrModeSInf;
         this.adrDeposee = adrDeposee;
         this.equipementCpdlc = equipementCpdlc;
-         this.logonInitie = logonInitie ;   
-         this.logonAccepte = logonAccepte ;  
-         this.cmpAdrModeS = cmpAdrModeS ;  
-         this.cmpAdep = cmpAdep ;  
-         this.cmpAdes =  cmpAdes ;  
-         this.cmpArcid = cmpArcid ;  
-         this.conditionsLogon = conditionsLogon ;  
+        this.logonInitie = logonInitie;
+        this.logonAccepte = logonAccepte;
+        this.cmpAdrModeS = cmpAdrModeS;
+        this.cmpAdep = cmpAdep;
+        this.cmpAdes = cmpAdes;
+        this.cmpArcid = cmpArcid;
+        this.conditionsLogon = conditionsLogon;
         this.listeLogsLpln = listeLogsLpln;
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
     }
 
-    /**
-     * Unique ID for a vol
-     */
-    public getId () : string {
-        // TODO : Claire. A faire coté server en donnant l'heure en MS à la fin du traitement
-        return this.getArcid();
-    }
 
     public setReqid(vol: Vol, reqid: number): void {
         vol.reqid = reqid;
@@ -134,6 +130,16 @@ export class Vol {
         this.conditionsLogon = conditionsLogon;
     }
 
+
+        /**
+     * Unique ID for a vol
+     */
+    public getId(): string {
+        // TODO : Claire. A faire coté server en donnant l'heure en MS à la fin du traitement
+        return this.id;
+    }
+
+
     public getArcid(): string {
         return this.arcid;
     }
@@ -153,7 +159,7 @@ export class Vol {
         return this.equipementCpdlc;
     }
 
-    
+
     public getAdep(): string {
         return this.adep;
     }
@@ -176,19 +182,19 @@ export class Vol {
 
     public getCmpAdep(): string {
         return this.cmpAdep;
-    }   
-    
+    }
+
     public getCmpAdes(): string {
         return this.cmpAdes;
-    }    
+    }
 
     public getCmpArcid(): string {
         return this.cmpArcid;
-    }       
+    }
 
     public getConditionsLogon(): string {
         return this.conditionsLogon;
-    } 
+    }
 
     public getListeVolLpln(): EtatCpdlc[] {
         return this.listeLogsLpln;

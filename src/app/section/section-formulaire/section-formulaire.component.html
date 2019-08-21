@@ -84,28 +84,39 @@
         </form>
       </mat-step>
 
-      <mat-step>
+      <!--<mat-step>
         <ng-template matStepLabel>
           <mat-icon>send</mat-icon>
-          Validation des données
+          Créneau horaire
         </ng-template>
-        <div *ngIf="isCheckKO">
-          <label for="isCheckKO">Check nok : {{getError()}} </label>
-        </div>
-        <div *ngIf="isCheckOK">
-          <label>Check OK </label>
-          <label>Vol Trouvé : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-step>-->
 
-        </div>
+    <mat-step>
+      <ng-template matStepLabel>
+        <mat-icon>send</mat-icon>
+        Validation des données
+      </ng-template>
+      <div *ngIf="isVEMGSA">
+        <label >Message VEMGSA : {{getMessageVEMGSA()}} </label>
 
-        <div class="formButton">
-          <button mat-stroked-button matStepperPrevious>Back</button>
-          <button mat-stroked-button color="primary"
-            (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
-          <button *ngIf="true" mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+      </div>
+      <div *ngIf="isLPLN">
+        <label >Message LPLN : {{getMessageLPLN()}} </label>
+      </div>
 
-        </div>
-      </mat-step>
+      <div class="formButton">
+        <button mat-stroked-button matStepperPrevious>Back</button>
+        <button mat-stroked-button color="primary"
+          (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+        <button *ngIf="isCheckOK" mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+
+      </div>
+    </mat-step>
     </mat-horizontal-stepper>
 
   </mat-card-content>

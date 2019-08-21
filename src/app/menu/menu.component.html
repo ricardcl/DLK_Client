@@ -7,7 +7,7 @@
   <mat-divider></mat-divider>
   <div *ngFor="let vol of getVols()">
     <mat-list-item class="sidenav-section" [routerLink]="['/visualisation', vol.getId()]" routerLinkActive="active">
-      {{vol.getArcid()}}
+      {{vol.getArcid()}}_{{vol.getPlnid()}}
       <button routerLink="/formulaire" (click)="deleteVol(vol)">
         <mat-icon aria-hidden="false" aria-label="delete icon" >delete</mat-icon>
       </button>

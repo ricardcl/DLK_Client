@@ -2,7 +2,6 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
-import { CheckState } from 'src/app/models/CheckState';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 
 
@@ -156,15 +155,26 @@ export class SectionFormulaireComponent implements OnInit {
 
   /****************************** PARTIE FONCTIONS CHECK PAR LE SERVEUR *************************** */
   public get isCheckOK(): boolean {
-    return this._exchangeService.getcheckState() === CheckState.CHECK_OK;
+    return this._exchangeService.getcheckResult().analysePossible;
   }
 
-  public get isCheckKO(): boolean {
-    return this._exchangeService.getcheckState() === CheckState.CHECK_KO;
+ 
+
+  public getMessageLPLN(): string {
+    return this._exchangeService.getcheckResult().messageLPLN;
   }
 
-  public getError(): string {
-    return this._exchangeService.getcheckResult().messageRetour;
+  
+  public getMessageVEMGSA(): string {
+    return this._exchangeService.getcheckResult().messageVEMGSA;
+  }
+
+  public get isVEMGSA(): boolean {
+    return (this._exchangeService.getcheckResult().messageVEMGSA !== undefined);
+  }
+
+  public get isLPLN(): boolean {
+    return (this._exchangeService.getcheckResult().messageLPLN !== undefined);
   }
 
   public getArcidTrouve(): string {

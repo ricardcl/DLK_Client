@@ -5,7 +5,7 @@ import { SectionVisualisationVolComponent } from './section-visualisation-vol/se
 import { SectionFormulaireComponent } from './section-formulaire/section-formulaire.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule,MatCardModule } from '@angular/material';
+import { MatButtonModule,MatCardModule,MatDatepickerModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
@@ -35,7 +35,8 @@ import {MatIconModule} from '@angular/material/icon';
         MatTabsModule,
         MatCheckboxModule,
         MatStepperModule,
-        MatIconModule
+        MatIconModule,
+        MatDatepickerModule
     ],
     exports: [SectionComponent]
 })

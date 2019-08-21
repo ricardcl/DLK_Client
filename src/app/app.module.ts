@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatDividerModule, MatListModule, MatTabsModule, MatCheckboxModule,MatStepperModule,MatCardModule } from '@angular/material';
+import {MatButtonModule, MatDividerModule, MatListModule, MatTabsModule, MatCheckboxModule,MatStepperModule,MatCardModule, MatDatepickerModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
@@ -42,6 +42,7 @@ import { SectionModule } from './section/section.module';
     MatInputModule,
     MatRadioModule,
     MatStepperModule,
+    MatDatepickerModule,
     MatCardModule,
     VerticalTimelineModule,
     MatSidenavModule,
