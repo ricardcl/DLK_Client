@@ -3,7 +3,7 @@ import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
 import { EtatCpdlc } from '../models/etatCpdlc';
 import { DetailCpdlc } from '../models/detailCpdlc';
-import { checkAnswer, checkAnswerInitial, checkAnswerSimplifie } from '../models/checkAnswer';
+import { checkAnswer, checkAnswerInitial } from '../models/checkAnswer';
 import { GestionVolsService } from './gestion-vols.service';
 
 
@@ -29,10 +29,10 @@ export class ExchangeService {
   private selectedplnid: number = 0;
   private vol: Vol;
   private checkAnswer = <checkAnswer>{};
-  private answer = <checkAnswerSimplifie>{};
+
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
-   // this.socket = _connectService.connexionSocket;
+    // this.socket = _connectService.connexionSocket;
     this.initSocket();
   }
 
@@ -44,6 +44,7 @@ export class ExchangeService {
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
     this.vol = null;
+    this.checkAnswer = null;
   }
 
 
@@ -51,7 +52,7 @@ export class ExchangeService {
 
   private initSocket() {
     this.socket = this._connectService.connexionSocket;
-   
+
     this.socket.on('analysedPlnid', (array) => {
       console.log('analysedPlnid from serveur : ', array);
       this.initExchange();
@@ -59,23 +60,19 @@ export class ExchangeService {
     });
 
     this.socket.on('check', (array) => {
-     
+
 
       console.log('analysedDataInput from serveur : check : ', array);
       this.checkAnswer = array;
-     
-      console.log("this.checkAnswer.analysePossible: ",this.checkAnswer.analysePossible);
-      console.log("this.checkAnswer.checkLPLN: ",this.checkAnswer.checkLPLN);
-      console.log("this.checkAnswer.checkVEMGSA: ",this.checkAnswer.checkVEMGSA);
-      console.log("this.checkAnswer.checkLPLN.arcid: ",this.checkAnswer.checkLPLN.arcid);
-      console.log("this.checkAnswer.checkLPLN.plnid: ",this.checkAnswer.checkLPLN.plnid);
-      this.answer.analysePossible = this.checkAnswer.analysePossible;
-      this.answer.messageLPLN = this.checkAnswer.checkLPLN.messageRetour;
-      this.answer.messageVEMGSA = this.checkAnswer.checkVEMGSA.messageRetour;
-      
-      console.log("this.answer.messageLPLN: ",this.answer.messageLPLN);
-      console.log("this.answer.messageVEMGSA: ",this.answer.messageVEMGSA);
-    
+
+      console.log("this.checkAnswer.analysePossible: ", this.checkAnswer.analysePossible);
+      console.log("this.checkAnswer.checkLPLN: ", this.checkAnswer.checkLPLN);
+      console.log("this.checkAnswer.checkVEMGSA: ", this.checkAnswer.checkVEMGSA);
+      console.log("this.checkAnswer.arcid: ", this.checkAnswer.arcid);
+      console.log("this.checkAnswer.plnid: ", this.checkAnswer.plnid);
+   
+
+
     });
 
 
@@ -90,14 +87,14 @@ export class ExchangeService {
       //console.log("donnes recuperes : ", data);
       console.log("arcid : ", data['arcid']);
       console.log("plnid : ", data['plnid']);
-      console.log("listeLogs: ", data['listeLogs']);  
+      console.log("listeLogs: ", data['listeLogs']);
       let id: string = data['id'];
       let arcid: string = data['arcid'];
       let plnid: number = data['plnid'];
-      let adep:string = data['adep'];
-      let ades:string = data['ades'];
-      let  adrModeSInf: string = data['adrModeSInf'];
-      let  adrDeposee: string = data['adrDeposee'];
+      let adep: string = data['adep'];
+      let ades: string = data['ades'];
+      let adrModeSInf: string = data['adrModeSInf'];
+      let adrDeposee: string = data['adrDeposee'];
       let equipementCpdlc: string = data['equipementCpdlc'];
       let logonInitie: string = data['logonInitie'];
       let logonAccepte: string = data['logonAccepte'];
@@ -127,12 +124,12 @@ export class ExchangeService {
 
       if (type === "LPLN") {
 
-        this.vol = new Vol(id,arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie,logonAccepte,cmpAdrModeS,cmpAdep,cmpAdes,
-        cmpArcid, conditionsLogon,  this.listeEtats, null, null);
+        this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
+          cmpArcid, conditionsLogon, this.listeEtats, null, null);
       }
       if (type === "VEMGSA") {
-        this.vol = new Vol(id,arcid, plnid, "AIX", adep, ades, null, null, null, logonInitie,logonAccepte,cmpAdrModeS,cmpAdep,cmpAdes,
-        cmpArcid, conditionsLogon, null, this.listeEtats, null);
+        this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, null, null, null, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
+          cmpArcid, conditionsLogon, null, this.listeEtats, null);
       }
       console.log("donnes recuperes de LPLN ou VEMGSA : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
@@ -198,8 +195,8 @@ export class ExchangeService {
       console.log("listeLogs: ", dataL['listeLogs']);
       let arcidLpln: string = dataL['arcid'];
       let plnidLpln: number = dataL['plnid'];
-      let  adrModeSInfLpln: string = dataL['adrModeSInf'];
-      let  adrDeposeeLpln: string = dataL['adrDeposee'];
+      let adrModeSInfLpln: string = dataL['adrModeSInf'];
+      let adrDeposeeLpln: string = dataL['adrDeposee'];
       let equipementCpdlcLpln: string = dataL['equipementCpdlc'];
 
 
@@ -249,8 +246,8 @@ export class ExchangeService {
       };
 
 
-      this.vol = new Vol(id,arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc,logonInitie,logonAccepte,cmpAdrModeS,cmpAdep,cmpAdes,
-       cmpArcid, conditionsLogon, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
+      this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
+        cmpArcid, conditionsLogon, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
       console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 
@@ -276,9 +273,9 @@ export class ExchangeService {
 
   public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[]): void {
     console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
-    console.log("this.checkAnswer.analysePossible: ",this.checkAnswer.analysePossible);
-    console.log("this.checkAnswer.checkLPLN.arcid: ",this.checkAnswer.checkLPLN.arcid);
-    console.log("this.checkAnswer.checkLPLN.plnid: ",this.checkAnswer.checkLPLN.plnid);
+    console.log("this.checkAnswer.analysePossible: ", this.checkAnswer.analysePossible);
+    console.log("this.checkAnswer.checkLPLN.arcid: ", this.checkAnswer.checkLPLN.arcid);
+    console.log("this.checkAnswer.checkLPLN.plnid: ", this.checkAnswer.checkLPLN.plnid);
     this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer);
 
   }
@@ -320,7 +317,7 @@ export class ExchangeService {
 
 
   public getcheckResult() {
-    return this.answer;
+    return this.checkAnswer;
   }
 
 

@@ -1,11 +1,11 @@
+import { Identifiants } from './identifiants';
 
 
 export interface checkAnswerInitial {
     valeurRetour: number;
-    messageRetour: string
     plnid?: number;
     arcid?: string;
-    
+    tabId?: Identifiants[];
 }
 
 export interface checkAnswer {
@@ -13,15 +13,6 @@ export interface checkAnswer {
     plnid?: number;
     arcid?: string;
     checkLPLN?: checkAnswerInitial;
-    checkVEMGSA?: checkAnswerInitial;   
- 
+    checkVEMGSA?: checkAnswerInitial; 
 }
 
-export interface checkAnswerSimplifie {
-    analysePossible: boolean;
-    plnid?: number;
-    arcid?: string;
-    messageLPLN?: string;
-    messageVEMGSA?: string;   
- 
-}

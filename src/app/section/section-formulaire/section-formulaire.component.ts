@@ -3,6 +3,7 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
+import { Identifiants } from 'src/app/models/identifiants';
 
 
 
@@ -13,7 +14,7 @@ import { GestionVolsService } from 'src/app/services/gestion-vols.service';
   styleUrls: ['./section-formulaire.component.css']
 })
 export class SectionFormulaireComponent implements OnInit {
- 
+
 
 
   ngOnInit(): void {
@@ -33,6 +34,9 @@ export class SectionFormulaireComponent implements OnInit {
   private vemgsaFilesNames: string[];
   private plnid: FormControl;
   private arcid: FormControl;
+
+
+
 
   //attributs pour le stepper
   firstFormGroup: FormGroup;
@@ -130,7 +134,7 @@ export class SectionFormulaireComponent implements OnInit {
 
 
   public analyseDataInput(): void {
-  
+
     let lplnFileName: string = "";
     let vemgsaFileName: string[] = this.vemgsaFilesNames;
 
@@ -158,23 +162,77 @@ export class SectionFormulaireComponent implements OnInit {
     return this._exchangeService.getcheckResult().analysePossible;
   }
 
- 
+
 
   public getMessageLPLN(): string {
-    return this._exchangeService.getcheckResult().messageLPLN;
+
+    let message = "";
+    if (this._exchangeService.getcheckResult().checkLPLN !== undefined){
+      let resultLPLN = this._exchangeService.getcheckResult().checkLPLN.valeurRetour;
+
+
+      switch (resultLPLN) {
+        case 0: message = "Vol trouvé";
+          break;
+        case 1: this._exchangeService.getcheckResult().checkLPLN.tabId.forEach(element => {
+          message = message + "[" + element.arcid + "," + element.plnid + "]";
+        });
+          break;
+        case 2: message = "Format des identifiants fournis incorrect";
+          break;
+        case 3: message = "Probleme lors de l ouverture du fichier LPLN";
+          break;
+        default: message = "Erreur analyse LPLN";
+          break;
+      }
+    }
+   
+    return message;
   }
 
-  
+
   public getMessageVEMGSA(): string {
-    return this._exchangeService.getcheckResult().messageVEMGSA;
+    console.log("je rentre dans getMessageVEMGSA ");
+    let message = "";
+    if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined){
+    
+      
+      let resultVEMGSA = this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour;
+      console.log("resultVEMGSA vaut ",resultVEMGSA);
+
+      switch (resultVEMGSA) {
+        case 0: message = "Vol trouvé"
+          break;
+        case 1: message = "Fichier incomplet : plnid non trouvé" + " plage horaire etudiee = ...";
+          break;
+        case 2: message = "Fichier incomplet : arcid non trouvé" + " plage horaire etudiee = ...";
+          break;
+        case 3: message = "Connexion Datalink refusée -> pas de  plnid  associé à l'arcid";
+          break;
+        case 4: message = "Connexion Datalink refusée ???? -> pas de  arcid  associé au plnid";
+          break;
+        case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné" + " creneaux horaires identifies = ...";
+          break;
+        case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = ...";
+          break;
+        case 7: message = "Format des identifiants fournis incorrect";
+          break;
+        case 8: message = "Probleme lors de l ouverture du fichier LPLN";
+          break;
+        default: message = "Erreur analyse VEMGSA";
+          break;
+      }
+    }
+    
+    return message;
   }
 
   public get isVEMGSA(): boolean {
-    return (this._exchangeService.getcheckResult().messageVEMGSA !== undefined);
+    return (this._exchangeService.getcheckResult().checkVEMGSA !== undefined);
   }
 
   public get isLPLN(): boolean {
-    return (this._exchangeService.getcheckResult().messageLPLN !== undefined);
+    return (this._exchangeService.getcheckResult().checkLPLN !== undefined);
   }
 
   public getArcidTrouve(): string {
