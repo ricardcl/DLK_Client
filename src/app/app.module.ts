@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatDividerModule, MatListModule, MatTabsModule, MatCheckboxModule,MatStepperModule,MatCardModule, MatDatepickerModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
@@ -43,6 +44,7 @@ import { SectionModule } from './section/section.module';
     MatRadioModule,
     MatStepperModule,
     MatDatepickerModule,
+    MatMomentDateModule,
     MatCardModule,
     VerticalTimelineModule,
     MatSidenavModule,

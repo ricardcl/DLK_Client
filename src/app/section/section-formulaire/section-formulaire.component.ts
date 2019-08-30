@@ -4,6 +4,8 @@ import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { Identifiants } from 'src/app/models/identifiants';
+import { datesFile } from 'src/app/models/date';
+import { restoreView } from '@angular/core/src/render3';
 
 
 
@@ -41,7 +43,7 @@ export class SectionFormulaireComponent implements OnInit {
   //attributs pour le stepper
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-
+ 
 
   public initFormulaire(): void {
     console.log("initialisation demandee");
@@ -63,7 +65,7 @@ export class SectionFormulaireComponent implements OnInit {
 
 
 
-
+ private  chosenHoraire: string = '';
 
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
   private identifiantSelectionne: string = 'Plnid';
@@ -79,7 +81,7 @@ export class SectionFormulaireComponent implements OnInit {
 
   private getErrorMessageArcid() {
     if (this.arcid.hasError('required')) { return 'Valeur obligatoire'; }
-    if (!(this.regexpArcid.test(this.arcid.value))) { return "format incorrect arcid "; }
+    if (!(this.regexpArcid.test(this.arcid.value))) { return "Format attendu:  6 caracteres max, chiffres ou lettres"; }
     return "";
   }
 
@@ -143,8 +145,9 @@ export class SectionFormulaireComponent implements OnInit {
     }
 
     if (this.isArcid) {
+
       console.log("analyseDataInput", "this.arcid.value", this.arcid.value);
-      this._exchangeService.analyseDataInput(this.arcid.value, 0, lplnFileName, vemgsaFileName);
+      this._exchangeService.analyseDataInput(this.arcid.value.toUpperCase(), 0, lplnFileName, vemgsaFileName);
     }
     else {
       console.log("analyseDataInput", "this.plnid.value", this.plnid.value);
@@ -159,7 +162,7 @@ export class SectionFormulaireComponent implements OnInit {
 
   /****************************** PARTIE FONCTIONS CHECK PAR LE SERVEUR *************************** */
   public get isCheckOK(): boolean {
-    return this._exchangeService.getcheckResult().analysePossible;
+    return ( this._exchangeService.getcheckResult().analysePossible || this.isHoraireChosen() );
   }
 
 
@@ -174,7 +177,8 @@ export class SectionFormulaireComponent implements OnInit {
       switch (resultLPLN) {
         case 0: message = "Vol trouvé";
           break;
-        case 1: this._exchangeService.getcheckResult().checkLPLN.tabId.forEach(element => {
+        case 1: message = "identifiant non trouvé , les identifiants presents dans ce fichier LPLN sont: "
+        this._exchangeService.getcheckResult().checkLPLN.tabId.forEach(element => {
           message = message + "[" + element.arcid + "," + element.plnid + "]";
         });
           break;
@@ -192,13 +196,11 @@ export class SectionFormulaireComponent implements OnInit {
 
 
   public getMessageVEMGSA(): string {
-    console.log("je rentre dans getMessageVEMGSA ");
     let message = "";
     if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined){
     
       
       let resultVEMGSA = this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour;
-      console.log("resultVEMGSA vaut ",resultVEMGSA);
 
       switch (resultVEMGSA) {
         case 0: message = "Vol trouvé"
@@ -211,8 +213,11 @@ export class SectionFormulaireComponent implements OnInit {
           break;
         case 4: message = "Connexion Datalink refusée ???? -> pas de  arcid  associé au plnid";
           break;
-        case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné" + " creneaux horaires identifies = ...";
-          break;
+        case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné";
+        this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires.forEach(element => {
+          message = message + "[" + element.dateMin + "," + element.dateMax + "]";
+        });  
+        break;
         case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = ...";
           break;
         case 7: message = "Format des identifiants fournis incorrect";
@@ -227,10 +232,28 @@ export class SectionFormulaireComponent implements OnInit {
     return message;
   }
 
+  public GetHoraires(): datesFile[] {
+    let tabHoraires: datesFile[] = [];
+    tabHoraires=this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires;
+    return tabHoraires;
+    }
+
+   public  isHoraireChosen(): boolean {
+     return (this.chosenHoraire !== '');
+   }
+
   public get isVEMGSA(): boolean {
     return (this._exchangeService.getcheckResult().checkVEMGSA !== undefined);
   }
 
+  public get isHoraires(): boolean {
+    let result: boolean = false;
+    if (this.isVEMGSA) {
+      result = (this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour == 5);
+    } 
+    return result;
+  }
+  
   public get isLPLN(): boolean {
     return (this._exchangeService.getcheckResult().checkLPLN !== undefined);
   }
@@ -258,29 +281,17 @@ export class SectionFormulaireComponent implements OnInit {
     let arcid: string = this._exchangeService.getcheckResult().arcid;
     let plnid: number = this._exchangeService.getcheckResult().plnid;
     if (this.selectedLplnFile !== null) {
-      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
+      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames, this.chosenHoraire);
 
     }
     else {
-      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
+      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames, this.chosenHoraire);
 
     }
     //this.alerteCanicule.emit(2);
   }
 
   /*************************************************  ************************************************/
-
-
-  public get ListeVols(): Array<any> {
-    return this._exchangeService.getListeVolsTrouves();
-  }
-
-  public getListeArcid(): string[] {
-    return this._exchangeService.getListeArcidTrouves();
-
-  }
-
-
 
   /* -- -- */
 

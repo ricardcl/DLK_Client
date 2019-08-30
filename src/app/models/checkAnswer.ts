@@ -1,4 +1,5 @@
 import { Identifiants } from './identifiants';
+import { datesFile } from './date';
 
 
 export interface checkAnswerInitial {
@@ -6,6 +7,7 @@ export interface checkAnswerInitial {
     plnid?: number;
     arcid?: string;
     tabId?: Identifiants[];
+    tabHoraires?: datesFile[];
 }
 
 export interface checkAnswer {

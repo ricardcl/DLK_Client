@@ -44,7 +44,6 @@ export class ExchangeService {
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
     this.vol = null;
-    this.checkAnswer = null;
   }
 
 
@@ -271,12 +270,9 @@ export class ExchangeService {
   }
 
 
-  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[]): void {
-    console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
-    console.log("this.checkAnswer.analysePossible: ", this.checkAnswer.analysePossible);
-    console.log("this.checkAnswer.checkLPLN.arcid: ", this.checkAnswer.checkLPLN.arcid);
-    console.log("this.checkAnswer.checkLPLN.plnid: ", this.checkAnswer.checkLPLN.plnid);
-    this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer);
+  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[], chosenHoraire: string): void {
+    console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName, 'chosenHoraire : ',chosenHoraire);
+    this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer, chosenHoraire);
 
   }
 
@@ -285,26 +281,6 @@ export class ExchangeService {
     return this.selectedplnid;
   }
 
-  public getListeVolsTrouves(): Array<any> {
-    console.log('Exchange : getListeVolsTrouves');
-    return this.listeVols;
-  }
-
-  public getListeArcidTrouves(): string[] {
-    console.log(" listeVols : ", this.listeVols);
-
-    const arcidTab: string[] = ["test arcid 1", "test arcid 2", "test arcid 3"];
-    if (this.listeVols !== undefined) {
-      this.listeVols.forEach(element => {
-        arcidTab.push(element.arcid);
-      });
-    }
-    /** console.log('Exchange : getListeVolsTrouves');
-    this.listeVols.forEach(element => {
-      arcidTab.push(element.arcid);
-    });*/
-    return arcidTab;
-  }
 
 
 

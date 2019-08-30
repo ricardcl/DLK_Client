@@ -39,6 +39,8 @@
             Champ obligatoire !
           </div>
           <div *ngIf="isFileSelected" class="formButton">
+            <button mat-stroked-button
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>
           </div>
         </form>
@@ -76,52 +78,77 @@
           </div>
           <div *ngIf="arcid.invalid && plnid.invalid" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button color="primary"
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
           </div>
           <div *ngIf="!(arcid.invalid && plnid.invalid)" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="analyseDataInput()">Next</button>
+
           </div>
         </form>
       </mat-step>
 
-      <!--<mat-step>
+      <mat-step *ngIf="isHoraires">
         <ng-template matStepLabel>
           <mat-icon>send</mat-icon>
-          Créneau horaire
+          Selection horaire
         </ng-template>
-        <mat-form-field>
-          <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </mat-step>-->
 
-    <mat-step>
-      <ng-template matStepLabel>
-        <mat-icon>send</mat-icon>
-        Validation des données
-      </ng-template>
-      <div *ngIf="isVEMGSA">
-        <label >Message VEMGSA : {{getMessageVEMGSA()}} </label>
+        <div *ngIf="isHoraires">
+            <label>Choisissez l'horaire correspondant au vol étudié</label>
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+              [(ngModel)]="chosenHoraire">
+              <mat-radio-button class="example-radio-button" *ngFor="let horaire of GetHoraires()" [value]="horaire">
+                {{horaire.dateMin}} {{horaire.dateMax}}
+              </mat-radio-button>
+            </mat-radio-group>
+            <div>L'horaire choisi est : {{chosenHoraire.dateMin}} {{chosenHoraire.dateMax}}</div>
+          </div>
+        <div class="formButton">
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button color="primary" matStepperNext (click)="analyseDataInput()">Next</button>
 
-      </div>
-      <div *ngIf="isLPLN">
-        <label >Message LPLN : {{getMessageLPLN()}} </label>
+          </div>
+      </mat-step>
 
-      </div>
 
-      <div *ngIf="isCheckOK">
-        <label >Vol Trouve : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
-      </div>
 
-      <div class="formButton">
-        <button mat-stroked-button matStepperPrevious>Back</button>
-        <button mat-stroked-button color="primary"
-          (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
-        <button *ngIf="isCheckOK" mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+      <mat-step>
+        <ng-template matStepLabel>
+          <mat-icon>send</mat-icon>
+          Validation des données
+        </ng-template>
 
-      </div>
-    </mat-step>
+        <div *ngIf="isCheckOK">
+          <label>Vol Trouve : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
+        </div>
+
+        <div *ngIf="isVEMGSA">
+          <label>Message VEMGSA : {{getMessageVEMGSA()}} </label>
+          
+
+
+        </div>
+        <div *ngIf="isLPLN">
+          <label>Message LPLN : {{getMessageLPLN()}} </label>
+
+        </div>
+
+
+
+        <div class="formButton">
+          <button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-stroked-button color="primary"
+            (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+          <button *ngIf="isCheckOK " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+
+        </div>
+      </mat-step>
     </mat-horizontal-stepper>
 
   </mat-card-content>

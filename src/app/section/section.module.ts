@@ -6,6 +6,7 @@ import { SectionFormulaireComponent } from './section-formulaire/section-formula
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule,MatCardModule,MatDatepickerModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
@@ -36,7 +37,8 @@ import {MatIconModule} from '@angular/material/icon';
         MatCheckboxModule,
         MatStepperModule,
         MatIconModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatMomentDateModule
     ],
     exports: [SectionComponent]
 })
