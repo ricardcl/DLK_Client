@@ -65,7 +65,8 @@ export class SectionFormulaireComponent implements OnInit {
 
 
 
- private  chosenHoraire: string = '';
+ private  chosenHoraire: string ='';
+
 
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
   private identifiantSelectionne: string = 'Plnid';
@@ -147,11 +148,11 @@ export class SectionFormulaireComponent implements OnInit {
     if (this.isArcid) {
 
       console.log("analyseDataInput", "this.arcid.value", this.arcid.value);
-      this._exchangeService.analyseDataInput(this.arcid.value.toUpperCase(), 0, lplnFileName, vemgsaFileName);
+      this._exchangeService.analyseDataInput(this.arcid.value.toUpperCase(), 0, lplnFileName, vemgsaFileName,this.chosenHoraire);
     }
     else {
       console.log("analyseDataInput", "this.plnid.value", this.plnid.value);
-      this._exchangeService.analyseDataInput("", this.plnid.value, lplnFileName, vemgsaFileName);
+      this._exchangeService.analyseDataInput("", this.plnid.value, lplnFileName, vemgsaFileName,this.chosenHoraire);
     }
   }
 
@@ -281,11 +282,11 @@ export class SectionFormulaireComponent implements OnInit {
     let arcid: string = this._exchangeService.getcheckResult().arcid;
     let plnid: number = this._exchangeService.getcheckResult().plnid;
     if (this.selectedLplnFile !== null) {
-      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames, this.chosenHoraire);
+      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
 
     }
     else {
-      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames, this.chosenHoraire);
+      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
 
     }
     //this.alerteCanicule.emit(2);
