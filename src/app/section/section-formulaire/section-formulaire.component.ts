@@ -223,7 +223,7 @@ export class SectionFormulaireComponent implements OnInit {
           break;
         case 7: message = "Format des identifiants fournis incorrect";
           break;
-        case 8: message = "Probleme lors de l ouverture du fichier LPLN";
+        case 8: message = "Probleme lors de l ouverture du fichier VEMGSA";
           break;
         default: message = "Erreur analyse VEMGSA";
           break;
