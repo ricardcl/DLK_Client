@@ -21,9 +21,6 @@ export class SectionVisualisationVolComponent implements OnInit {
     public monvol: Vol;
 
     private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf:string, adrDeposee:string , equipementCpdlc:string }];
-    private dataDetailMix: EtatCpdlc[];
-    private dataDetailLpln: EtatCpdlc[];
-    private dataDetailVemgsa: EtatCpdlc[];
     private  volCharge: boolean;
 
 
@@ -32,15 +29,15 @@ export class SectionVisualisationVolComponent implements OnInit {
     }
 
     public get isLpln(): boolean {
-        return this.dataDetailLpln !== null;
+        return this.monvol.getListeVolLpln() !== null;
     }
 
     public get isVemgsa(): boolean {
-        return this.dataDetailVemgsa !== null;
+        return this.monvol.getListeVolVemgsa() !== null;
     }
 
     public get isMix(): boolean {
-        return this.dataDetailMix !== null;
+        return this.monvol.getListeVolMix() !== null;
     }
 
     public get isVolCharge(): boolean {
@@ -51,10 +48,6 @@ export class SectionVisualisationVolComponent implements OnInit {
     public initComponent() {
         this.dataGenerale = [{ arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(),adrModeSInf: this.monvol.getadrModeSInf(), 
             adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc() },];
-
-        this.dataDetailMix = this.monvol.getListeVolMix();
-        this.dataDetailLpln = this.monvol.getListeVolLpln();
-        this.dataDetailVemgsa= this.monvol.getListeVolVemgsa();
 
         this.volCharge = true
     }

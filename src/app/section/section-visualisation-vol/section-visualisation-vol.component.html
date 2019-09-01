@@ -43,14 +43,14 @@
     </mat-card-content>
 
     <mat-card-content>
-        <div class="isVolCharge">
+        <div >
             <mat-tab-group>
                 <mat-tab label="Lpln" *ngIf="isLpln">
 
 
 
                     <div>
-                        <table mat-table [dataSource]="dataDetailLpln" class="tabDet ">
+                        <table mat-table [dataSource]="monvol.getListeVolLpln()" class="tabDet ">
 
 
 
@@ -96,7 +96,7 @@
 
 
                     <div>
-                        <table mat-table [dataSource]="dataDetailVemgsa" class="tabDet ">
+                        <table mat-table [dataSource]="monvol.getListeVolVemgsa()" class="tabDet ">
 
 
 
@@ -187,7 +187,7 @@
 
                     <br>
                     <div>
-                        <table mat-table [dataSource]="dataDetailMix" class="tabDet ">
+                        <table mat-table [dataSource]="monvol.getListeVolMix()" class="tabDet ">
 
 
                             <!-- Colonne title -->
