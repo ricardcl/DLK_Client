@@ -43,7 +43,7 @@ export class SectionFormulaireComponent implements OnInit {
   //attributs pour le stepper
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
- 
+
 
   public initFormulaire(): void {
     console.log("initialisation demandee");
@@ -52,6 +52,8 @@ export class SectionFormulaireComponent implements OnInit {
     this.vemgsaFilesNames = [];
     this.arcid = new FormControl('', [Validators.required, Validators.pattern(this.regexpArcid)]);
     this.plnid = new FormControl('', [Validators.required, Validators.pattern(this.regexpPlnid)]);
+    this.chosenHoraire = '';
+    this.validatedHoraire = false;
 
   }
 
@@ -65,8 +67,9 @@ export class SectionFormulaireComponent implements OnInit {
 
 
 
- private  chosenHoraire: string ='';
+  private chosenHoraire: string;
 
+  private validatedHoraire: boolean;
 
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
   private identifiantSelectionne: string = 'Plnid';
@@ -135,8 +138,8 @@ export class SectionFormulaireComponent implements OnInit {
 
 
 
-
   public analyseDataInput(): void {
+
 
     let lplnFileName: string = "";
     let vemgsaFileName: string[] = this.vemgsaFilesNames;
@@ -148,12 +151,16 @@ export class SectionFormulaireComponent implements OnInit {
     if (this.isArcid) {
 
       console.log("analyseDataInput", "this.arcid.value", this.arcid.value);
-      this._exchangeService.analyseDataInput(this.arcid.value.toUpperCase(), 0, lplnFileName, vemgsaFileName,this.chosenHoraire);
+      this._exchangeService.analyseDataInput(this.arcid.value.toUpperCase(), 0, lplnFileName, vemgsaFileName, this.chosenHoraire);
     }
     else {
       console.log("analyseDataInput", "this.plnid.value", this.plnid.value);
-      this._exchangeService.analyseDataInput("", this.plnid.value, lplnFileName, vemgsaFileName,this.chosenHoraire);
+      this._exchangeService.analyseDataInput("", this.plnid.value, lplnFileName, vemgsaFileName, this.chosenHoraire);
     }
+
+    if (this.isHoraireChosen) {
+      this.validatedHoraire = true;
+   }
   }
 
   /*************************************************  ************************************************/
@@ -163,7 +170,7 @@ export class SectionFormulaireComponent implements OnInit {
 
   /****************************** PARTIE FONCTIONS CHECK PAR LE SERVEUR *************************** */
   public get isCheckOK(): boolean {
-    return ( this._exchangeService.getcheckResult().analysePossible || this.isHoraireChosen() );
+    return (this._exchangeService.getcheckResult().analysePossible);
   }
 
 
@@ -171,7 +178,7 @@ export class SectionFormulaireComponent implements OnInit {
   public getMessageLPLN(): string {
 
     let message = "";
-    if (this._exchangeService.getcheckResult().checkLPLN !== undefined){
+    if (this._exchangeService.getcheckResult().checkLPLN !== undefined) {
       let resultLPLN = this._exchangeService.getcheckResult().checkLPLN.valeurRetour;
 
 
@@ -179,9 +186,9 @@ export class SectionFormulaireComponent implements OnInit {
         case 0: message = "Vol trouvé";
           break;
         case 1: message = "identifiant non trouvé , les identifiants presents dans ce fichier LPLN sont: "
-        this._exchangeService.getcheckResult().checkLPLN.tabId.forEach(element => {
-          message = message + "[" + element.arcid + "," + element.plnid + "]";
-        });
+          this._exchangeService.getcheckResult().checkLPLN.tabId.forEach(element => {
+            message = message + "[" + element.arcid + "," + element.plnid + "]";
+          });
           break;
         case 2: message = "Format des identifiants fournis incorrect";
           break;
@@ -191,16 +198,16 @@ export class SectionFormulaireComponent implements OnInit {
           break;
       }
     }
-   
+
     return message;
   }
 
 
   public getMessageVEMGSA(): string {
     let message = "";
-    if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined){
-    
-      
+    if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined) {
+
+
       let resultVEMGSA = this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour;
 
       switch (resultVEMGSA) {
@@ -215,10 +222,10 @@ export class SectionFormulaireComponent implements OnInit {
         case 4: message = "Connexion Datalink refusée ???? -> pas de  arcid  associé au plnid";
           break;
         case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné";
-        this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires.forEach(element => {
-          message = message + "[" + element.dateMin + "," + element.dateMax + "]";
-        });  
-        break;
+          this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires.forEach(element => {
+            message = message + "[" + element.dateMin + "," + element.dateMax + "]";
+          });
+          break;
         case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = ...";
           break;
         case 7: message = "Format des identifiants fournis incorrect";
@@ -229,32 +236,39 @@ export class SectionFormulaireComponent implements OnInit {
           break;
       }
     }
-    
+
     return message;
   }
 
   public GetHoraires(): datesFile[] {
     let tabHoraires: datesFile[] = [];
-    tabHoraires=this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires;
+    tabHoraires = this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires;
     return tabHoraires;
-    }
+  }
 
-   public  isHoraireChosen(): boolean {
-     return (this.chosenHoraire !== '');
-   }
+  public get isHoraireChosen(): boolean {
+    return (this.chosenHoraire !== '');
+   //return true;
+  }
 
   public get isVEMGSA(): boolean {
     return (this._exchangeService.getcheckResult().checkVEMGSA !== undefined);
   }
 
-  public get isHoraires(): boolean {
+  public get isHorairesVemgsaMultiple(): boolean {
     let result: boolean = false;
     if (this.isVEMGSA) {
       result = (this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour == 5);
-    } 
+    }
     return result;
   }
-  
+
+
+  public get isAffichageCheck(): boolean {
+
+    return ((this.isHorairesVemgsaMultiple && this.validatedHoraire) || (!this.isHorairesVemgsaMultiple));
+  }
+
   public get isLPLN(): boolean {
     return (this._exchangeService.getcheckResult().checkLPLN !== undefined);
   }

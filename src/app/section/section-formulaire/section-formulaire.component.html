@@ -91,63 +91,58 @@
         </form>
       </mat-step>
 
-      <mat-step *ngIf="isHoraires">
-        <ng-template matStepLabel>
-          <mat-icon>send</mat-icon>
-          Selection horaire
-        </ng-template>
-
-        <div *ngIf="isHoraires">
-            <label>Choisissez l'horaire correspondant au vol étudié</label>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-              [(ngModel)]="chosenHoraire">
-              <mat-radio-button class="example-radio-button" *ngFor="let horaire of GetHoraires()" [value]="horaire">
-                {{horaire.dateMin}} {{horaire.dateMax}}
-              </mat-radio-button>
-            </mat-radio-group>
-            <div>L'horaire choisi est : {{chosenHoraire.dateMin}} {{chosenHoraire.dateMax}}</div>
-          </div>
-        <div class="formButton">
-            <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button
-              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
-            <button mat-stroked-button color="primary" matStepperNext (click)="analyseDataInput()">Next</button>
-
-          </div>
-      </mat-step>
-
-
-
       <mat-step>
         <ng-template matStepLabel>
           <mat-icon>send</mat-icon>
           Validation des données
         </ng-template>
 
-        <div *ngIf="isCheckOK">
-          <label>Vol Trouve : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
-        </div>
 
-        <div *ngIf="isVEMGSA">
+        <div *ngIf="isHorairesVemgsaMultiple">
           <label>Message VEMGSA : {{getMessageVEMGSA()}} </label>
-          
-
-
-        </div>
-        <div *ngIf="isLPLN">
-          <label>Message LPLN : {{getMessageLPLN()}} </label>
-
-        </div>
-
-
-
-        <div class="formButton">
+          <label>Choisissez l'horaire correspondant au vol étudié</label>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            [(ngModel)]="chosenHoraire">
+            <mat-radio-button class="example-radio-button" *ngFor="let horaire of GetHoraires()" [value]="horaire">
+              {{horaire.dateMin}} {{horaire.dateMax}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <div>L'horaire choisi est : {{chosenHoraire.dateMin}} {{chosenHoraire.dateMax}}</div>
+          <div  class="formButton">
           <button mat-stroked-button matStepperPrevious>Back</button>
-          <button mat-stroked-button color="primary"
+          <button mat-stroked-button
             (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
-          <button *ngIf="isCheckOK " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+    
+            <button *ngIf="isHoraireChosen" mat-stroked-button color="primary"  (click)="analyseDataInput()">Next</button>
+          </div>
+        </div>
+
+        <div *ngIf="isAffichageCheck ">
+          <div *ngIf="isCheckOK">
+            <label>Vol Trouve : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
+          </div>
+
+          <div *ngIf="isVEMGSA">
+            <label>Message VEMGSA : {{getMessageVEMGSA()}} </label>
+
+          </div>
+
+
+          <div *ngIf="isLPLN">
+            <label>Message LPLN : {{getMessageLPLN()}} </label>
+
+          </div>
+          <div class="formButton">
+              <button mat-stroked-button matStepperPrevious>Back</button>
+              <button mat-stroked-button color="primary"
+                (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+              <button *ngIf="isCheckOK " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+  
+            </div>
 
         </div>
+
+
       </mat-step>
     </mat-horizontal-stepper>
 
