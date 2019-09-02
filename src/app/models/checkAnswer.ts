@@ -8,6 +8,7 @@ export interface checkAnswerInitial {
     arcid?: string;
     tabId?: Identifiants[];
     tabHoraires?: datesFile[];
+    datesFichierVemgsa?: datesFile;
 }
 
 export interface checkAnswer {

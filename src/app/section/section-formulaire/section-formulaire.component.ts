@@ -160,7 +160,7 @@ export class SectionFormulaireComponent implements OnInit {
 
     if (this.isHoraireChosen) {
       this.validatedHoraire = true;
-   }
+    }
   }
 
   /*************************************************  ************************************************/
@@ -208,9 +208,9 @@ export class SectionFormulaireComponent implements OnInit {
     if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined) {
 
 
-      let resultVEMGSA = this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour;
+      let resultVEMGSA = this._exchangeService.getcheckResult().checkVEMGSA;
 
-      switch (resultVEMGSA) {
+      switch (resultVEMGSA.valeurRetour) {
         case 0: message = "Vol trouvé"
           break;
         case 1: message = "Fichier incomplet : plnid non trouvé" + " plage horaire etudiee = ...";
@@ -222,11 +222,11 @@ export class SectionFormulaireComponent implements OnInit {
         case 4: message = "Connexion Datalink refusée ???? -> pas de  arcid  associé au plnid";
           break;
         case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné";
-          this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires.forEach(element => {
+          resultVEMGSA.tabHoraires.forEach(element => {
             message = message + "[" + element.dateMin + "," + element.dateMax + "]";
           });
           break;
-        case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = ...";
+        case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = ["+resultVEMGSA.datesFichierVemgsa.dateMin + ','+ resultVEMGSA.datesFichierVemgsa.dateMax + ']';
           break;
         case 7: message = "Format des identifiants fournis incorrect";
           break;
@@ -248,7 +248,7 @@ export class SectionFormulaireComponent implements OnInit {
 
   public get isHoraireChosen(): boolean {
     return (this.chosenHoraire !== '');
-   //return true;
+    //return true;
   }
 
   public get isVEMGSA(): boolean {
@@ -260,13 +260,9 @@ export class SectionFormulaireComponent implements OnInit {
     if (this.isVEMGSA) {
       result = (this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour == 5);
     }
+   // console.log("isHorairesVemgsaMultiple result", result);
+
     return result;
-  }
-
-
-  public get isAffichageCheck(): boolean {
-
-    return ((this.isHorairesVemgsaMultiple && this.validatedHoraire) || (!this.isHorairesVemgsaMultiple));
   }
 
   public get isLPLN(): boolean {
