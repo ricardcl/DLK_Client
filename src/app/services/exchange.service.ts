@@ -271,9 +271,9 @@ export class ExchangeService {
   }
 
 
-  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[]): void {
+  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[],chosenHoraire: string): void {
     console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName, 'chosenHoraire : ');
-    this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer);
+    this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer, chosenHoraire);
 
   }
 

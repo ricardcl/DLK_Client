@@ -292,11 +292,11 @@ export class SectionFormulaireComponent implements OnInit {
     let arcid: string = this._exchangeService.getcheckResult().arcid;
     let plnid: number = this._exchangeService.getcheckResult().plnid;
     if (this.selectedLplnFile !== null) {
-      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
+      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames, this.chosenHoraire);
 
     }
     else {
-      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
+      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames,this.chosenHoraire);
 
     }
     //this.alerteCanicule.emit(2);
