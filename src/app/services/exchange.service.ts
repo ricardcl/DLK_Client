@@ -266,7 +266,7 @@ export class ExchangeService {
 
   public analyseDataInput(arcid: string, plnid: number, fileLplnName: string, fileVemgsaName: string[],chosenHoraire: string): void {
     console.log("analyseDataInputService : chosenHoraire",chosenHoraire);
-    this.socket.emit('analyseDataInput', arcid, plnid, fileLplnName, fileVemgsaName,chosenHoraire);
+    this.socket.emit('analyseDataInput', arcid, Number(plnid), fileLplnName, fileVemgsaName,chosenHoraire);
 
   }
 

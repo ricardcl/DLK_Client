@@ -74,12 +74,12 @@ export class SectionFormulaireComponent implements OnInit {
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
   private identifiantSelectionne: string = 'Plnid';
   private identifiants: string[] = ['Arcid', 'Plnid'];
-  private regexpPlnid: RegExp = /^\d{4}$/;
+  private regexpPlnid: RegExp = /^\d{1,4}$/;
   private regexpArcid: RegExp = /^[a-z][a-z|0-9]{1,6}$/i;
 
   private getErrorMessagePlnid() {
     if (this.plnid.hasError('required')) { return 'Valeur obligatoire'; }
-    if (!(this.regexpPlnid.test(this.plnid.value))) { return "format incorrect :un plnid est composé de 4 chiffres"; }
+    if (!(this.regexpPlnid.test(this.plnid.value))) { return "format incorrect :un plnid est composé de 1 à 4 chiffres"; }
     return "";
   }
 
