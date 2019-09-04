@@ -6,6 +6,7 @@ export class EtatCpdlc {
   private id: number = 0;
   private title: string = "";
   private date: string = "";
+  private jour: string = "";
   private heure: string = "";
   private etat: string ="";
   private associable: boolean = false;
@@ -13,10 +14,11 @@ export class EtatCpdlc {
   private detailLog : DetailCpdlc[];
 
 
-  constructor(id: number, title: string, date: string, heure: string, etat: string, associable: boolean, log: string, detailLog: DetailCpdlc[]) {
+  constructor(id: number, title: string, date: string,jour: string, heure: string, etat: string, associable: boolean, log: string, detailLog: DetailCpdlc[]) {
     this.id = id;
     this.title = title;
     this.date = date;
+    this.jour = jour;
     this.heure = heure;
     this.etat = etat;
     this.associable = associable;
@@ -84,6 +86,9 @@ export class EtatCpdlc {
   getDate(): string {
     return this.date;
   }
+  getJour(): string {
+    return this.jour;
+  }
   getHeure(): string {
     return this.date
   }
@@ -101,6 +106,9 @@ export class EtatCpdlc {
   }
   setDate(date: string) {
     this.date = date;
+  }
+  setJour(jour: string) {
+    this.jour = jour;
   }
   setHeure(heure: string) {
     this.heure = heure;
