@@ -237,7 +237,7 @@
                             <h1 id="timeline">Timeline</h1>
                         </div>
                         <ul class="timeline">
-                            <li *ngFor="let entry of dataDetailMix">
+                            <li *ngFor="let entry of monvol.getListeVolMix()">
                                 <ul class="timeline-not-inverted" *ngIf="isPositionated(entry.id) != true">
                                     <div class="timeline-badge info"><i class="glyphicon glyphicon-star-empty"></i>
                                     </div>
