@@ -76,12 +76,12 @@
               <mat-error *ngIf="arcid.invalid">{{getErrorMessageArcid()}}</mat-error>
             </mat-form-field>
           </div>
-          <div *ngIf="arcid.invalid && plnid.invalid" class="formButton">
+          <div *ngIf="((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
             <button mat-stroked-button color="primary"
               (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
           </div>
-          <div *ngIf="!(arcid.invalid && plnid.invalid)" class="formButton">
+          <div *ngIf="!((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
             <button mat-stroked-button
               (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
