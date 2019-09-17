@@ -103,6 +103,9 @@ export class ExchangeService {
       let cmpAdes: string = data['cmpAdes'];
       let cmpArcid: string = data['cmpArcid'];
       let conditionsLogon: string = data['conditionsLogon'];
+      let haslogCpdlc:boolean =data['haslogCpdlc'];
+      let islogCpdlcComplete:boolean=data['islogCpdlcComplete'];
+     ;
 
       for (let key = 0; key < data['listeLogs'].length; key++) {
         const etatCpdlcTemp = data['listeLogs'][key];
@@ -126,11 +129,11 @@ export class ExchangeService {
       if (type === "LPLN") {
 
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon, this.listeEtats, null, null);
+          cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,this.listeEtats, null, null);
       }
       if (type === "VEMGSA") {
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, null, null, null, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon, null, this.listeEtats, null);
+          cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,null, this.listeEtats, null);
       }
       console.log("donnes recuperes de LPLN ou VEMGSA : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
@@ -167,7 +170,8 @@ export class ExchangeService {
       let cmpAdes: string = dataM['cmpAdes'];
       let cmpArcid: string = dataM['cmpArcid'];
       let conditionsLogon: string = dataM['conditionsLogon'];
-
+      let haslogCpdlc:boolean =dataM['haslogCpdlc'];
+      let islogCpdlcComplete:boolean=dataM['islogCpdlcComplete'];
 
       for (let key = 0; key < dataM['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataM['listeLogs'][key];
@@ -251,7 +255,7 @@ export class ExchangeService {
 
 
       this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-        cmpArcid, conditionsLogon, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
+        cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
       console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 

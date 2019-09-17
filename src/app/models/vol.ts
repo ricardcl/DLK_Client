@@ -21,6 +21,10 @@ export class Vol {
     private listeLogsLpln: EtatCpdlc[];
     /*liste des logs Vemgsa concernant le vol */
     private listeLogsVemgsa: EtatCpdlc[];
+    /*Presence de logs CPDLC */
+    private haslogCpdlc:  boolean;
+    /*Presence de logs CPDLC complets */
+    private islogCpdlcComplete:  boolean;
 
     // PARAMETRES LIES AU LOGON
     /**Adresse  Mode S vide si route ifps = NON ... inutile a traiter -> a supprimer */
@@ -48,7 +52,7 @@ export class Vol {
     /** */
     constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
         logonInitie: string, logonAccepte: string, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
-        conditionsLogon: string, listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
+        conditionsLogon: string,haslogCpdlc:boolean,islogCpdlcComplete:boolean,  listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
         this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
@@ -65,6 +69,8 @@ export class Vol {
         this.cmpAdes = cmpAdes;
         this.cmpArcid = cmpArcid;
         this.conditionsLogon = conditionsLogon;
+        this.haslogCpdlc = haslogCpdlc;
+        this.islogCpdlcComplete = islogCpdlcComplete;
         this.listeLogsLpln = listeLogsLpln;
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
@@ -130,6 +136,12 @@ export class Vol {
         this.conditionsLogon = conditionsLogon;
     }
 
+    public setHaslogCpdlc(haslogCpdlc: boolean): void { 
+        this.haslogCpdlc = haslogCpdlc; 
+    }            
+    public setIslogCpdlcComplete(islogCpdlcComplete: boolean): void { 
+        this.islogCpdlcComplete = islogCpdlcComplete; 
+    }  
 
         /**
      * Unique ID for a vol
@@ -195,6 +207,14 @@ export class Vol {
     public getConditionsLogon(): string {
         return this.conditionsLogon;
     }
+
+    public getHaslogCpdlc(): boolean { 
+        return this.haslogCpdlc; 
+    }            
+    public getIslogCpdlcComplete(): boolean { 
+        return this.islogCpdlcComplete; 
+    }     
+
 
     public getListeVolLpln(): EtatCpdlc[] {
         return this.listeLogsLpln;
