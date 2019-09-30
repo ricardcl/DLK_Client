@@ -42,12 +42,34 @@
             <div>islogCpdlcComplete: {{monvol.islogCpdlcComplete}}</div>
 
         </div>
+
+        <div class="test_etats_frequence">
+            <div class="test_etats_frequence">
+                <h1 id="test_etats_frequence">test_etats_frequence_lpln</h1>
+            </div>
+            <ul class="frequences">
+                <li *ngFor="let entry of monvol.getListeEtatTransfertFrequence()">
+                    <div class="timeline-body">
+                        <p> frequence: {{entry.frequence}} </p>
+                        <p> dateTransfert: {{entry.dateTransfert}} </p>
+                        <p> positionTransfert: {{entry.positionTransfert}} </p>
+                        <p> isFinTRFDL: {{entry.isFinTRFDL}} </p>
+                        <p> dateFinTRFDL: {{entry.dateFinTRFDL}} </p>
+                        <p> isTRARTV: {{entry.isTRARTV}} </p>
+                        <p> dateTRARTV: {{entry.dateTRARTV}} </p>
+                        <p> isTransfertAcq: {{entry.isTransfertAcq}} </p>
+                        <p> dateTranfertAcq: {{entry.dateTranfertAcq}} </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </mat-card-content>
 
     <mat-card-content>
-        <div >
+        <div>
             <mat-tab-group>
                 <mat-tab label="Lpln" *ngIf="isLpln">
+
 
 
 
@@ -97,6 +119,7 @@
                 <mat-tab label="Vemgsa" *ngIf="isVemgsa">
 
 
+                    
                     <div>
                         <table mat-table [dataSource]="monvol.getListeVolVemgsa()" class="tabDet ">
 

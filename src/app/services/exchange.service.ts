@@ -3,7 +3,7 @@ import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
 import { EtatCpdlc } from '../models/etatCpdlc';
 import { DetailCpdlc } from '../models/detailCpdlc';
-import { checkAnswer, checkAnswerInitial } from '../models/checkAnswer';
+import { checkAnswer, checkAnswerInitial, etatTransfertFrequence } from '../models/checkAnswer';
 import { GestionVolsService } from './gestion-vols.service';
 import { datesFile } from '../models/date';
 
@@ -104,8 +104,11 @@ export class ExchangeService {
       let cmpArcid: string = data['cmpArcid'];
       let conditionsLogon: string = data['conditionsLogon'];
       let haslogCpdlc:boolean =data['haslogCpdlc'];
-      let islogCpdlcComplete:boolean=data['islogCpdlcComplete'];
-     ;
+      let islogCpdlcComplete:boolean=data['islogCpdlcComplete'];    
+      let listeEtatTransfertFrequence: etatTransfertFrequence[]= data['listeEtatTransfertFrequence'];
+
+
+
 
       for (let key = 0; key < data['listeLogs'].length; key++) {
         const etatCpdlcTemp = data['listeLogs'][key];
@@ -117,23 +120,22 @@ export class ExchangeService {
         let etat = etatCpdlcTemp['etat'];
         let associable = etatCpdlcTemp['associable'];
         let log = etatCpdlcTemp['log'];
-        console.log("log complet: ", log);
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
-          console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
-          console.log("test index: ", value);
+       //   console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
+       //   console.log("test index: ", value);
         });
       }
 
       if (type === "LPLN") {
 
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,this.listeEtats, null, null);
+          cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,listeEtatTransfertFrequence,this.listeEtats, null, null);
       }
       if (type === "VEMGSA") {
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, null, null, null, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,null, this.listeEtats, null);
+          cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,listeEtatTransfertFrequence, null, this.listeEtats, null);
       }
       console.log("donnes recuperes de LPLN ou VEMGSA : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
@@ -173,6 +175,9 @@ export class ExchangeService {
       let haslogCpdlc:boolean =dataM['haslogCpdlc'];
       let islogCpdlcComplete:boolean=dataM['islogCpdlcComplete'];
 
+      let listeEtatTransfertFrequenceM: etatTransfertFrequence[]= dataM['listeEtatTransfertFrequence'];
+    
+
       for (let key = 0; key < dataM['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataM['listeLogs'][key];
         let id = etatCpdlcTemp['id'];
@@ -186,8 +191,8 @@ export class ExchangeService {
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
-          console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
-          console.log("test index: ", value);
+        //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
+        //  console.log("test index: ", value);
         });
       }
 
@@ -204,6 +209,9 @@ export class ExchangeService {
       let adrModeSInfLpln: string = dataL['adrModeSInf'];
       let adrDeposeeLpln: string = dataL['adrDeposee'];
       let equipementCpdlcLpln: string = dataL['equipementCpdlc'];
+      let listeEtatTransfertFrequenceLpln: etatTransfertFrequence[] =dataL['listeEtatTransfertFrequence'] ;
+
+
 
 
       for (let key = 0; key < dataL['listeLogs'].length; key++) {
@@ -216,12 +224,11 @@ export class ExchangeService {
         let etat = etatCpdlcTemp['etat'];
         let associable = etatCpdlcTemp['associable'];
         let log = etatCpdlcTemp['log'];
-        console.log("log complet: ", log);
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         this.listeEtatsLpln.push(new EtatCpdlc(id, title, date,jour, heure, etat, associable, log, detailLog));
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
-          console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
-          console.log("test index: ", value);
+        //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
+        //  console.log("test index: ", value);
         });
       };
 
@@ -233,6 +240,7 @@ export class ExchangeService {
       console.log("listeLogs: ", dataV['listeLogs']);
       let arcidVemgsa: string = dataV['arcid'];
       let plnidVemgsa: number = dataV['plnid'];
+      let listeEtatTransfertFrequenceVemgsa: etatTransfertFrequence[] =dataV['listeEtatTransfertFrequence'] ;
 
       for (let key = 0; key < dataV['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataV['listeLogs'][key];
@@ -244,19 +252,18 @@ export class ExchangeService {
         let etat = etatCpdlcTemp['etat'];
         let associable = etatCpdlcTemp['associable'];
         let log = etatCpdlcTemp['log'];
-        console.log("log complet: ", log);
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date,jour,  heure, etat, associable, log, detailLog));
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
-          console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
-          console.log("test index: ", value);
+        //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
+        //  console.log("test index: ", value);
         });
       };
 
 
       this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-        cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
-      console.log("donnes recuperes de  MIX : ", this.vol);
+        cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,listeEtatTransfertFrequenceM, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
+        console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 
     });
