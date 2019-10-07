@@ -16,10 +16,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule, MatCheckboxModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SectionVisualisationComponent } from './section-visualisation/section-visualisation.component';
-import {MatIconModule} from '@angular/material/icon'; 
+import {MatIconModule} from '@angular/material/icon';
+import { TimelineComponent } from './timeline/timeline.component'; 
 
 @NgModule({
-    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent],
+    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent],
     imports: [
         CommonModule,
         FormsModule,
