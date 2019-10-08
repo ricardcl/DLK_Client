@@ -31,6 +31,10 @@ export class TimelineComponent {
     colorSet.saturation = 0.4;
 
     listeEtatLogonConnexion.forEach(element => {
+      if (element.name == "logs") {
+        element.color = colorSet.getIndex(4).brighten(0);
+        element.name2="logs";
+      }
       if (element.name == "logon") {
         if (element.infoEtat == Etat.Logue) {
           element.color = colorSet.getIndex(0).brighten(0.4);
@@ -53,121 +57,31 @@ export class TimelineComponent {
 
       chart.paddingRight = 30;
       chart.dateFormatter.inputDateFormat = "dd-MM-yyyy HH mm ss";
-      chart.height = 200;
+      chart.height = 300;
 
 
 
 
       chart.data = this.majListeEtatLogonConnexion(this.listeEtatLogonConnexion);
-      /** chart.data = [
-         {
-           fromDate: "06-12-2018 08 35 00",
-           toDate: "06-12-2018 08 58 00",
-           log: "CPCCOMSTAT",
-           etat: "ASSOCIE",
-           infoEtat: "Connecte/associe",
-           color: colorSet.getIndex(3).brighten(0),
-           name: "connexion",
-         },
-         {
-           fromDate: "06-12-2018 08 10 00",
-           toDate: "06-12-2018 08 10 00",
-           log: "CPCASRES",
-           etat: "NON_LOGUE",
-           infoEtat: "DemandeLogonEncoursAutoriseeParStpv",
-           color: colorSet.getIndex(0).brighten(0),
-           name: "logon",
-         },
-         
-         {
-           fromDate: "06-12-2018 08 10 00",
-           toDate: "06-12-2018 08 50 00",
-           log: "CPCVNRES",
-           etat: "LOGUE",
-           infoEtat: "LogonAcceptee",
-           color: colorSet.getIndex(1).brighten(0),
-           name: "logon",
-         },
-         
-         
-         
-         
-         
-         {
-           fromDate: "06-12-2018 08 50 00",
-           toDate: "06-12-2018 09 50 00",
-           log: "CPCCLOSLNK",
-           etat: "LOGUE",
-           infoEtat: "DemandeDeconnexion",
-           color: colorSet.getIndex(1).brighten(0),
-           name: "logon",
-         },
-         
-         {
-           fromDate: "06-12-2018 09 50 00",
-           toDate: "06-12-2018 10 50 00",
-           log: "CPCEND",
-           etat: "NON_LOGUE",
-           infoEtat: "Fin du vol",
-           color: colorSet.getIndex(0).brighten(0),
-           name: "logon",
-         },
-         
-         {
-           fromDate: "06-12-2018 08 50 00",
- 
-           log: "CPCCLOSLNK",
-           etat: "LOGUE",
-           infoEtat: "DemandeDeconnexion",
-           color: colorSet.getIndex(6).brighten(0),
-           name2: "info",
-           name: "info",
- 
-         },
- 
-         {
-           fromDate: "06-12-2018 09 45 00",
- 
-           log: "CPCEND",
-           etat: "NON_LOGUE",
-           infoEtat: "Fin du vol",
-           color: colorSet.getIndex(6).brighten(0),
-           name2: "info",
-           name: "info",
-         },
-         {
-           fromDate: "06-12-2018 08 35 00",
- 
-           log: "CPCCOMSTAT",
-           etat: "ASSOCIE",
-           infoEtat: "Connecte/associe",
-           color: colorSet.getIndex(6).brighten(0),
-           name2: "info",
-           name: "info",
- 
-         },
-       ];**/
-
-
-
-      chart.dateFormatter.dateFormat = "dd-MM-yyyy HH mm";
-      chart.dateFormatter.inputDateFormat = "dd-MM-yyyy HH mm";
+   
+      chart.dateFormatter.dateFormat = "dd-MM-yyyy HH mm ss";
+      chart.dateFormatter.inputDateFormat = "dd-MM-yyyy HH mm ss";
 
 
       let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = "name";
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.inversed = true;
-      categoryAxis.height = 80;
+      categoryAxis.height = 200;
 
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-      dateAxis.dateFormatter.dateFormat = "dd-MM-yyyy HH mm";
+      dateAxis.dateFormatter.dateFormat = "dd-MM-yyyy HH mm ss";
       dateAxis.renderer.minGridDistance = 70;
       dateAxis.baseInterval = { count: 1, timeUnit: "second" };
       //.min = new Date(2018, 9, 5, 1, 0, 0, 0).getTime();
      // dateAxis.min = new Date("27-09-2018 08 40 00").getTime();
      // dateAxis.max = new Date(this.listeEtatLogonConnexion[this.listeEtatLogonConnexion.length-1].toDate).getTime();
-      dateAxis.strictMinMax = false;
+      dateAxis.strictMinMax = true;
       dateAxis.renderer.tooltipLocation = 0;
 
 
@@ -200,7 +114,7 @@ export class TimelineComponent {
 
       let bullet2 = series2.bullets.push(new am4charts.LabelBullet());
       bullet2.interactionsEnabled = false;
-      bullet2.label.text = "{etat}";
+      bullet2.label.text = "{name2}";
       bullet2.locationY = 0.5;
       bullet2.label.fill = am4core.color("#ffffff");
 
