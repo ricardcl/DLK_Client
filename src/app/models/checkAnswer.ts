@@ -1,5 +1,7 @@
 import { Identifiants } from './identifiants';
 import { datesFile } from './date';
+import { Etat } from './enumEtat';
+import { Color } from '@amcharts/amcharts4/core';
 
 
 export interface checkAnswerInitial {
@@ -29,4 +31,20 @@ export interface etatTransfertFrequence {
     dateTRARTV ?:string;
     isTransfertAcq?: boolean; 
     dateTranfertAcq ?:string;  
+}
+
+export interface etatLogonConnexion {  
+    dateChgtEtat: string; 
+    etat: Etat;
+    infoEtat: string;
+    log: string;
+}
+
+export interface etatLogonConnexionSimplifiee {  
+    fromDate: string; 
+    toDate: string;
+    name: string; //connexion/logon/frequence
+    infoEtat: string; //logue, non logue , connecte, non connecte
+    color?:Color;
+    //logs:[etatLogonConnexion];
 }

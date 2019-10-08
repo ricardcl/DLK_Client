@@ -1,5 +1,5 @@
 import { EtatCpdlc } from './etatCpdlc';
-import { etatTransfertFrequence } from './checkAnswer';
+import { etatTransfertFrequence, etatLogonConnexionSimplifiee } from './checkAnswer';
 
 export class Vol {
     /** identifiant unique d'un vol (heure en ms ?) */
@@ -26,6 +26,8 @@ export class Vol {
     private haslogCpdlc: boolean;
     /*Presence de logs CPDLC complets */
     private islogCpdlcComplete: boolean;
+    /*etat des differents transferts de frequence*/
+    private listeEtatLogonConnexion: etatLogonConnexionSimplifiee[];
     /*etat des differents transferts de frequence*/
     private listeEtatTransfertFrequence: etatTransfertFrequence[];
 
@@ -55,7 +57,7 @@ export class Vol {
     /** */
     constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
         logonInitie: string, logonAccepte: string, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
-        conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean,listeEtatTransfertFrequence:etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[] ) {
+        conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean,listeEtatLogonConnexion: etatLogonConnexionSimplifiee[],listeEtatTransfertFrequence:etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[] ) {
         this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
@@ -74,6 +76,7 @@ export class Vol {
         this.conditionsLogon = conditionsLogon;
         this.haslogCpdlc = haslogCpdlc;
         this.islogCpdlcComplete = islogCpdlcComplete;
+        this.listeEtatLogonConnexion = listeEtatLogonConnexion;
         this.listeEtatTransfertFrequence = listeEtatTransfertFrequence;
         this.listeLogsLpln = listeLogsLpln;
         this.listeLogsVemgsa = listeLogsVemgsa;
@@ -150,6 +153,9 @@ export class Vol {
     public setListeEtatTransfertFrequence(listeEtatTransfertFrequence: etatTransfertFrequence[]): void {
         this.listeEtatTransfertFrequence = listeEtatTransfertFrequence;
     }
+    public setListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): void {
+        this.listeEtatLogonConnexion = listeEtatLogonConnexion;
+    }
     /**
  * Unique ID for a vol
  */
@@ -224,7 +230,10 @@ export class Vol {
     public getListeEtatTransfertFrequence(): etatTransfertFrequence[] {
         return this.listeEtatTransfertFrequence;
     }
-
+    public getListeEtatLogonConnexion(): etatLogonConnexionSimplifiee[] {
+        return this.listeEtatLogonConnexion;
+    }
+    
 
 
     public getListeVolLpln(): EtatCpdlc[] {

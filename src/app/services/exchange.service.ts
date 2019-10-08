@@ -3,7 +3,7 @@ import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
 import { EtatCpdlc } from '../models/etatCpdlc';
 import { DetailCpdlc } from '../models/detailCpdlc';
-import { checkAnswer, checkAnswerInitial, etatTransfertFrequence } from '../models/checkAnswer';
+import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConnexionSimplifiee, etatLogonConnexion } from '../models/checkAnswer';
 import { GestionVolsService } from './gestion-vols.service';
 import { datesFile } from '../models/date';
 
@@ -104,7 +104,9 @@ export class ExchangeService {
       let cmpArcid: string = data['cmpArcid'];
       let conditionsLogon: string = data['conditionsLogon'];
       let haslogCpdlc:boolean =data['haslogCpdlc'];
-      let islogCpdlcComplete:boolean=data['islogCpdlcComplete'];    
+      let islogCpdlcComplete:boolean=data['islogCpdlcComplete'];   
+      let listeEtatLogonConnexion: etatLogonConnexion[] = data['listeEtatLogonConnexion']; 
+      let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = data['timelineEtatLogonConnexion']; 
       let listeEtatTransfertFrequence: etatTransfertFrequence[]= data['listeEtatTransfertFrequence'];
 
 
@@ -131,11 +133,11 @@ export class ExchangeService {
       if (type === "LPLN") {
 
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,listeEtatTransfertFrequence,this.listeEtats, null, null);
+          cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence,this.listeEtats, null, null);
       }
       if (type === "VEMGSA") {
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, null, null, null, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,listeEtatTransfertFrequence, null, this.listeEtats, null);
+          cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence, null, this.listeEtats, null);
       }
       console.log("donnes recuperes de LPLN ou VEMGSA : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
@@ -175,6 +177,7 @@ export class ExchangeService {
       let haslogCpdlc:boolean =dataM['haslogCpdlc'];
       let islogCpdlcComplete:boolean=dataM['islogCpdlcComplete'];
 
+      let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = dataM['timelineEtatLogonConnexion'];
       let listeEtatTransfertFrequenceM: etatTransfertFrequence[]= dataM['listeEtatTransfertFrequence'];
     
 
@@ -209,6 +212,8 @@ export class ExchangeService {
       let adrModeSInfLpln: string = dataL['adrModeSInf'];
       let adrDeposeeLpln: string = dataL['adrDeposee'];
       let equipementCpdlcLpln: string = dataL['equipementCpdlc'];
+      let timelineEtatLogonConnexionLpln: etatLogonConnexionSimplifiee[] = dataM['timelineEtatLogonConnexion'];
+
       let listeEtatTransfertFrequenceLpln: etatTransfertFrequence[] =dataL['listeEtatTransfertFrequence'] ;
 
 
@@ -240,7 +245,9 @@ export class ExchangeService {
       console.log("listeLogs: ", dataV['listeLogs']);
       let arcidVemgsa: string = dataV['arcid'];
       let plnidVemgsa: number = dataV['plnid'];
-      let listeEtatTransfertFrequenceVemgsa: etatTransfertFrequence[] =dataV['listeEtatTransfertFrequence'] ;
+      let timelineEtatLogonConnexionVemgsa: etatLogonConnexionSimplifiee[] = dataV['timelineEtatLogonConnexion'];
+
+      let listeEtatLogonConnexionVemgsa: etatTransfertFrequence[] =dataV['listeEtatTransfertFrequence'] ;
 
       for (let key = 0; key < dataV['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataV['listeLogs'][key];
@@ -262,7 +269,7 @@ export class ExchangeService {
 
 
       this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
-        cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,listeEtatTransfertFrequenceM, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
+        cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
         console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Vol } from 'src/app/models/vol';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { EtatCpdlc } from 'src/app/models/etatCpdlc';
+import { etatLogonConnexionSimplifiee } from 'src/app/models/checkAnswer';
 
 
 @Component({
@@ -53,7 +54,9 @@ export class SectionVisualisationVolComponent implements OnInit {
     }
 
 
-    
+    public getListeEtatLogonConnexion(): etatLogonConnexionSimplifiee[] {
+        return this.monvol.getListeEtatLogonConnexion();
+    }
     ////////////////AFFICHAGE DES LOGS 
     displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc' ];
 
