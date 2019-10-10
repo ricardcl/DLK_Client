@@ -113,8 +113,8 @@ export class TimelineComponent {
       series2.columns.template.propertyFields.fill = "red";
       series2.columns.template.propertyFields.stroke = "red";
       series2.columns.template.strokeOpacity = 1;
-      //series2.columns.template.alwaysShowTooltip = true; //Indicates if this element should display a tooltip permanently
       series2.clustered = false; //Setting to false will make columns overlap with other series.
+      //Parametrage de series : https://www.amcharts.com/docs/v4/reference/columnseries/
 
       let bullet2 = series2.bullets.push(new am4charts.LabelBullet());
       bullet2.interactionsEnabled = false;
