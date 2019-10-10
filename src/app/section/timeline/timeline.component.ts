@@ -33,7 +33,7 @@ export class TimelineComponent {
     listeEtatLogonConnexion.forEach(element => {
       if (element.name == "logs") {
         element.color = colorSet.getIndex(4).brighten(0);
-        element.name2="logs";
+        element.name2 = "logs";
       }
       if (element.name == "logon") {
         if (element.infoEtat == Etat.Logue) {
@@ -63,7 +63,7 @@ export class TimelineComponent {
 
 
       chart.data = this.majListeEtatLogonConnexion(this.listeEtatLogonConnexion);
-   
+
       chart.dateFormatter.dateFormat = "dd-MM-yyyy HH mm ss";
       chart.dateFormatter.inputDateFormat = "dd-MM-yyyy HH mm ss";
 
@@ -72,6 +72,7 @@ export class TimelineComponent {
       categoryAxis.dataFields.category = "name";
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.inversed = true;
+      // categoryAxis.renderer.height = am4core.percent(80);
       categoryAxis.height = 200;
 
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -79,15 +80,14 @@ export class TimelineComponent {
       dateAxis.renderer.minGridDistance = 70;
       dateAxis.baseInterval = { count: 1, timeUnit: "second" };
       //.min = new Date(2018, 9, 5, 1, 0, 0, 0).getTime();
-     // dateAxis.min = new Date("27-09-2018 08 40 00").getTime();
-     // dateAxis.max = new Date(this.listeEtatLogonConnexion[this.listeEtatLogonConnexion.length-1].toDate).getTime();
+      // dateAxis.min = new Date("27-09-2018 08 40 00").getTime();
+      // dateAxis.max = new Date(this.listeEtatLogonConnexion[this.listeEtatLogonConnexion.length-1].toDate).getTime();
       dateAxis.strictMinMax = true;
       dateAxis.renderer.tooltipLocation = 0;
 
 
       let series1 = chart.series.push(new am4charts.ColumnSeries());
       series1.columns.template.width = am4core.percent(80);
-
       series1.columns.template.tooltipText = " [bold] etat : {infoEtat}[/]\n fromDate: {fromDate}  \n toDate: {toDate} ";
 
       series1.dataFields.openDateX = "fromDate";
@@ -103,18 +103,21 @@ export class TimelineComponent {
       bullet1.locationY = 0.5;
       bullet1.label.fill = am4core.color("#ffffff");
 
-      //chart.scrollbarX = new am4core.Scrollbar();
-      let series2 = chart.series.push(new am4charts.LineSeries());
+      let series2 = chart.series.push(new am4charts.ColumnSeries());
+      series2.columns.template.width = am4core.percent(80);
+      series2.columns.template.tooltipText = " \n date : {fromDate}  \n log : {logs}  ";
 
-
-
+      series2.dataFields.openDateX = "fromDate";
       series2.dataFields.dateX = "fromDate";
       series2.dataFields.categoryY = "name2";
-
+      series2.columns.template.propertyFields.fill = "red";
+      series2.columns.template.propertyFields.stroke = "red";
+      series2.columns.template.strokeOpacity = 1;
+      //series2.columns.template.alwaysShowTooltip = true; //Indicates if this element should display a tooltip permanently
+      series2.clustered = false; //Setting to false will make columns overlap with other series.
 
       let bullet2 = series2.bullets.push(new am4charts.LabelBullet());
       bullet2.interactionsEnabled = false;
-      bullet2.label.text = "{name2}";
       bullet2.locationY = 0.5;
       bullet2.label.fill = am4core.color("#ffffff");
 
@@ -126,16 +129,6 @@ export class TimelineComponent {
       rectangle.strokeOpacity = 0.5;
       rectangle.stroke = am4core.color("#ffffff");
       rectangle.nonScalingStroke = true;
-
-      rectangle.verticalCenter = "middle";
-      rectangle.horizontalCenter = "middle";
-
-      series1.heatRules.push({
-        target: rectangle,
-        min: 1,
-        max: 8,
-        property: "scale"
-      });
 
 
     });
