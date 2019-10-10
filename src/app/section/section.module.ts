@@ -17,10 +17,11 @@ import { MatTabsModule, MatCheckboxModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SectionVisualisationComponent } from './section-visualisation/section-visualisation.component';
 import {MatIconModule} from '@angular/material/icon';
-import { TimelineComponent } from './timeline/timeline.component'; 
+import { TimelineComponent } from './timeline/timeline.component';
+import { TimelineLineaireComponent } from './timeline-lineaire/timeline-lineaire.component'; 
 
 @NgModule({
-    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent],
+    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent],
     imports: [
         CommonModule,
         FormsModule,

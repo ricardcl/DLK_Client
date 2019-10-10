@@ -48,5 +48,6 @@ export interface etatLogonConnexionSimplifiee {
     logs?:string;
     color?:Color;
     name2: string;
+    name3: string;
     //logs:[etatLogonConnexion];
 }
