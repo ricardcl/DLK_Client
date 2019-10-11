@@ -1,4 +1,3 @@
-
 <mat-card>
     <mat-card-header>
 
@@ -12,9 +11,18 @@
     <p>
         section-formulaire-visualisation works!
     </p>
-    
-    
+    <div>
+        <div>Test timeline lineaire</div>
+        <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline-lineaire>
 
+    </div>
+    <!--
+    <div>
+        <div>Test timeline </div>
+        <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline>
+
+    </div>
+-->
     <mat-card-content>
 
         <div class="isAnalysed">
@@ -119,7 +127,7 @@
                 <mat-tab label="Vemgsa" *ngIf="isVemgsa">
 
 
-                    
+
                     <div>
                         <table mat-table [dataSource]="monvol.getListeVolVemgsa()" class="tabDet ">
 

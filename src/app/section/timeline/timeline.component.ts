@@ -1,7 +1,6 @@
 import { Component, NgZone, Input } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import * as am4plugins_timeline from "@amcharts/amcharts4/plugins/timeline";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { etatLogonConnexionSimplifiee } from 'src/app/models/checkAnswer';
 import { Etat } from 'src/app/models/enumEtat';
