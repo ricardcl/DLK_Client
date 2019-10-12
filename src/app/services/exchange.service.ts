@@ -288,6 +288,7 @@ export class ExchangeService {
 
   public analyseDataInput(arcid: string, plnid: number, fileLplnName: string, fileVemgsaName: string[],chosenHoraire: string): void {
     console.log("analyseDataInputService : chosenHoraire",chosenHoraire);
+    this.resetCheckAnswer();
     this.socket.emit('analyseDataInput', arcid, Number(plnid), fileLplnName, fileVemgsaName,chosenHoraire);
 
   }
@@ -304,6 +305,9 @@ export class ExchangeService {
     return this.selectedplnid;
   }
 
+  private resetCheckAnswer () : void {
+    this.checkAnswer = undefined;
+  }
 
 
 
