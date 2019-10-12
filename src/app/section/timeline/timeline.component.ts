@@ -58,7 +58,7 @@ export class TimelineComponent {
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      let chart = am4core.create("chartdiv", am4charts.XYChart);
+      let chart = am4core.create("chartdiv2", am4charts.XYChart);
       chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
       chart.paddingRight = 30;
