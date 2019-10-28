@@ -48,7 +48,7 @@ export class TimelineComponent {
 
   
 
-  ngAfterViewInit() {
+  ngOnChanges() {
     console.log("ngAfterViewInit");
     this.zone.runOutsideAngular(() => {
       let chart = am4core.create("chartdiv2", am4charts.XYChart);
@@ -109,22 +109,6 @@ export class TimelineComponent {
 
 
 
-  }
-
-  ngOnChanges() {
-    console.log("ngOnChanges");
-  }
-
-  ngOnInit() {
-    console.log("ngOnInit");
-  }
-
-  ngOnDoCheck() {
-    console.log("ngOnDoCheck");
-  }
-
-  ngAfterContentInit() {
-    console.log("ngAfterContentInit");
   }
 
   ngOnDestroy() {

@@ -54,7 +54,7 @@ export class TimelineLineaireComponent {
         return listeEtatLogonConnexion;
     }
 
-    ngAfterViewInit() {
+    ngOnChanges() {
         this.zone.runOutsideAngular(() => {
 
 
