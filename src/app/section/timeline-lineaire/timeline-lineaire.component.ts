@@ -67,8 +67,6 @@ export class TimelineLineaireComponent {
             chart.maskBullets = false;
 
 
-            let colorSet = new am4core.ColorSet();
-
             chart.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
             chart.dateFormatter.dateFormat = "dd-MM HH mm ss";
 
@@ -105,7 +103,9 @@ export class TimelineLineaireComponent {
             dateAxis.tooltip.label.paddingTop = 7;
             dateAxis.endLocation = 1;
             dateAxis.startLocation = 0;
-            //dateAxis.min = new Date(2019, 0, 10, 0, 0).getTime();
+            //dateAxis.min = new Date("26-09-2018 05 30 00").getTime();
+            //dateAxis.max = new Date("27-09-2018 23 30 00").getTime();
+            //dateAxis.min = new Date(2018, 09, 26, 7, 30).getTime();
             //dateAxis.max = new Date(2019, 0, 11, 1, 0).getTime();
             dateAxis.strictMinMax = true;
 
