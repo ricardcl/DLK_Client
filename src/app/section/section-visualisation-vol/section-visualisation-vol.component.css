@@ -15,6 +15,11 @@
   .tabErreur *{
     color: #2e6da4;
   }
+
+  .tabErreur tr:hover {
+    background: #777;
+  }
+  
 .tabDet {
     width: 80%;
   }
