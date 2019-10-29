@@ -300,13 +300,13 @@ export class ExchangeService {
 
   }
 
-
+  
   public getPlnid(): number {
     return this.selectedplnid;
   }
 
   private resetCheckAnswer () : void {
-    this.checkAnswer = undefined;
+    this.checkAnswer = <checkAnswer>{};
   }
 
 

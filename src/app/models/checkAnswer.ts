@@ -40,16 +40,25 @@ export interface etatLogonConnexion {
     log: string;
 }
 
-export interface etatLogonConnexionSimplifiee {  
+export interface etatLogonConnexionSimplifiee extends etatTransfertFrequence {  
     fromDate: string; 
     toDate: string;
     name: string; //connexion/logon/frequence
     infoEtat?: string; //logue, non logue , connecte, non connecte
     logs?:string;
     color?:Color;
-    name2: string;
-    name3: string;
+    typeLog?: string;
+    typeFreq?: string;
+    typeLogon? : string;
+    typeConnexion? : string;
+    typeEtat : string;
     icon : string;
     text: string;
     //logs:[etatLogonConnexion];
+}
+
+export interface erreurVol {
+    date: string;
+    type : string;
+    infos : string;
 }

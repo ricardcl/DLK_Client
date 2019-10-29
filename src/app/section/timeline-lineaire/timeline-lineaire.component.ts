@@ -4,7 +4,8 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4plugins_timeline from "@amcharts/amcharts4/plugins/timeline";
 import * as am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { etatLogonConnexionSimplifiee } from 'src/app/models/checkAnswer';
+import { etatLogonConnexionSimplifiee, etatTransfertFrequence } from 'src/app/models/checkAnswer';
+import { Etat } from 'src/app/models/enumEtat';
 
 am4core.useTheme(am4themes_animated);
 
@@ -19,10 +20,14 @@ export class TimelineLineaireComponent {
 
     @Input()
     public listeEtatLogonConnexion: etatLogonConnexionSimplifiee[];
+    @Input()
+    public listeEtatTransfertFrequence: etatTransfertFrequence[];
 
     constructor(private zone: NgZone) { }
 
-    private majListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): etatLogonConnexionSimplifiee[] {
+
+
+    private majListeEtatLogonConnexion(): etatLogonConnexionSimplifiee[] {
         let alarm = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjQ1Ljc3M3B4IiBoZWlnaHQ9IjQ1Ljc3M3B4IiB2aWV3Qm94PSIwIDAgNDUuNzczIDQ1Ljc3MyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDUuNzczIDQ1Ljc3MzsiDQoJIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGQ9Ik01LjA4MSwxMy43MzdjMi41ODItMy45NDIsNi42MDktNi44NDksMTEuMzItNy45ODhjMC4zNjMtMC4wODcsMC42NjItMC4zNDQsMC44MDItMC42ODkNCgkJCWMwLjE0MS0wLjM0NiwwLjEwNy0wLjczOC0wLjA5MS0xLjA1NUMxNS42MDQsMS42MDEsMTIuOTM2LDAsOS44ODgsMEM1LjE3NiwwLDEuMzU0LDMuODIsMS4zNTQsOC41MzJjMCwyLDAuNjkxLDMuODM3LDEuODQ1LDUuMjkNCgkJCWMwLjIzMSwwLjI5MywwLjU4OSwwLjQ1NSwwLjk2MiwwLjQzOFM0Ljg3NywxNC4wNDgsNS4wODEsMTMuNzM3eiIvPg0KCQk8cGF0aCBkPSJNMzUuODg2LDBjLTMuMDM0LDAtNS42OTMsMS41ODYtNy4yMDQsMy45NzRjLTAuMiwwLjMxNi0wLjIzNSwwLjcxMS0wLjA5NCwxLjA1OWMwLjE0MiwwLjM0OSwwLjQ0MiwwLjYwNSwwLjgwOSwwLjY5MQ0KCQkJYzQuNzI0LDEuMTEyLDguNzY1LDMuOTk5LDExLjM2OSw3LjkyOGMwLjIwNywwLjMxMiwwLjU1MiwwLjUwNSwwLjkyNywwLjUxOGMwLjM3NSwwLjAxNCwwLjczMS0wLjE1NCwwLjk2MS0wLjQ1MQ0KCQkJYzEuMTA1LTEuNDM2LDEuNzY2LTMuMjMyLDEuNzY2LTUuMTg2QzQ0LjQxNywzLjgyLDQwLjU5OCwwLDM1Ljg4NiwweiIvPg0KCQk8cGF0aCBkPSJNNDEuNzUyLDI2LjEzMmMwLTMuMjk0LTAuODU3LTYuMzktMi4zNTEtOS4wODRjLTIuNzY5LTQuOTktNy43NDItOC41NzctMTMuNTk1LTkuNDc1Yy0wLjkzMy0wLjE0My0xLjg4LTAuMjQtMi44NTMtMC4yNA0KCQkJYy0xLjAxNiwwLTIuMDA2LDAuMTA0LTIuOTc5LDAuMjZDMTQuMTQ2LDguNTI4LDkuMTk4LDEyLjEzLDYuNDU4LDE3LjEyNmMtMS40NjcsMi42NzYtMi4zMDQsNS43NDQtMi4zMDQsOS4wMDYNCgkJCWMwLDUuNTg2LDIuNDYzLDEwLjU5Nyw2LjM0MywxNC4wNDFsLTEuNTg0LDIuMjMxYy0wLjY4MiwwLjk2MS0wLjQ1NiwyLjI5MSwwLjUwNSwyLjk3NWMwLjM3NSwwLjI2NiwwLjgwNiwwLjM5NSwxLjIzMywwLjM5NQ0KCQkJYzAuNjY4LDAsMS4zMjYtMC4zMTMsMS43NDEtMC44OThsMS41ODMtMi4yM2MyLjY2OSwxLjQ1Nyw1LjcyOCwyLjI4Nyw4Ljk3OCwyLjI4N2MzLjI0OSwwLDYuMzA4LTAuODMsOC45NzctMi4yODdsMS41ODMsMi4yMw0KCQkJYzAuNDE2LDAuNTg2LDEuMDczLDAuODk4LDEuNzQxLDAuODk4YzAuNDI3LDAsMC44NTctMC4xMjksMS4yMzItMC4zOTVjMC45NjEtMC42ODQsMS4xODgtMi4wMTQsMC41MDYtMi45NzVsLTEuNTg0LTIuMjMxDQoJCQlDMzkuMjg4LDM2LjcyOSw0MS43NTIsMzEuNzE4LDQxLjc1MiwyNi4xMzJ6IE0yMi45NTQsMzkuNjc0Yy03LjQ2OCwwLTEzLjU0Mi02LjA3NC0xMy41NDItMTMuNTQyDQoJCQljMC0yLjMyOCwwLjU5MS00LjUxOSwxLjYyOS02LjQzNWMxLjk3Ni0zLjY0NCw1LjU4LTYuMjY5LDkuODI2LTYuOTNjMC42ODItMC4xMDYsMS4zNzUtMC4xNzgsMi4wODctMC4xNzgNCgkJCWMwLjY3LDAsMS4zMjUsMC4wNjUsMS45NywwLjE2YzQuMjgyLDAuNjI4LDcuOTI1LDMuMjUzLDkuOTI0LDYuOTEzYzEuMDUsMS45MjMsMS42NDcsNC4xMjYsMS42NDcsNi40NjkNCgkJCUMzNi40OTUsMzMuNiwzMC40MjEsMzkuNjc0LDIyLjk1NCwzOS42NzR6Ii8+DQoJCTxwYXRoIGQ9Ik0zMC41NCwyOS4zbC01LjE2Ni0zLjE5Yy0wLjEwNy0wLjYwNC0wLjQzNC0xLjEyNS0wLjg5My0xLjQ5NGwwLjIzNi02LjQ4MmMwLjAyOS0wLjgyOC0wLjYxNy0xLjUyMy0xLjQ0NC0xLjU1NA0KCQkJYy0wLjgyNS0wLjAzOC0xLjUyMywwLjYxNi0xLjU1NCwxLjQ0NGwtMC4yMzcsNi40ODljLTAuNjQxLDAuNDUyLTEuMDYzLDEuMTk2LTEuMDYzLDIuMDQxYzAsMS4zODEsMS4xMTksMi40OTksMi41LDIuNDk5DQoJCQljMC4zOTMsMCwwLjc2LTAuMDk5LDEuMDktMC4yNmw0Ljk1NSwzLjA2MmMwLjI0NiwwLjE1LDAuNTE5LDAuMjIzLDAuNzg3LDAuMjIzYzAuNTAzLDAsMC45OTMtMC4yNTIsMS4yNzgtMC43MTENCgkJCUMzMS40NjUsMzAuNjYsMzEuMjQ1LDI5LjczNiwzMC41NCwyOS4zeiIvPg0KCTwvZz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjwvc3ZnPg0K";
         let water = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGQ9Ik00NDMuODgyLDUuMjhDNDQwLjg0MiwxLjkyLDQzNi41NTQsMCw0MzIuMDEsMGgtMzUyYy00LjUxMiwwLTguODMyLDEuOTItMTEuODcyLDUuMjgNCgkJCWMtMy4wMDgsMy4zMjgtNC41MTIsNy44MDgtNC4wNjQsMTIuMzJsNDgsNDgwYzAuODMyLDguMTkyLDcuNzEyLDE0LjQsMTUuOTM2LDE0LjRoMjU2YzguMjI0LDAsMTUuMTA0LTYuMjA4LDE1LjkwNC0xNC40bDQ4LTQ4MA0KCQkJQzQ0OC4zOTQsMTMuMDg4LDQ0Ni45MjIsOC42MDgsNDQzLjg4Miw1LjI4eiBNNDAxLjI5LDE2Mi40OTZjLTQwLjY3MiwxMy4xNTItOTMuNiwxOS4yMzItMTM1LjEzNi0xNC44NDgNCgkJCWMtNTIuMDY0LTQyLjcyLTExNS44NzItMzUuMzYtMTU5LjEzNi0yMi40OTZMOTcuNzA2LDMyaDMxNi42MDhMNDAxLjI5LDE2Mi40OTZ6Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo=";
         let exercise = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE4LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNjEuODU4IDYxLjg1OCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNjEuODU4IDYxLjg1ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIHN0eWxlPSJmaWxsOiMwMTAwMDI7IiBkPSJNNTAuMDk3LDAuMDE0Yy05LjkxNywwLjg3NC0xNy4yMzUsNS44MjQtMjEuNTAxLDEyLjk4Yy0yLjg1OSwzLjU4NC04LjU3LDE0LjUyNi0xMC42NDcsMjAuMjU0DQoJCQljLTMuNzY2LDcuMTIzLTcuMDUsMTUuNTk4LTkuNjIsMjMuMjM4Yy0xLjU3MSw0LjY3Miw1LjQ4Myw3LjcyLDcuMDYzLDMuMDI3YzEuOTIyLTUuNzE2LDQuMjQ0LTExLjg5Niw2Ljg2OC0xNy42MzENCgkJCWMyLjYwNCw1LjgyOCw1LjI1LDExLjYzNyw4LjA5MSwxNy4zNTRjMi4yMDIsNC40MzgsOC44MjgsMC41NDYsNi42MzQtMy44NzdjLTIuOTI1LTUuODg1LTUuNjQyLTExLjg2NC04LjMxOS0xNy44NjMNCgkJCWMwLjAzNC0wLjExNiwwLjA3Ny0wLjIyOSwwLjExMy0wLjM0NGMwLjQ0NiwwLjEyNywwLjkzOCwwLjE2NiwxLjQ4LDAuMDYzYzQuMDk2LTAuNzY5LDguMTkyLTEuNTM2LDEyLjI5MS0yLjMwNQ0KCQkJYzEuNzUxLTAuMzI5LDIuNDIyLTIuMjQ1LDIuMTQ2LTMuNzc5Yy0wLjgyOC00LjU5Ny0zLjQ0Ny03Ljc5NS02LjcwNy0xMC44MjFjLTAuNDg0LTEuNjQ2LTIuMDk4LTMuMTAyLTMuODg5LTQuNTQ5DQoJCQljMy42MzEtNS44Nyw5LjU1OS05LjA1NiwxNy4yNzUtOS43MzZDNTUuMzEzLDUuNjgsNTQuMDAxLTAuMzI5LDUwLjA5NywwLjAxNHogTTM1LjE3MywyNi4xNDMNCgkJCWMxLjAxMywxLjA1NCwxLjg3NSwyLjE2MywyLjUyNiwzLjQ0N2MtMS45ODIsMC4zNzItMy45NjUsMC43NDMtNS45NDcsMS4xMTVDMzIuNzUyLDI5LjA5NSwzMy45MDMsMjcuNTc1LDM1LjE3MywyNi4xNDN6Ii8+DQoJCTxjaXJjbGUgc3R5bGU9ImZpbGw6IzAxMDAwMjsiIGN4PSI0My42NTMiIGN5PSIxNS42MzUiIHI9IjUuMjc1Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo=";
@@ -42,72 +47,101 @@ export class TimelineLineaireComponent {
 
         let colorSet = new am4core.ColorSet();
         colorSet.saturation = 0.4;
+        let listeFinale: etatLogonConnexionSimplifiee[] = [...<any>this.listeEtatTransfertFrequence];
+        let listeEtats: etatLogonConnexionSimplifiee[] = [...<any>this.listeEtatLogonConnexion];
 
-        listeEtatLogonConnexion.forEach((element, index) => {
+        listeFinale.forEach((element, index) => {
+            element.fromDate = element.dateTransfert;
+            element.name = "frequence";
+            element.typeFreq = element.name
+            element.icon = dance;
+            element.text = element.frequence;
+            element.color = colorSet.getIndex(10).brighten(0);
+
+        });
+
+        listeEtats.forEach((element, index) => {
             if (element.name == "logs") {
-                element.name2 = "logs";
+                // element.typeLog = element.name ;
                 element.icon = book;
                 element.text = element.logs;
-                element.color = colorSet.getIndex(4).brighten(0);
+                element.color = colorSet.getIndex(8).brighten(0);
+                element.toDate = element.fromDate;
+
+                listeFinale.push(element);
+            }
+            if (element.name == "logon") {
+                if (element.infoEtat == Etat.Logue) {
+                    element.color = colorSet.getIndex(0).brighten(0.4);
+                }
+                else if (element.infoEtat == Etat.NonLogue) {
+                    element.color = colorSet.getIndex(6).brighten(0);
+                }
+                element.typeEtat = "typeLogon";
+                element.typeLogon = element.name;
+                listeFinale.push(element);
+            }
+            if (element.name == "connexion") {
+                element.color = colorSet.getIndex(2).brighten(0);
+                element.typeEtat = "typeConnexion";
+                element.typeConnexion = element.name;
+                listeFinale.push(element);
             }
         });
-        return listeEtatLogonConnexion;
+
+        console.log("attention la liste finale: ", listeFinale);
+
+        return listeFinale;
+        // return this.listeEtatLogonConnexion;
     }
+
 
     ngOnChanges() {
         this.zone.runOutsideAngular(() => {
 
 
 
-
-
             //explications : https://www.amcharts.com/docs/v4/chart-types/timeline/
             let chart = am4core.create("chartdiv", am4plugins_timeline.CurveChart);
-            chart.curveContainer.padding(100, 20, 50, 50); //left padding : a ajuster pour pouvoir afficher le nom de categorie
+            chart.curveContainer.padding(20, 20, 20, 50); //left padding : a ajuster pour pouvoir afficher le nom de categorie
             chart.maskBullets = false;
-
-
             chart.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
             chart.dateFormatter.dateFormat = "dd-MM HH mm ss";
-
-            chart.data = this.majListeEtatLogonConnexion(this.listeEtatLogonConnexion);
-
-
             chart.fontSize = 10;
             chart.tooltipContainer.fontSize = 10;
+            //chart.height = 300;
+            chart.data = this.majListeEtatLogonConnexion();
+
+          
+
 
             let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis<am4plugins_timeline.AxisRendererCurveY>());
-            categoryAxis.dataFields.category = "name2";
-            categoryAxis.renderer.grid.template.disabled = true;
-            //categoryAxis.renderer.labels.template.paddingRight = 0;
-            categoryAxis.renderer.minGridDistance = 10;
+            categoryAxis.dataFields.category = "typeEtat";
+     
+             categoryAxis.renderer.grid.template.disabled = false;
+           // categoryAxis.renderer.minGridDistance = 30;
             categoryAxis.renderer.innerRadius = 10;
-            categoryAxis.renderer.radius = 30;
+            categoryAxis.renderer.radius = 200;
+
+            categoryAxis.renderer.grid.template.location = 0;
+            categoryAxis.renderer.inversed = false;
+            categoryAxis.height = 200;
+
+
 
             let dateAxis = chart.xAxes.push(new am4charts.DateAxis<am4plugins_timeline.AxisRendererCurveX>());
-
-
-            // dateAxis.renderer.points = [{ x: -1000, y: 0 }, { x: 0, y: 0 }];
-
-            // dateAxis.renderer.autoScale = true;
-            // dateAxis.renderer.autoCenter = true;
             dateAxis.renderer.minGridDistance = 70;
             dateAxis.baseInterval = { count: 1, timeUnit: "second" };
             dateAxis.renderer.tooltipLocation = 0;
             dateAxis.renderer.line.strokeDasharray = "1,4";
-
             dateAxis.renderer.line.strokeOpacity = 0.5;
             dateAxis.tooltip.background.fillOpacity = 0.2;
             dateAxis.tooltip.background.cornerRadius = 5;
-            //dateAxis.tooltip.label.fill = new am4core.InterfaceColorSet().getFor("alternativeBackground");
             dateAxis.tooltip.label.paddingTop = 7;
             dateAxis.endLocation = 1;
             dateAxis.startLocation = 0;
-            //dateAxis.min = new Date("26-09-2018 05 30 00").getTime();
-            //dateAxis.max = new Date("27-09-2018 23 30 00").getTime();
-            //dateAxis.min = new Date(2018, 09, 26, 7, 30).getTime();
-            //dateAxis.max = new Date(2019, 0, 11, 1, 0).getTime();
             dateAxis.strictMinMax = true;
+
 
             let labelTemplate = dateAxis.renderer.labels.template;
             labelTemplate.verticalCenter = "middle";
@@ -115,72 +149,97 @@ export class TimelineLineaireComponent {
             labelTemplate.background.fill = new am4core.InterfaceColorSet().getFor("background");
             labelTemplate.background.fillOpacity = 1;
             labelTemplate.fill = new am4core.InterfaceColorSet().getFor("text");
-            labelTemplate.padding(7, 7, 7, 7);
+            labelTemplate.padding(7, 7, 7, 7); 
 
-            let series = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
-            series.columns.template.height = am4core.percent(30);
+            /** Serie logon  
+            let serieLogon = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+            serieLogon.columns.template.height = am4core.percent(30);
 
-            series.dataFields.openDateX = "fromDate";
-            series.dataFields.dateX = "fromDate";
-            series.dataFields.categoryY = "name2";
-            series.baseAxis = categoryAxis;
-            series.columns.template.propertyFields.fill = "color"; // get color from data
-            series.columns.template.propertyFields.stroke = "color";
-            series.columns.template.strokeOpacity = 0;
-            series.columns.template.fillOpacity = 0.6;
+            serieLogon.dataFields.openDateX = "fromDate";
+            serieLogon.dataFields.dateX = "toDate";
+            serieLogon.dataFields.categoryY = "typeEtat";
+            serieLogon.baseAxis = categoryAxis;
+            serieLogon.columns.template.propertyFields.fill = "color"; // get color from data
+            serieLogon.columns.template.propertyFields.stroke = "color";
+            serieLogon.columns.template.strokeOpacity = 0;
+            serieLogon.columns.template.fillOpacity = 0.6;
+*/
+            /** Serie Logon/Connexion */
+                       let serieLogonConnexion = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+                       serieLogonConnexion.columns.template.height = am4core.percent(30);
+           
+                       serieLogonConnexion.dataFields.openDateX = "fromDate";
+                       serieLogonConnexion.dataFields.dateX = "toDate";
+                       serieLogonConnexion.dataFields.categoryY = "typeEtat";
+                       serieLogonConnexion.baseAxis = categoryAxis;
+                       serieLogonConnexion.columns.template.propertyFields.fill = "color"; // get color from data
+                       serieLogonConnexion.columns.template.propertyFields.stroke = "color";
+                       serieLogonConnexion.columns.template.strokeOpacity = 0;
+                       serieLogonConnexion.columns.template.fillOpacity = 0.6;
+                       serieLogonConnexion.clustered = false;
 
-            let imageBullet1 = series.bullets.push(new am4plugins_bullets.PinBullet());
-            imageBullet1.background.radius = 18;
-            imageBullet1.locationX = 1;
-            imageBullet1.propertyFields.stroke = "color";
-            imageBullet1.background.propertyFields.fill = "color";
-            imageBullet1.image = new am4core.Image();
-            imageBullet1.image.propertyFields.href = "icon";
-            imageBullet1.image.scale = 0.7;
-            imageBullet1.circle.radius = am4core.percent(100);
-            imageBullet1.background.fillOpacity = 0.8;
-            imageBullet1.background.strokeOpacity = 0;
-            imageBullet1.dy = -2;
-            imageBullet1.background.pointerBaseWidth = 10;
-            imageBullet1.background.pointerLength = 10
-            imageBullet1.tooltipText = "{text}";
-
-            series.tooltip.pointerOrientation = "up";
-
-            imageBullet1.background.adapter.add("pointerAngle", (value, target) => {
-                // if (target.dataItem) {
-                //     let position = dateAxis.valueToPosition(target.dataItem.openDateX.getTime());
-                //     return dateAxis.renderer.positionToAngle(position);
-                // }
-                return value;
-            });
-
-            let hs = imageBullet1.states.create("hover")
-            hs.properties.scale = 1.3;
-            hs.properties.opacity = 1;
-
-            let textBullet = series.bullets.push(new am4charts.LabelBullet());
-            textBullet.label.propertyFields.text = "text";
-            textBullet.disabled = true;
-            textBullet.propertyFields.disabled = "textDisabled";
-            textBullet.label.strokeOpacity = 0;
-            textBullet.locationX = 1;
-            textBullet.dy = - 100;
-            textBullet.label.textAlign = "middle";
-
-            /**
-             chart.scrollbarX = new am4core.Scrollbar();
-                chart.scrollbarX.align = "center"
-                chart.scrollbarX.width = am4core.percent(75);
-                chart.scrollbarX.parent = chart.curveContainer;
-                chart.scrollbarX.height = 300;
-                chart.scrollbarX.orientation = "vertical";
-                chart.scrollbarX.x = 128;
-                chart.scrollbarX.y = -140;
-                chart.scrollbarX.isMeasured = false;
-                chart.scrollbarX.opacity = 0.5;
+            /** icones de ???
+                        let imageBullet1 = series.bullets.push(new am4plugins_bullets.PinBullet());
+                        imageBullet1.background.radius = 18;
+                        imageBullet1.locationX = 1;
+                        imageBullet1.propertyFields.stroke = "color";
+                        imageBullet1.background.propertyFields.fill = "color";
+                        imageBullet1.image = new am4core.Image();
+                        imageBullet1.image.propertyFields.href = "icon";
+                        imageBullet1.image.scale = 0.7;
+                        imageBullet1.circle.radius = am4core.percent(100);
+                        imageBullet1.background.fillOpacity = 0.8;
+                        imageBullet1.background.strokeOpacity = 0;
+                        imageBullet1.dy = -2;
+                        imageBullet1.background.pointerBaseWidth = 10;
+                        imageBullet1.background.pointerLength = 10
+                        imageBullet1.tooltipText = "{text}";
             
-             */
+                        series.tooltip.pointerOrientation = "up";
+                                    // Setting series flag url
+                        series.dummyData = {
+                            flag: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDI5Ni45OTkgMjk2Ljk5OSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjk2Ljk5OSAyOTYuOTk5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8Zz4NCgkJPGc+DQoJCQk8cGF0aCBkPSJNNDUuNDMyLDM1LjA0OWMtMC4wMDgsMC0wLjAxNywwLTAuMDI1LDBjLTIuODA5LDAtNS40NTEsMS4wOTUtNy40NDYsMy4wODVjLTIuMDE3LDIuMDEyLTMuMTI4LDQuNjkxLTMuMTI4LDcuNTQzDQoJCQkJdjE1OS4zNjVjMCw1Ljg0NCw0Ljc3MywxMC42MSwxMC42NDEsMTAuNjI1YzI0LjczOCwwLjA1OSw2Ni4xODQsNS4yMTUsOTQuNzc2LDM1LjEzNlY4NC4wMjNjMC0xLjk4MS0wLjUwNi0zLjg0Mi0xLjQ2MS01LjM4Mg0KCQkJCUMxMTUuMzIyLDQwLjg0OSw3MC4yMjYsMzUuMTA3LDQ1LjQzMiwzNS4wNDl6Ii8+DQoJCQk8cGF0aCBkPSJNMjYyLjE2NywyMDUuMDQyVjQ1LjY3NmMwLTIuODUyLTEuMTExLTUuNTMxLTMuMTI4LTcuNTQzYy0xLjk5NS0xLjk5LTQuNjM5LTMuMDg1LTcuNDQ1LTMuMDg1Yy0wLjAwOSwwLTAuMDE4LDAtMC4wMjYsMA0KCQkJCWMtMjQuNzkzLDAuMDU5LTY5Ljg4OSw1LjgwMS05My4zNTcsNDMuNTkzYy0wLjk1NSwxLjU0LTEuNDYsMy40MDEtMS40Niw1LjM4MnYxNjYuNzc5DQoJCQkJYzI4LjU5Mi0yOS45MjEsNzAuMDM4LTM1LjA3Nyw5NC43NzYtMzUuMTM2QzI1Ny4zOTQsMjE1LjY1MSwyNjIuMTY3LDIxMC44ODUsMjYyLjE2NywyMDUuMDQyeiIvPg0KCQkJPHBhdGggZD0iTTI4Ni4zNzMsNzEuODAxaC03LjcwNnYxMzMuMjQxYzAsMTQuOTIxLTEyLjE1NywyNy4wODgtMjcuMTAxLDI3LjEyNWMtMjAuOTgzLDAuMDUtNTUuNTgxLDQuMTUzLTgwLjA4NCwyNy4zNDQNCgkJCQljNDIuMzc4LTEwLjM3Niw4Ny4wNTItMy42MzEsMTEyLjUxMiwyLjE3MWMzLjE3OSwwLjcyNCw2LjQ2NC0wLjAyNCw5LjAxMS0yLjA1NGMyLjUzOC0yLjAyNSwzLjk5NC01LjA1MiwzLjk5NC04LjMwMVY4Mi40MjcNCgkJCQlDMjk3LDc2LjU2OCwyOTIuMjMyLDcxLjgwMSwyODYuMzczLDcxLjgwMXoiLz4NCgkJCTxwYXRoIGQ9Ik0xOC4zMzIsMjA1LjA0MlY3MS44MDFoLTcuNzA2QzQuNzY4LDcxLjgwMSwwLDc2LjU2OCwwLDgyLjQyN3YxNjguODk3YzAsMy4yNSwxLjQ1Niw2LjI3NiwzLjk5NCw4LjMwMQ0KCQkJCWMyLjU0NSwyLjAyOSw1LjgyNywyLjc4LDkuMDExLDIuMDU0YzI1LjQ2LTUuODAzLDcwLjEzNS0xMi41NDcsMTEyLjUxMS0yLjE3MWMtMjQuNTAyLTIzLjE5LTU5LjEtMjcuMjkyLTgwLjA4My0yNy4zNDINCgkJCQlDMzAuNDksMjMyLjEzLDE4LjMzMiwyMTkuOTYzLDE4LjMzMiwyMDUuMDQyeiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo="
+                        };
+                        series.legendSettings.labelText = "Series: [bold {#72A6B2}] logs [/]";
+            */
+
+            /** icones de frequences */
+                        let seriesFreq = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+                        seriesFreq.columns.template.height = am4core.percent(30);
+            
+                        seriesFreq.dataFields.openDateX = "fromDate";
+                        seriesFreq.dataFields.dateX = "fromDate";
+                        seriesFreq.dataFields.categoryY = "typeFreq";
+                        seriesFreq.baseAxis = categoryAxis;
+                        seriesFreq.columns.template.propertyFields.fill = "color"; // get color from data
+                        seriesFreq.columns.template.propertyFields.stroke = "color";
+                        seriesFreq.columns.template.strokeOpacity = 0;
+                        seriesFreq.columns.template.fillOpacity = 0.6;
+            
+                        let imageBulletFreq = seriesFreq.bullets.push(new am4plugins_bullets.PinBullet());
+                        imageBulletFreq.background.radius = 18;
+                        imageBulletFreq.locationX = 1;
+                        imageBulletFreq.propertyFields.stroke = "color";
+                        imageBulletFreq.background.propertyFields.fill = "color";
+                        imageBulletFreq.image = new am4core.Image();
+                        imageBulletFreq.image.propertyFields.href = "icon";
+                        imageBulletFreq.image.scale = 0.7;
+                        imageBulletFreq.circle.radius = am4core.percent(100);
+                        imageBulletFreq.background.fillOpacity = 0.8;
+                        imageBulletFreq.background.strokeOpacity = 0;
+                        imageBulletFreq.dy = -200;
+                        imageBulletFreq.background.pointerBaseWidth = 10;
+                        imageBulletFreq.background.pointerLength = 10
+                        imageBulletFreq.tooltipText = "{text}";
+            
+                        seriesFreq.tooltip.pointerOrientation = "up";
+                                    // Setting series flag url
+            seriesFreq.dummyData = {
+                flag: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjI0OC45MTRweCIgaGVpZ2h0PSIyNDguOTE0cHgiIHZpZXdCb3g9IjAgMCAyNDguOTE0IDI0OC45MTQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI0OC45MTQgMjQ4LjkxNDsiDQoJIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGQ9Ik0yMDEuNzExLDQ5LjU4M2MtNS40NiwwLTkuODk1LDMuNzcxLTkuODk1LDguNDE5YzAsNC42NTMsNC40MzUsOC40MTksOS44OTUsOC40MTljNS4zMTYsMCw5LjY0My0zLjU2Niw5Ljg3Ni04LjAzMg0KCQkJYzUuMTA1LTEzLjYsNC4xMDYtMjQuMDc4LDMuMDQzLTI5LjEzN2MtMC43NDctMy41MzMtNC4yLTYuMjk1LTcuODUxLTYuMjk1bC0yMy4yNy0wLjAxYy0xLjg1NywwLTMuNTk0LDAuNzI0LTQuOSwyLjAzDQoJCQljLTEuMzgyLDEuMzkxLTIuMTM4LDMuMjc2LTIuMTI5LDUuMzJjMC4wMzgsNS42OTktMS4yMjMsMTMuMzA2LTIuMzA1LDE4Ljc3NmMtMC45MDYtMC4yMzMtMS44NzctMC4zNjQtMi44ODUtMC4zNjQNCgkJCWMtNS40NjEsMC05Ljg5NSwzLjc3MS05Ljg5NSw4LjQyNGMwLDQuNjQ4LDQuNDM4LDguNDE5LDkuODk1LDguNDE5YzUuMDU1LDAsOS4yMTMtMy4yMiw5LjgxOS03LjM3OGwwLjA3NSwwLjAxOQ0KCQkJYzAuMTYzLTAuNjUzLDMuODI2LTE1LjUyMyw0LjA3OS0yNi40NTNsMjAuODk4LDAuMDA5YzAuNjY4LDMuNjE3LDEuMTExLDkuOTgzLTEuMTI0LDE4LjMyMw0KCQkJQzIwMy45ODgsNDkuNzY1LDIwMi44NzgsNDkuNTgzLDIwMS43MTEsNDkuNTgzeiIvPg0KCQk8cGF0aCBkPSJNMzUuODY0LDEzNy44MzJjMi4wMjEsNC4xOTEsNy42NDksNS42NjEsMTIuNTY4LDMuMjk1YzQuNzkzLTIuMzAxLDcuMTQxLTcuMzkzLDUuNDE0LTExLjUxOQ0KCQkJYy0xLjMtMTQuNDcyLTYuNzQ0LTIzLjQ3NS05Ljg5Ni0yNy41NzdjLTIuMjA4LTIuODUyLTYuNTE1LTMuODUxLTkuODA4LTIuMjY0bC0yMC45NjksMTAuMDg1DQoJCQljLTEuNjczLDAuODAzLTIuOTI2LDIuMjA4LTMuNTMzLDMuOTU4Yy0wLjY0NCwxLjg0OS0wLjUwMSwzLjg4MywwLjM5Miw1LjcxN2MyLjUwNCw1LjEyLDQuNjY5LDEyLjUyMiw2LjA2LDE3LjkyMQ0KCQkJYy0wLjkyMSwwLjE4My0xLjg1MSwwLjQ4NS0yLjc1MywwLjkyNWMtNC45MTcsMi4zNjYtNy4yNzMsNy42ODctNS4yNTUsMTEuODc3YzIuMDIxLDQuMTkxLDcuNjQ1LDUuNjY2LDEyLjU2OSwzLjI5NQ0KCQkJYzQuNTQ4LTIuMTg4LDYuOS02LjkwMiw1LjY0Mi0xMC45MDZsMC4wNzctMC4wMTVjLTAuMTMzLTAuNjYyLTMuMjg4LTE1LjY0NC03Ljc5OS0yNS42MDhsMTguODMtOS4wNTQNCgkJCWMyLjE3LDIuOTczLDUuMzM0LDguNTEzLDYuOTM1LDE2Ljk5OGMtMS4wNzYsMC4xNjgtMi4xNTYsMC40OS0zLjIwOCwwLjk5NEMzNi4yMDIsMTI4LjMyLDMzLjg0NiwxMzMuNjQyLDM1Ljg2NCwxMzcuODMyeiIvPg0KCQk8Y2lyY2xlIGN4PSIxMTAuNTY1IiBjeT0iMzguMTM2IiByPSIyMS4wMDQiLz4NCgkJPHBhdGggZD0iTTE0LjMzNywyMzIuODY4aDIyMC4yMzljNy45MjEsMCwxNC4zMzgtNi4yNzIsMTQuMzM4LTE0LjAyMWMwLTcuNzQ3LTYuNDE3LTE0LjAyNC0xNC4zMzgtMTQuMDI0aC02Ny4yNjINCgkJCWMwLjM5My0wLjE0NSwwLjc5NC0wLjI4LDEuMTc2LTAuNTA0YzMuMjkxLTEuOTkzLDQuMzUxLTYuMjc3LDIuMzU3LTkuNTcybC0zOS4yNzgtNjUuMDE3di0zMi4xMQ0KCQkJYzE3Ljg4LDE2LjEzOSwyNi41MjMsNDEuOTg1LDI2LjY3Nyw0Mi40NTdjMC45NTcsMi45NDksMy42OTIsNC44MjUsNi42MzcsNC44MjVjMC43MDUsMCwxLjQzNC0wLjEwNiwyLjEzOC0wLjMzNg0KCQkJYzMuNjczLTEuMTgxLDUuNjgtNS4xMTUsNC40OTQtOC43NzNjLTAuNTg4LTEuODA3LTEyLjY2MS0zOC4yNjEtMzkuOTY5LTU1LjY5N2MtMC4xMTEtOS41MjUtNy44NTItMTcuMjE3LTE3LjQwNi0xNy4yMTdoLTcuMTU5DQoJCQljLTQuNTg3LDAtOC43MzIsMS44MTEtMTEuODQzLDQuNzA5Yy0yMS40NjQtMTUuMzIyLTMxLjc5LTQ2LjE5NC0zMS45NjItNDYuNzE3Yy0xLjE5LTMuNjU0LTUuMTA4LTUuNjctOC43NzQtNC40ODUNCgkJCWMtMy42NzEsMS4xODUtNS42NzgsNS4xMTUtNC40OTIsOC43NzRjMC41ODEsMS44MDEsMTIuNTY0LDM3Ljk4LDM5LjY0Miw1NS41MDF2NTUuNzkxTDc2LjA0NSwxNjAuMTUNCgkJCWMtMS4xMDQsMS45MzctMS4yMTgsNC4yNzktMC4yOTYsNi4zMTlsMTUuNjgxLDM0Ljc1MWMwLjc5MywxLjc2LDIuMjQ1LDIuOTc4LDMuOTE4LDMuNjAzSDE0LjMzNw0KCQkJQzYuNDE5LDIwNC44MjMsMCwyMTEuMTA1LDAsMjE4Ljg0OEMwLDIyNi41OTEsNi40MTksMjMyLjg2OCwxNC4zMzcsMjMyLjg2OHogTTg5LjkxNCwxNjMuOTY4bDEzLjMwMS0yMy4zMzVoMTguNjQ3bDM3LjA0Nyw2MS4zMjUNCgkJCWMwLjg0NSwxLjM5NiwyLjExNCwyLjMzOCwzLjUyOCwyLjg3aC02Mi4xNTZjMC4xMTktMC4wNDcsMC4yNDgtMC4wNjUsMC4zNjctMC4xMTdjMy41MDctMS41ODIsNS4wNzUtNS43MTIsMy40ODktOS4yMjINCgkJCUw4OS45MTQsMTYzLjk2OHoiLz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg=="
+            };
+
+            seriesFreq.legendSettings.labelText = "Series: [bold {#667E93}] transferts frequence[/]";
+            
 
             let cursor = new am4plugins_timeline.CurveCursor();
             chart.cursor = cursor;
@@ -193,6 +252,37 @@ export class TimelineLineaireComponent {
             categoryAxis.cursorTooltipEnabled = false;
 
             chart.zoomOutButton.disabled = true;
+
+
+            /** creation dune legende
+            chart.legend = new am4charts.Legend();
+            chart.legend.useDefaultMarker = true;
+
+            // Remove square from marker template
+            let marker = chart.legend.markers.template;
+            marker.disposeChildren();
+
+            // Add custom image instead
+            let iconDance = marker.createChild(am4core.Image);
+            iconDance.width = 40;
+            iconDance.height = 40;
+            iconDance.verticalCenter = "top";
+            iconDance.horizontalCenter = "left";
+
+            // We're going to use an adapter to set href
+            iconDance.adapter.add("href", (href, target: any) => {
+                //console.log("Monster Munch", href, target, target.dataItem.dataContext.dummyData.flag);
+                if (target.dataItem && target.dataItem.dataContext && target.dataItem.dataContext.dummyData) {
+
+                    return target.dataItem.dataContext.dummyData.flag;
+                }
+                else {
+                    return "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjI0OC45MTRweCIgaGVpZ2h0PSIyNDguOTE0cHgiIHZpZXdCb3g9IjAgMCAyNDguOTE0IDI0OC45MTQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI0OC45MTQgMjQ4LjkxNDsiDQoJIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGQ9Ik0yMDEuNzExLDQ5LjU4M2MtNS40NiwwLTkuODk1LDMuNzcxLTkuODk1LDguNDE5YzAsNC42NTMsNC40MzUsOC40MTksOS44OTUsOC40MTljNS4zMTYsMCw5LjY0My0zLjU2Niw5Ljg3Ni04LjAzMg0KCQkJYzUuMTA1LTEzLjYsNC4xMDYtMjQuMDc4LDMuMDQzLTI5LjEzN2MtMC43NDctMy41MzMtNC4yLTYuMjk1LTcuODUxLTYuMjk1bC0yMy4yNy0wLjAxYy0xLjg1NywwLTMuNTk0LDAuNzI0LTQuOSwyLjAzDQoJCQljLTEuMzgyLDEuMzkxLTIuMTM4LDMuMjc2LTIuMTI5LDUuMzJjMC4wMzgsNS42OTktMS4yMjMsMTMuMzA2LTIuMzA1LDE4Ljc3NmMtMC45MDYtMC4yMzMtMS44NzctMC4zNjQtMi44ODUtMC4zNjQNCgkJCWMtNS40NjEsMC05Ljg5NSwzLjc3MS05Ljg5NSw4LjQyNGMwLDQuNjQ4LDQuNDM4LDguNDE5LDkuODk1LDguNDE5YzUuMDU1LDAsOS4yMTMtMy4yMiw5LjgxOS03LjM3OGwwLjA3NSwwLjAxOQ0KCQkJYzAuMTYzLTAuNjUzLDMuODI2LTE1LjUyMyw0LjA3OS0yNi40NTNsMjAuODk4LDAuMDA5YzAuNjY4LDMuNjE3LDEuMTExLDkuOTgzLTEuMTI0LDE4LjMyMw0KCQkJQzIwMy45ODgsNDkuNzY1LDIwMi44NzgsNDkuNTgzLDIwMS43MTEsNDkuNTgzeiIvPg0KCQk8cGF0aCBkPSJNMzUuODY0LDEzNy44MzJjMi4wMjEsNC4xOTEsNy42NDksNS42NjEsMTIuNTY4LDMuMjk1YzQuNzkzLTIuMzAxLDcuMTQxLTcuMzkzLDUuNDE0LTExLjUxOQ0KCQkJYy0xLjMtMTQuNDcyLTYuNzQ0LTIzLjQ3NS05Ljg5Ni0yNy41NzdjLTIuMjA4LTIuODUyLTYuNTE1LTMuODUxLTkuODA4LTIuMjY0bC0yMC45NjksMTAuMDg1DQoJCQljLTEuNjczLDAuODAzLTIuOTI2LDIuMjA4LTMuNTMzLDMuOTU4Yy0wLjY0NCwxLjg0OS0wLjUwMSwzLjg4MywwLjM5Miw1LjcxN2MyLjUwNCw1LjEyLDQuNjY5LDEyLjUyMiw2LjA2LDE3LjkyMQ0KCQkJYy0wLjkyMSwwLjE4My0xLjg1MSwwLjQ4NS0yLjc1MywwLjkyNWMtNC45MTcsMi4zNjYtNy4yNzMsNy42ODctNS4yNTUsMTEuODc3YzIuMDIxLDQuMTkxLDcuNjQ1LDUuNjY2LDEyLjU2OSwzLjI5NQ0KCQkJYzQuNTQ4LTIuMTg4LDYuOS02LjkwMiw1LjY0Mi0xMC45MDZsMC4wNzctMC4wMTVjLTAuMTMzLTAuNjYyLTMuMjg4LTE1LjY0NC03Ljc5OS0yNS42MDhsMTguODMtOS4wNTQNCgkJCWMyLjE3LDIuOTczLDUuMzM0LDguNTEzLDYuOTM1LDE2Ljk5OGMtMS4wNzYsMC4xNjgtMi4xNTYsMC40OS0zLjIwOCwwLjk5NEMzNi4yMDIsMTI4LjMyLDMzLjg0NiwxMzMuNjQyLDM1Ljg2NCwxMzcuODMyeiIvPg0KCQk8Y2lyY2xlIGN4PSIxMTAuNTY1IiBjeT0iMzguMTM2IiByPSIyMS4wMDQiLz4NCgkJPHBhdGggZD0iTTE0LjMzNywyMzIuODY4aDIyMC4yMzljNy45MjEsMCwxNC4zMzgtNi4yNzIsMTQuMzM4LTE0LjAyMWMwLTcuNzQ3LTYuNDE3LTE0LjAyNC0xNC4zMzgtMTQuMDI0aC02Ny4yNjINCgkJCWMwLjM5My0wLjE0NSwwLjc5NC0wLjI4LDEuMTc2LTAuNTA0YzMuMjkxLTEuOTkzLDQuMzUxLTYuMjc3LDIuMzU3LTkuNTcybC0zOS4yNzgtNjUuMDE3di0zMi4xMQ0KCQkJYzE3Ljg4LDE2LjEzOSwyNi41MjMsNDEuOTg1LDI2LjY3Nyw0Mi40NTdjMC45NTcsMi45NDksMy42OTIsNC44MjUsNi42MzcsNC44MjVjMC43MDUsMCwxLjQzNC0wLjEwNiwyLjEzOC0wLjMzNg0KCQkJYzMuNjczLTEuMTgxLDUuNjgtNS4xMTUsNC40OTQtOC43NzNjLTAuNTg4LTEuODA3LTEyLjY2MS0zOC4yNjEtMzkuOTY5LTU1LjY5N2MtMC4xMTEtOS41MjUtNy44NTItMTcuMjE3LTE3LjQwNi0xNy4yMTdoLTcuMTU5DQoJCQljLTQuNTg3LDAtOC43MzIsMS44MTEtMTEuODQzLDQuNzA5Yy0yMS40NjQtMTUuMzIyLTMxLjc5LTQ2LjE5NC0zMS45NjItNDYuNzE3Yy0xLjE5LTMuNjU0LTUuMTA4LTUuNjctOC43NzQtNC40ODUNCgkJCWMtMy42NzEsMS4xODUtNS42NzgsNS4xMTUtNC40OTIsOC43NzRjMC41ODEsMS44MDEsMTIuNTY0LDM3Ljk4LDM5LjY0Miw1NS41MDF2NTUuNzkxTDc2LjA0NSwxNjAuMTUNCgkJCWMtMS4xMDQsMS45MzctMS4yMTgsNC4yNzktMC4yOTYsNi4zMTlsMTUuNjgxLDM0Ljc1MWMwLjc5MywxLjc2LDIuMjQ1LDIuOTc4LDMuOTE4LDMuNjAzSDE0LjMzNw0KCQkJQzYuNDE5LDIwNC44MjMsMCwyMTEuMTA1LDAsMjE4Ljg0OEMwLDIyNi41OTEsNi40MTksMjMyLjg2OCwxNC4zMzcsMjMyLjg2OHogTTg5LjkxNCwxNjMuOTY4bDEzLjMwMS0yMy4zMzVoMTguNjQ3bDM3LjA0Nyw2MS4zMjUNCgkJCWMwLjg0NSwxLjM5NiwyLjExNCwyLjMzOCwzLjUyOCwyLjg3aC02Mi4xNTZjMC4xMTktMC4wNDcsMC4yNDgtMC4wNjUsMC4zNjctMC4xMTdjMy41MDctMS41ODIsNS4wNzUtNS43MTIsMy40ODktOS4yMjINCgkJCUw4OS45MTQsMTYzLjk2OHoiLz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg==";
+                }
+            });
+ */
+
+
 
 
 

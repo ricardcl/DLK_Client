@@ -1,5 +1,5 @@
 import { EtatCpdlc } from './etatCpdlc';
-import { etatTransfertFrequence, etatLogonConnexionSimplifiee } from './checkAnswer';
+import { etatTransfertFrequence, etatLogonConnexionSimplifiee, erreurVol } from './checkAnswer';
 
 export class Vol {
     /** identifiant unique d'un vol (heure en ms ?) */
@@ -55,6 +55,12 @@ export class Vol {
     /**conditions du logon remplies/ logon effectue  */
     private conditionsLogon: string;
     /** */
+
+
+    /**Attributs utilisés côté client */
+    private listeErreurs:erreurVol[];
+
+
     constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
         logonInitie: string, logonAccepte: string, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
         conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean,listeEtatLogonConnexion: etatLogonConnexionSimplifiee[],listeEtatTransfertFrequence:etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[] ) {
@@ -81,6 +87,7 @@ export class Vol {
         this.listeLogsLpln = listeLogsLpln;
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
+        this.listeErreurs =  []
     }
 
 
@@ -156,6 +163,11 @@ export class Vol {
     public setListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): void {
         this.listeEtatLogonConnexion = listeEtatLogonConnexion;
     }
+
+    public addListeErreurs(erreur : erreurVol): void {
+        this.listeErreurs.push(erreur);
+    }
+
     /**
  * Unique ID for a vol
  */
@@ -244,5 +256,9 @@ export class Vol {
     }
     public getListeVolMix(): EtatCpdlc[] {
         return this.listeLogsMix;
+    }
+
+    public getListeErreurs(): erreurVol[] {
+        return this.listeErreurs;
     }
 }

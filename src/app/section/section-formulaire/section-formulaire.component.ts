@@ -130,6 +130,7 @@ export class SectionFormulaireComponent implements OnInit {
     if (this.selectedLplnFile != null) {
       selectedFile.push(this.selectedLplnFile);
     }
+console.log("uploadFiles selectedFile",selectedFile);
 
     this._chargerFormulaireService.uploadFiles(selectedFile);
 
@@ -287,10 +288,14 @@ export class SectionFormulaireComponent implements OnInit {
   public analyseFiles(): void {
     console.log("analyseFiles");
     console.log("selectedVemgsaFileName: ", this.vemgsaFilesNames);
-
+    console.log("this.selectedLplnFile.name: ", this.selectedLplnFile.name);
+    console.log("this.chosenHoraire",this.chosenHoraire);
+    
     console.log("this.vemgsaFilesNames.length: ", this.vemgsaFilesNames.length);
     let arcid: string = this._exchangeService.getcheckResult().arcid;
     let plnid: number = this._exchangeService.getcheckResult().plnid;
+    console.log("arcid",arcid,"plnid",plnid);
+    
     if (this.selectedLplnFile !== null) {
       this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames, this.chosenHoraire);
 
@@ -301,6 +306,7 @@ export class SectionFormulaireComponent implements OnInit {
     }
     //this.alerteCanicule.emit(2);
   }
+  
 
   /*************************************************  ************************************************/
 

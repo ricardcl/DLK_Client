@@ -28,8 +28,8 @@ export class TimelineComponent {
   private majListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): etatLogonConnexionSimplifiee[] {
     let colorSet = new am4core.ColorSet();
     colorSet.saturation = 0.4;
-
-    listeEtatLogonConnexion.forEach((element, index) => {
+    let liste: etatLogonConnexionSimplifiee[] = [...<any>listeEtatLogonConnexion];
+    liste.forEach((element, index) => {
 
       if (element.name == "logon") {
         if (element.infoEtat == Etat.Logue) {
@@ -43,7 +43,7 @@ export class TimelineComponent {
         element.color = colorSet.getIndex(2).brighten(0);
       }
     });
-    return listeEtatLogonConnexion;
+    return liste;
   }
 
   
@@ -53,16 +53,10 @@ export class TimelineComponent {
     this.zone.runOutsideAngular(() => {
       let chart = am4core.create("chartdiv2", am4charts.XYChart);
       chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
       chart.paddingRight = 30;
       chart.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
       chart.dateFormatter.dateFormat = "dd-MM HH mm ss";
-
       chart.height = 300;
-
-
-
-
       chart.data = this.majListeEtatLogonConnexion(this.listeEtatLogonConnexion);
 
 
@@ -74,6 +68,8 @@ export class TimelineComponent {
       // categoryAxis.renderer.height = am4core.percent(80);
       categoryAxis.height = 200;
 
+
+      
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.dateFormatter.dateFormat = "dd-MM HH mm ss";
       dateAxis.renderer.minGridDistance = 70;

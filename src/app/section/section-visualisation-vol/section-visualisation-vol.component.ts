@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Vol } from 'src/app/models/vol';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { EtatCpdlc } from 'src/app/models/etatCpdlc';
-import { etatLogonConnexionSimplifiee } from 'src/app/models/checkAnswer';
+import { etatLogonConnexionSimplifiee, etatTransfertFrequence, erreurVol } from 'src/app/models/checkAnswer';
 
 
 @Component({
@@ -21,9 +21,8 @@ export class SectionVisualisationVolComponent implements OnInit {
     @Input()
     public monvol: Vol;
 
-    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf:string, adrDeposee:string , equipementCpdlc:string }];
-    private  volCharge: boolean;
-
+    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string }];
+    private volCharge: boolean;
 
     public get isAnalysed(): boolean {
         return this._gestionVolsService.getNbVols() !== 0;
@@ -47,22 +46,40 @@ export class SectionVisualisationVolComponent implements OnInit {
 
 
     public initComponent() {
-        this.dataGenerale = [{ arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(),adrModeSInf: this.monvol.getadrModeSInf(), 
-            adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc() },];
-
+        this.dataGenerale = [{
+            arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(), adrModeSInf: this.monvol.getadrModeSInf(),
+            adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc()
+        },];
+        this.setListeErreurs();
         this.volCharge = true
     }
 
+    public setListeErreurs() {
+        if (this.monvol.getConditionsLogon() !== "OK") {
+            this.monvol.addListeErreurs({ date: "N/A", type: "logon NOK", infos: "coucou" });
+        }
+        this.getListeEtatTransfertFrequence().forEach(element => {
+            if (element.isTransfertAcq !== true) {
+                this.monvol.addListeErreurs({ date: element.dateTransfert, type: "echec de transfert", infos: "timeout" + element.isFinTRFDL });
+            }
+        });
+        console.log("nb erreurs : ", this.monvol.getListeErreurs().length);
+
+    }
 
     public getListeEtatLogonConnexion(): etatLogonConnexionSimplifiee[] {
         return this.monvol.getListeEtatLogonConnexion();
     }
+
+    public getListeEtatTransfertFrequence(): etatTransfertFrequence[] {
+        return this.monvol.getListeEtatTransfertFrequence();
+    }
     ////////////////AFFICHAGE DES LOGS 
-    displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc' ];
+    displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc'];
 
     displayedColumnsDet: string[] = ['date', 'heure', 'log', 'etat'];
 
-
+    displayedColumnsErreurs: string[] = ['date', 'type', 'infos'];
 
     alternate: boolean = true;
     toggle: boolean = true;

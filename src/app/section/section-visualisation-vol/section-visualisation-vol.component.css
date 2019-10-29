@@ -9,6 +9,12 @@
     width: 50%;
   }
 
+.tabErreur{
+  width: 50%;
+  }
+  .tabErreur *{
+    color: #2e6da4;
+  }
 .tabDet {
     width: 80%;
   }
