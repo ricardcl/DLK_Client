@@ -23,6 +23,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { MenuComponent } from './menu/menu.component'; 
 import {MatIconModule} from '@angular/material/icon'; 
 import { SectionModule } from './section/section.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { SectionModule } from './section/section.module';
     MatExpansionModule,
     MatTabsModule, 
     MatCheckboxModule, 
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
