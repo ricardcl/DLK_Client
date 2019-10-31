@@ -5,12 +5,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
 import { SectionVisualisationComponent } from './section/section-visualisation/section-visualisation.component';
 import { SectionFormulaireComponent } from './section/section-formulaire/section-formulaire.component';
+import { PageDocumentationComponent } from './page-documentation/page-documentation.component';
 
 
 
 const routes: Routes = [
   { path: 'accueil', component: PageAccueilComponent },
   { path: 'formulaire', component: SectionFormulaireComponent },
+  { path: 'documentation', component: PageDocumentationComponent },
   { path: 'visualisation/:id', component: SectionVisualisationComponent },
 
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },

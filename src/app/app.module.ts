@@ -23,13 +23,16 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { MenuComponent } from './menu/menu.component'; 
 import {MatIconModule} from '@angular/material/icon'; 
 import { SectionModule } from './section/section.module';
+import { PageDocumentationComponent } from './page-documentation/page-documentation.component';
+import {MatGridListModule} from '@angular/material/grid-list'; 
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     PageAccueilComponent,
-    MenuComponent   
+    MenuComponent,
+    PageDocumentationComponent   
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { SectionModule } from './section/section.module';
     MatExpansionModule,
     MatTabsModule, 
     MatCheckboxModule, 
-    MatIconModule
+    MatIconModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,7 +3,7 @@
   <mat-divider></mat-divider>
   <mat-list-item class="sidenav-section" routerLink="/formulaire" routerLinkActive="active">Formulaire</mat-list-item>
   <mat-divider></mat-divider>
-  <mat-list-item class="sidenav-section" routerLink="/item3" routerLinkActive="active"> Item 3</mat-list-item>
+  <mat-list-item class="sidenav-section" routerLink="/documentation" routerLinkActive="active">Documentation</mat-list-item>
   <mat-divider></mat-divider>
   <div *ngFor="let vol of getVols()">
     <mat-list-item class="sidenav-section" [routerLink]="['/visualisation', vol.getId()]" routerLinkActive="active">
