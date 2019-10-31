@@ -8,103 +8,106 @@
         <mat-card-subtitle>{{monvol.arcid}} {{monvol.plnid}}</mat-card-subtitle>
     </mat-card-header>
 
-    <p>
-        Nombre d'erreurs : {{monvol.getListeErreurs().length}}
-    </p>
-
-
-
-    <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur">
-
-            <!-- Position Column -->
-            <ng-container matColumnDef="date">
-              <th mat-header-cell *matHeaderCellDef> date </th>
-              <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-            </ng-container>
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="type">
-              <th mat-header-cell *matHeaderCellDef> type </th>
-              <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="infos">
-              <th mat-header-cell *matHeaderCellDef> infos </th>
-              <td mat-cell *matCellDef="let element"> {{element.infos}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsErreurs"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
-          </table>
-          
-          
-
-    <div>
-        <div>Timeline logon/connexion</div>
-        <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline>
-
-    </div>
-    <div>
-        <div>Timelinefréquence</div>
-        <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()" [listeEtatTransfertFrequence]="getListeEtatTransfertFrequence()"></app-timeline-lineaire>
-
-    </div>
-
 
     <mat-card-content>
 
-        <div class="isAnalysed">
-            <div> conditionsLogon: {{monvol.conditionsLogon}}</div>
 
-            <div>adrModeSInf: {{monvol.adrModeSInf}}</div>
-            <div>adrDeposee: {{monvol.adrDeposee}}</div>
-            <div>cmpAdrModeS: {{monvol.cmpAdrModeS}}</div>
-
-            <div>Adep: {{monvol.adep}}</div>
-            <div>cmpAdep: {{monvol.cmpAdep}}</div>
-
-            <div>Ades: {{monvol.ades}}</div>
-            <div>cmpAdes: {{monvol.cmpAdes}}</div>
-
-            <div>Arcid: {{monvol.arcid}}</div>
-            <div>cmpArcid: {{monvol.cmpArcid}}</div>
-
-            <div>equipementCpdlc: {{monvol.equipementCpdlc}}</div>
-
-            <div>logonInitie: {{monvol.logonInitie}}</div>
-            <div>logonAccepte: {{monvol.logonAccepte}}</div>
-
-            <div>haslogCpdlc: {{monvol.haslogCpdlc}}</div>
-            <div>islogCpdlcComplete: {{monvol.islogCpdlcComplete}}</div>
-
-        </div>
-
-        <div class="test_etats_frequence">
-            <div class="test_etats_frequence">
-                <h1 id="test_etats_frequence">test_etats_frequence_lpln</h1>
-            </div>
-            <ul class="frequences">
-                <li *ngFor="let entry of monvol.getListeEtatTransfertFrequence()">
-                    <div class="timeline-body">
-                        <p> frequence: {{entry.frequence}} </p>
-                        <p> dateTransfert: {{entry.dateTransfert}} </p>
-                        <p> positionTransfert: {{entry.positionTransfert}} </p>
-                        <p> isFinTRFDL: {{entry.isFinTRFDL}} </p>
-                        <p> dateFinTRFDL: {{entry.dateFinTRFDL}} </p>
-                        <p> isTRARTV: {{entry.isTRARTV}} </p>
-                        <p> dateTRARTV: {{entry.dateTRARTV}} </p>
-                        <p> isTransfertAcq: {{entry.isTransfertAcq}} </p>
-                        <p> dateTranfertAcq: {{entry.dateTranfertAcq}} </p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </mat-card-content>
-
-    <mat-card-content>
         <div>
             <mat-tab-group>
+
+                <mat-tab >
+                    <ng-template matTabLabel>
+                        <span matBadge="{{monvol.getListeErreurs().length}}" matBadgeOverlap="false" matBadgeColor="warn">Synthèse</span>
+                    </ng-template>
+
+
+                    <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef> type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                        </ng-container>
+
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="infos">
+                            <th mat-header-cell *matHeaderCellDef> infos </th>
+                            <td mat-cell *matCellDef="let element"> {{element.infos}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsErreurs"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
+                    </table>
+
+                    <div>
+                        <div>Timelinefréquence</div>
+                        <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"
+                            [listeEtatTransfertFrequence]="getListeEtatTransfertFrequence()"></app-timeline-lineaire>
+                    </div>
+
+                    <!--      <div>
+                        <div>Timeline logon/connexion</div>
+                        <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline>
+                    </div>-->
+                </mat-tab>
+                <mat-tab label="Infos en vrac">
+
+
+                    <div class="isAnalysed">
+                        <div> conditionsLogon: {{monvol.conditionsLogon}}</div>
+
+                        <div>adrModeSInf: {{monvol.adrModeSInf}}</div>
+                        <div>adrDeposee: {{monvol.adrDeposee}}</div>
+                        <div>cmpAdrModeS: {{monvol.cmpAdrModeS}}</div>
+
+                        <div>Adep: {{monvol.adep}}</div>
+                        <div>cmpAdep: {{monvol.cmpAdep}}</div>
+
+                        <div>Ades: {{monvol.ades}}</div>
+                        <div>cmpAdes: {{monvol.cmpAdes}}</div>
+
+                        <div>Arcid: {{monvol.arcid}}</div>
+                        <div>cmpArcid: {{monvol.cmpArcid}}</div>
+
+                        <div>equipementCpdlc: {{monvol.equipementCpdlc}}</div>
+
+                        <div>logonInitie: {{monvol.logonInitie}}</div>
+                        <div>logonAccepte: {{monvol.logonAccepte}}</div>
+
+                        <div>haslogCpdlc: {{monvol.haslogCpdlc}}</div>
+                        <div>islogCpdlcComplete: {{monvol.islogCpdlcComplete}}</div>
+
+                    </div>
+
+                    <div class="test_etats_frequence">
+                        <div class="test_etats_frequence">
+                            <h1 id="test_etats_frequence">test_etats_frequence_lpln</h1>
+                        </div>
+                        <ul class="frequences">
+                            <li *ngFor="let entry of monvol.getListeEtatTransfertFrequence()">
+                                <div class="timeline-body">
+                                    <p> frequence: {{entry.frequence}} </p>
+                                    <p> dateTransfert: {{entry.dateTransfert}} </p>
+                                    <p> positionTransfert: {{entry.positionTransfert}} </p>
+                                    <p> isFinTRFDL: {{entry.isFinTRFDL}} </p>
+                                    <p> dateFinTRFDL: {{entry.dateFinTRFDL}} </p>
+                                    <p> isTRARTV: {{entry.isTRARTV}} </p>
+                                    <p> dateTRARTV: {{entry.dateTRARTV}} </p>
+                                    <p> isTransfertAcq: {{entry.isTransfertAcq}} </p>
+                                    <p> dateTranfertAcq: {{entry.dateTranfertAcq}} </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </mat-tab>
+
                 <mat-tab label="Lpln" *ngIf="isLpln">
 
 

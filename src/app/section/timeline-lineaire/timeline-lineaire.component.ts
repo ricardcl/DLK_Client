@@ -16,7 +16,8 @@ am4core.useTheme(am4themes_animated);
 })
 export class TimelineLineaireComponent {
 
-    private chart: am4charts.XYChart;
+    private chart: any = undefined;
+    private isComonentInit : boolean = false;
 
     @Input()
     public listeEtatLogonConnexion: etatLogonConnexionSimplifiee[];
@@ -95,27 +96,47 @@ export class TimelineLineaireComponent {
         // return this.listeEtatLogonConnexion;
     }
 
-
     ngOnChanges() {
+        if (this.isComonentInit) {
+            this.timelinesUpdate();
+        }
+    }
+
+    ngAfterViewInit() {
+        if (!this.isComonentInit) {
+            this.timelinesUpdate();
+            this.isComonentInit = true;
+        }
+    }
+
+    private deleteCharts () : void {
+        if (this.chart !== undefined) {
+            this.zone.runOutsideAngular(() => {
+                    this.chart.dispose();
+            });
+            this.chart = undefined;
+        }
+    }
+
+    private timelinesUpdate () : void {
+        this.deleteCharts();
         this.zone.runOutsideAngular(() => {
 
-
-
             //explications : https://www.amcharts.com/docs/v4/chart-types/timeline/
-            let chart = am4core.create("chartdiv", am4plugins_timeline.CurveChart);
-            chart.curveContainer.padding(20, 20, 20, 50); //left padding : a ajuster pour pouvoir afficher le nom de categorie
-            chart.maskBullets = false;
-            chart.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
-            chart.dateFormatter.dateFormat = "dd-MM HH mm ss";
-            chart.fontSize = 10;
-            chart.tooltipContainer.fontSize = 10;
+            this.chart = am4core.create("chartdiv", am4plugins_timeline.CurveChart);
+            this.chart.curveContainer.padding(20, 20, 20, 50); //left padding : a ajuster pour pouvoir afficher le nom de categorie
+            this.chart.maskBullets = false;
+            this.chart.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
+            this.chart.dateFormatter.dateFormat = "dd-MM HH mm ss";
+            this.chart.fontSize = 10;
+            this.chart.tooltipContainer.fontSize = 10;
             //chart.height = 300;
-            chart.data = this.majListeEtatLogonConnexion();
+            this.chart.data = this.majListeEtatLogonConnexion();
 
           
 
 
-            let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis<am4plugins_timeline.AxisRendererCurveY>());
+            let categoryAxis = this.chart.yAxes.push(new am4charts.CategoryAxis<am4plugins_timeline.AxisRendererCurveY>());
             categoryAxis.dataFields.category = "typeEtat";
      
              categoryAxis.renderer.grid.template.disabled = false;
@@ -129,7 +150,7 @@ export class TimelineLineaireComponent {
 
 
 
-            let dateAxis = chart.xAxes.push(new am4charts.DateAxis<am4plugins_timeline.AxisRendererCurveX>());
+            let dateAxis = this.chart.xAxes.push(new am4charts.DateAxis<am4plugins_timeline.AxisRendererCurveX>());
             dateAxis.renderer.minGridDistance = 70;
             dateAxis.baseInterval = { count: 1, timeUnit: "second" };
             dateAxis.renderer.tooltipLocation = 0;
@@ -165,7 +186,7 @@ export class TimelineLineaireComponent {
             serieLogon.columns.template.fillOpacity = 0.6;
 */
             /** Serie Logon/Connexion */
-                       let serieLogonConnexion = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+                       let serieLogonConnexion = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
                        serieLogonConnexion.columns.template.height = am4core.percent(30);
            
                        serieLogonConnexion.dataFields.openDateX = "fromDate";
@@ -204,7 +225,7 @@ export class TimelineLineaireComponent {
             */
 
             /** icones de frequences */
-                        let seriesFreq = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+                        let seriesFreq = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
                         seriesFreq.columns.template.height = am4core.percent(30);
             
                         seriesFreq.dataFields.openDateX = "fromDate";
@@ -242,7 +263,7 @@ export class TimelineLineaireComponent {
             
 
             let cursor = new am4plugins_timeline.CurveCursor();
-            chart.cursor = cursor;
+            this.chart.cursor = cursor;
             cursor.xAxis = dateAxis;
             cursor.yAxis = categoryAxis;
             cursor.lineY.disabled = true;
@@ -251,7 +272,7 @@ export class TimelineLineaireComponent {
             dateAxis.renderer.tooltipLocation2 = 0;
             categoryAxis.cursorTooltipEnabled = false;
 
-            chart.zoomOutButton.disabled = true;
+            this.chart.zoomOutButton.disabled = true;
 
 
             /** creation dune legende
@@ -293,10 +314,7 @@ export class TimelineLineaireComponent {
 
     }
     ngOnDestroy() {
-        this.zone.runOutsideAngular(() => {
-            if (this.chart) {
-                this.chart.dispose();
-            }
-        });
+        this.deleteCharts();
+        this.isComonentInit = false;
     }
 }

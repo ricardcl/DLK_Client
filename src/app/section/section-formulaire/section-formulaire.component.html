@@ -33,9 +33,7 @@
           <div class="formFile">
             <input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" />
           </div>
-          <div *ngIf="!isFichier">
-            Champ obligatoire !
-          </div>
+
           <div *ngIf="isFileSelected" class="formButton">
             <button mat-stroked-button (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>

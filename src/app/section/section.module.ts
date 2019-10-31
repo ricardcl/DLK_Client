@@ -19,6 +19,7 @@ import { SectionVisualisationComponent } from './section-visualisation/section-v
 import {MatIconModule} from '@angular/material/icon';
 import { TimelineComponent } from './timeline/timeline.component';
 import { TimelineLineaireComponent } from './timeline-lineaire/timeline-lineaire.component'; 
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
     declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent],
@@ -40,7 +41,8 @@ import { TimelineLineaireComponent } from './timeline-lineaire/timeline-lineaire
         MatStepperModule,
         MatIconModule,
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatBadgeModule
     ],
     exports: [SectionComponent]
 })
