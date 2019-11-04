@@ -18,12 +18,35 @@ am4core.useTheme(am4themes_animated);
 
 export class TimelineComponent {
 
-  private chart: am4charts.XYChart;
+  private chart: am4charts.XYChart = undefined;
+  private isComponentInit: boolean = false;
 
   @Input()
   public listeEtatLogonConnexion: etatLogonConnexionSimplifiee[];
+
   constructor(private zone: NgZone) { }
 
+  ngOnChanges() {
+    if (this.isComponentInit) {
+      this.timelinesUpdate();
+    }
+  }
+
+  ngAfterViewInit() {
+    if (!this.isComponentInit) {
+      this.timelinesUpdate();
+      this.isComponentInit = true;
+    }
+  }
+
+  private deleteCharts(): void {
+    if (this.chart !== undefined) {
+      this.zone.runOutsideAngular(() => {
+        this.chart.dispose();
+      });
+      this.chart = undefined;
+    }
+  }
 
   private majListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): etatLogonConnexionSimplifiee[] {
     let colorSet = new am4core.ColorSet();
@@ -46,11 +69,12 @@ export class TimelineComponent {
     return liste;
   }
 
-  
 
-  ngOnChanges() {
-    console.log("ngAfterViewInit");
+
+  private timelinesUpdate(): void {
+    this.deleteCharts();
     this.zone.runOutsideAngular(() => {
+
       let chart = am4core.create("chartdiv2", am4charts.XYChart);
       chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
       chart.paddingRight = 30;
@@ -69,7 +93,7 @@ export class TimelineComponent {
       categoryAxis.height = 200;
 
 
-      
+
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.dateFormatter.dateFormat = "dd-MM HH mm ss";
       dateAxis.renderer.minGridDistance = 70;
@@ -108,10 +132,7 @@ export class TimelineComponent {
   }
 
   ngOnDestroy() {
-    this.zone.runOutsideAngular(() => {
-      if (this.chart) {
-        this.chart.dispose();
-      }
-    });
+    this.deleteCharts();
+    this.isComponentInit = false;
   }
 }

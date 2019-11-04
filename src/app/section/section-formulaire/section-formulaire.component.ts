@@ -130,7 +130,7 @@ export class SectionFormulaireComponent implements OnInit {
     if (this.selectedLplnFile != null) {
       selectedFile.push(this.selectedLplnFile);
     }
-console.log("uploadFiles selectedFile",selectedFile);
+    console.log("uploadFiles selectedFile", selectedFile);
 
     this._chargerFormulaireService.uploadFiles(selectedFile);
 
@@ -227,7 +227,7 @@ console.log("uploadFiles selectedFile",selectedFile);
             message = message + "[" + element.dateMin + "," + element.dateMax + "]";
           });
           break;
-        case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = ["+resultVEMGSA.datesFichierVemgsa.dateMin + ','+ resultVEMGSA.datesFichierVemgsa.dateMax + ']';
+        case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = [" + resultVEMGSA.datesFichierVemgsa.dateMin + ',' + resultVEMGSA.datesFichierVemgsa.dateMax + ']';
           break;
         case 7: message = "Format des identifiants fournis incorrect";
           break;
@@ -261,7 +261,7 @@ console.log("uploadFiles selectedFile",selectedFile);
     if (this.isVEMGSA) {
       result = (this._exchangeService.getcheckResult().checkVEMGSA.valeurRetour == 5);
     }
-   // console.log("isHorairesVemgsaMultiple result", result);
+    // console.log("isHorairesVemgsaMultiple result", result);
 
     return result;
   }
@@ -288,25 +288,26 @@ console.log("uploadFiles selectedFile",selectedFile);
   public analyseFiles(): void {
     console.log("analyseFiles");
     console.log("selectedVemgsaFileName: ", this.vemgsaFilesNames);
-    console.log("this.selectedLplnFile.name: ", this.selectedLplnFile.name);
-    console.log("this.chosenHoraire",this.chosenHoraire);
-    
+
+    console.log("this.chosenHoraire", this.chosenHoraire);
+
     console.log("this.vemgsaFilesNames.length: ", this.vemgsaFilesNames.length);
     let arcid: string = this._exchangeService.getcheckResult().arcid;
     let plnid: number = this._exchangeService.getcheckResult().plnid;
-    console.log("arcid",arcid,"plnid",plnid);
-    
+    console.log("arcid", arcid, "plnid", plnid);
+
     if (this.selectedLplnFile !== null) {
+      console.log("this.selectedLplnFile.name: ", this.selectedLplnFile.name);
       this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames, this.chosenHoraire);
 
     }
     else {
-      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames,this.chosenHoraire);
+      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames, this.chosenHoraire);
 
     }
     //this.alerteCanicule.emit(2);
   }
-  
+
 
   /*************************************************  ************************************************/
 

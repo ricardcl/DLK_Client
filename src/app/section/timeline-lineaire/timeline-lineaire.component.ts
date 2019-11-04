@@ -17,7 +17,7 @@ am4core.useTheme(am4themes_animated);
 export class TimelineLineaireComponent {
 
     private chart: any = undefined;
-    private isComonentInit : boolean = false;
+    private isComponentInit: boolean = false;
 
     @Input()
     public listeEtatLogonConnexion: etatLogonConnexionSimplifiee[];
@@ -51,7 +51,7 @@ export class TimelineLineaireComponent {
         let listeFinale: etatLogonConnexionSimplifiee[] = [...<any>this.listeEtatTransfertFrequence];
         let listeEtats: etatLogonConnexionSimplifiee[] = [...<any>this.listeEtatLogonConnexion];
 
-        listeFinale.forEach((element, index) => {
+        listeFinale.forEach((element) => {
             element.fromDate = element.dateTransfert;
             element.name = "frequence";
             element.typeFreq = element.name
@@ -61,7 +61,8 @@ export class TimelineLineaireComponent {
 
         });
 
-        listeEtats.forEach((element, index) => {
+        listeEtats.forEach((element) => {
+
             if (element.name == "logs") {
                 // element.typeLog = element.name ;
                 element.icon = book;
@@ -70,7 +71,10 @@ export class TimelineLineaireComponent {
                 element.toDate = element.fromDate;
 
                 listeFinale.push(element);
-            }
+            } 
+        });
+
+        listeEtats.forEach((element) => {
             if (element.name == "logon") {
                 if (element.infoEtat == Etat.Logue) {
                     element.color = colorSet.getIndex(0).brighten(0.4);
@@ -78,18 +82,23 @@ export class TimelineLineaireComponent {
                 else if (element.infoEtat == Etat.NonLogue) {
                     element.color = colorSet.getIndex(6).brighten(0);
                 }
-                element.typeEtat = "typeLogon";
+                element.typeEtat = "logon";
                 element.typeLogon = element.name;
                 listeFinale.push(element);
             }
+ 
+        });
+        
+        listeEtats.forEach((element) => {
             if (element.name == "connexion") {
                 element.color = colorSet.getIndex(2).brighten(0);
-                element.typeEtat = "typeConnexion";
+                element.typeEtat = "connexion";
                 element.typeConnexion = element.name;
                 listeFinale.push(element);
             }
         });
 
+ 
         console.log("attention la liste finale: ", listeFinale);
 
         return listeFinale;
@@ -97,28 +106,28 @@ export class TimelineLineaireComponent {
     }
 
     ngOnChanges() {
-        if (this.isComonentInit) {
+        if (this.isComponentInit) {
             this.timelinesUpdate();
         }
     }
 
     ngAfterViewInit() {
-        if (!this.isComonentInit) {
+        if (!this.isComponentInit) {
             this.timelinesUpdate();
-            this.isComonentInit = true;
+            this.isComponentInit = true;
         }
     }
 
-    private deleteCharts () : void {
+    private deleteCharts(): void {
         if (this.chart !== undefined) {
             this.zone.runOutsideAngular(() => {
-                    this.chart.dispose();
+                this.chart.dispose();
             });
             this.chart = undefined;
         }
     }
 
-    private timelinesUpdate () : void {
+    private timelinesUpdate(): void {
         this.deleteCharts();
         this.zone.runOutsideAngular(() => {
 
@@ -133,14 +142,14 @@ export class TimelineLineaireComponent {
             //chart.height = 300;
             this.chart.data = this.majListeEtatLogonConnexion();
 
-          
+
 
 
             let categoryAxis = this.chart.yAxes.push(new am4charts.CategoryAxis<am4plugins_timeline.AxisRendererCurveY>());
             categoryAxis.dataFields.category = "typeEtat";
-     
-             categoryAxis.renderer.grid.template.disabled = false;
-           // categoryAxis.renderer.minGridDistance = 30;
+
+            categoryAxis.renderer.grid.template.disabled = false;
+            // categoryAxis.renderer.minGridDistance = 30;
             categoryAxis.renderer.innerRadius = 10;
             categoryAxis.renderer.radius = 200;
 
@@ -153,7 +162,8 @@ export class TimelineLineaireComponent {
             let dateAxis = this.chart.xAxes.push(new am4charts.DateAxis<am4plugins_timeline.AxisRendererCurveX>());
             dateAxis.renderer.minGridDistance = 70;
             dateAxis.baseInterval = { count: 1, timeUnit: "second" };
-            dateAxis.renderer.tooltipLocation = 0;
+            dateAxis.renderer.tooltipLocation = 0; //Location within axis cell to show tooltip on. (0-1)0 - show at the start 0.5 - show right in the middle 1 - show at the end
+            dateAxis.renderer.tooltipLocation2 = 0; //Location within secondary axis cell to show tooltip on. (0-1)0 - show at the start 0.5 - show right in the middle 1 - show at the end
             dateAxis.renderer.line.strokeDasharray = "1,4";
             dateAxis.renderer.line.strokeOpacity = 0.5;
             dateAxis.tooltip.background.fillOpacity = 0.2;
@@ -170,7 +180,7 @@ export class TimelineLineaireComponent {
             labelTemplate.background.fill = new am4core.InterfaceColorSet().getFor("background");
             labelTemplate.background.fillOpacity = 1;
             labelTemplate.fill = new am4core.InterfaceColorSet().getFor("text");
-            labelTemplate.padding(7, 7, 7, 7); 
+            labelTemplate.padding(7, 7, 7, 7);
 
             /** Serie logon  
             let serieLogon = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
@@ -186,18 +196,18 @@ export class TimelineLineaireComponent {
             serieLogon.columns.template.fillOpacity = 0.6;
 */
             /** Serie Logon/Connexion */
-                       let serieLogonConnexion = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
-                       serieLogonConnexion.columns.template.height = am4core.percent(30);
-           
-                       serieLogonConnexion.dataFields.openDateX = "fromDate";
-                       serieLogonConnexion.dataFields.dateX = "toDate";
-                       serieLogonConnexion.dataFields.categoryY = "typeEtat";
-                       serieLogonConnexion.baseAxis = categoryAxis;
-                       serieLogonConnexion.columns.template.propertyFields.fill = "color"; // get color from data
-                       serieLogonConnexion.columns.template.propertyFields.stroke = "color";
-                       serieLogonConnexion.columns.template.strokeOpacity = 0;
-                       serieLogonConnexion.columns.template.fillOpacity = 0.6;
-                       serieLogonConnexion.clustered = false;
+            let serieLogonConnexion = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+            serieLogonConnexion.columns.template.height = am4core.percent(30);
+
+            serieLogonConnexion.dataFields.openDateX = "fromDate";
+            serieLogonConnexion.dataFields.dateX = "toDate";
+            serieLogonConnexion.dataFields.categoryY = "typeEtat";
+            serieLogonConnexion.baseAxis = categoryAxis;
+            serieLogonConnexion.columns.template.propertyFields.fill = "color"; // get color from data
+            serieLogonConnexion.columns.template.propertyFields.stroke = "color";
+            serieLogonConnexion.columns.template.strokeOpacity = 0;
+            serieLogonConnexion.columns.template.fillOpacity = 0.6;
+            serieLogonConnexion.clustered = false;
 
             /** icones de ???
                         let imageBullet1 = series.bullets.push(new am4plugins_bullets.PinBullet());
@@ -225,42 +235,48 @@ export class TimelineLineaireComponent {
             */
 
             /** icones de frequences */
-                        let seriesFreq = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
-                        seriesFreq.columns.template.height = am4core.percent(30);
-            
-                        seriesFreq.dataFields.openDateX = "fromDate";
-                        seriesFreq.dataFields.dateX = "fromDate";
-                        seriesFreq.dataFields.categoryY = "typeFreq";
-                        seriesFreq.baseAxis = categoryAxis;
-                        seriesFreq.columns.template.propertyFields.fill = "color"; // get color from data
-                        seriesFreq.columns.template.propertyFields.stroke = "color";
-                        seriesFreq.columns.template.strokeOpacity = 0;
-                        seriesFreq.columns.template.fillOpacity = 0.6;
-            
-                        let imageBulletFreq = seriesFreq.bullets.push(new am4plugins_bullets.PinBullet());
-                        imageBulletFreq.background.radius = 18;
-                        imageBulletFreq.locationX = 1;
-                        imageBulletFreq.propertyFields.stroke = "color";
-                        imageBulletFreq.background.propertyFields.fill = "color";
-                        imageBulletFreq.image = new am4core.Image();
-                        imageBulletFreq.image.propertyFields.href = "icon";
-                        imageBulletFreq.image.scale = 0.7;
-                        imageBulletFreq.circle.radius = am4core.percent(100);
-                        imageBulletFreq.background.fillOpacity = 0.8;
-                        imageBulletFreq.background.strokeOpacity = 0;
-                        imageBulletFreq.dy = -200;
-                        imageBulletFreq.background.pointerBaseWidth = 10;
-                        imageBulletFreq.background.pointerLength = 10
-                        imageBulletFreq.tooltipText = "{text}";
-            
-                        seriesFreq.tooltip.pointerOrientation = "up";
-                                    // Setting series flag url
+            let seriesFreq = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+            seriesFreq.columns.template.height = am4core.percent(30);
+
+            seriesFreq.dataFields.openDateX = "fromDate";
+            seriesFreq.dataFields.dateX = "fromDate";
+            seriesFreq.dataFields.categoryY = "typeFreq";
+            seriesFreq.baseAxis = categoryAxis;
+            seriesFreq.columns.template.propertyFields.fill = "color"; // get color from data
+            seriesFreq.columns.template.propertyFields.stroke = "color";
+            seriesFreq.columns.template.strokeOpacity = 0;
+            seriesFreq.columns.template.fillOpacity = 0.6;
+
+            let imageBulletFreq = seriesFreq.bullets.push(new am4plugins_bullets.PinBullet());
+            imageBulletFreq.background.radius = 18;
+            imageBulletFreq.locationX = 1;
+            imageBulletFreq.propertyFields.stroke = "color";
+            imageBulletFreq.background.propertyFields.fill = "color";
+            imageBulletFreq.image = new am4core.Image();
+            imageBulletFreq.image.propertyFields.href = "icon";
+            imageBulletFreq.image.scale = 0.7;
+            imageBulletFreq.circle.radius = am4core.percent(100);
+            imageBulletFreq.background.fillOpacity = 0.8;
+            imageBulletFreq.background.strokeOpacity = 0;
+            imageBulletFreq.dy = -200;
+            imageBulletFreq.background.pointerBaseWidth = 10;
+            imageBulletFreq.background.pointerLength = 10
+            imageBulletFreq.tooltipText = "{text}";
+
+            seriesFreq.tooltip.pointerOrientation = "up";
+            // Setting series flag url
             seriesFreq.dummyData = {
                 flag: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjI0OC45MTRweCIgaGVpZ2h0PSIyNDguOTE0cHgiIHZpZXdCb3g9IjAgMCAyNDguOTE0IDI0OC45MTQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI0OC45MTQgMjQ4LjkxNDsiDQoJIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGQ9Ik0yMDEuNzExLDQ5LjU4M2MtNS40NiwwLTkuODk1LDMuNzcxLTkuODk1LDguNDE5YzAsNC42NTMsNC40MzUsOC40MTksOS44OTUsOC40MTljNS4zMTYsMCw5LjY0My0zLjU2Niw5Ljg3Ni04LjAzMg0KCQkJYzUuMTA1LTEzLjYsNC4xMDYtMjQuMDc4LDMuMDQzLTI5LjEzN2MtMC43NDctMy41MzMtNC4yLTYuMjk1LTcuODUxLTYuMjk1bC0yMy4yNy0wLjAxYy0xLjg1NywwLTMuNTk0LDAuNzI0LTQuOSwyLjAzDQoJCQljLTEuMzgyLDEuMzkxLTIuMTM4LDMuMjc2LTIuMTI5LDUuMzJjMC4wMzgsNS42OTktMS4yMjMsMTMuMzA2LTIuMzA1LDE4Ljc3NmMtMC45MDYtMC4yMzMtMS44NzctMC4zNjQtMi44ODUtMC4zNjQNCgkJCWMtNS40NjEsMC05Ljg5NSwzLjc3MS05Ljg5NSw4LjQyNGMwLDQuNjQ4LDQuNDM4LDguNDE5LDkuODk1LDguNDE5YzUuMDU1LDAsOS4yMTMtMy4yMiw5LjgxOS03LjM3OGwwLjA3NSwwLjAxOQ0KCQkJYzAuMTYzLTAuNjUzLDMuODI2LTE1LjUyMyw0LjA3OS0yNi40NTNsMjAuODk4LDAuMDA5YzAuNjY4LDMuNjE3LDEuMTExLDkuOTgzLTEuMTI0LDE4LjMyMw0KCQkJQzIwMy45ODgsNDkuNzY1LDIwMi44NzgsNDkuNTgzLDIwMS43MTEsNDkuNTgzeiIvPg0KCQk8cGF0aCBkPSJNMzUuODY0LDEzNy44MzJjMi4wMjEsNC4xOTEsNy42NDksNS42NjEsMTIuNTY4LDMuMjk1YzQuNzkzLTIuMzAxLDcuMTQxLTcuMzkzLDUuNDE0LTExLjUxOQ0KCQkJYy0xLjMtMTQuNDcyLTYuNzQ0LTIzLjQ3NS05Ljg5Ni0yNy41NzdjLTIuMjA4LTIuODUyLTYuNTE1LTMuODUxLTkuODA4LTIuMjY0bC0yMC45NjksMTAuMDg1DQoJCQljLTEuNjczLDAuODAzLTIuOTI2LDIuMjA4LTMuNTMzLDMuOTU4Yy0wLjY0NCwxLjg0OS0wLjUwMSwzLjg4MywwLjM5Miw1LjcxN2MyLjUwNCw1LjEyLDQuNjY5LDEyLjUyMiw2LjA2LDE3LjkyMQ0KCQkJYy0wLjkyMSwwLjE4My0xLjg1MSwwLjQ4NS0yLjc1MywwLjkyNWMtNC45MTcsMi4zNjYtNy4yNzMsNy42ODctNS4yNTUsMTEuODc3YzIuMDIxLDQuMTkxLDcuNjQ1LDUuNjY2LDEyLjU2OSwzLjI5NQ0KCQkJYzQuNTQ4LTIuMTg4LDYuOS02LjkwMiw1LjY0Mi0xMC45MDZsMC4wNzctMC4wMTVjLTAuMTMzLTAuNjYyLTMuMjg4LTE1LjY0NC03Ljc5OS0yNS42MDhsMTguODMtOS4wNTQNCgkJCWMyLjE3LDIuOTczLDUuMzM0LDguNTEzLDYuOTM1LDE2Ljk5OGMtMS4wNzYsMC4xNjgtMi4xNTYsMC40OS0zLjIwOCwwLjk5NEMzNi4yMDIsMTI4LjMyLDMzLjg0NiwxMzMuNjQyLDM1Ljg2NCwxMzcuODMyeiIvPg0KCQk8Y2lyY2xlIGN4PSIxMTAuNTY1IiBjeT0iMzguMTM2IiByPSIyMS4wMDQiLz4NCgkJPHBhdGggZD0iTTE0LjMzNywyMzIuODY4aDIyMC4yMzljNy45MjEsMCwxNC4zMzgtNi4yNzIsMTQuMzM4LTE0LjAyMWMwLTcuNzQ3LTYuNDE3LTE0LjAyNC0xNC4zMzgtMTQuMDI0aC02Ny4yNjINCgkJCWMwLjM5My0wLjE0NSwwLjc5NC0wLjI4LDEuMTc2LTAuNTA0YzMuMjkxLTEuOTkzLDQuMzUxLTYuMjc3LDIuMzU3LTkuNTcybC0zOS4yNzgtNjUuMDE3di0zMi4xMQ0KCQkJYzE3Ljg4LDE2LjEzOSwyNi41MjMsNDEuOTg1LDI2LjY3Nyw0Mi40NTdjMC45NTcsMi45NDksMy42OTIsNC44MjUsNi42MzcsNC44MjVjMC43MDUsMCwxLjQzNC0wLjEwNiwyLjEzOC0wLjMzNg0KCQkJYzMuNjczLTEuMTgxLDUuNjgtNS4xMTUsNC40OTQtOC43NzNjLTAuNTg4LTEuODA3LTEyLjY2MS0zOC4yNjEtMzkuOTY5LTU1LjY5N2MtMC4xMTEtOS41MjUtNy44NTItMTcuMjE3LTE3LjQwNi0xNy4yMTdoLTcuMTU5DQoJCQljLTQuNTg3LDAtOC43MzIsMS44MTEtMTEuODQzLDQuNzA5Yy0yMS40NjQtMTUuMzIyLTMxLjc5LTQ2LjE5NC0zMS45NjItNDYuNzE3Yy0xLjE5LTMuNjU0LTUuMTA4LTUuNjctOC43NzQtNC40ODUNCgkJCWMtMy42NzEsMS4xODUtNS42NzgsNS4xMTUtNC40OTIsOC43NzRjMC41ODEsMS44MDEsMTIuNTY0LDM3Ljk4LDM5LjY0Miw1NS41MDF2NTUuNzkxTDc2LjA0NSwxNjAuMTUNCgkJCWMtMS4xMDQsMS45MzctMS4yMTgsNC4yNzktMC4yOTYsNi4zMTlsMTUuNjgxLDM0Ljc1MWMwLjc5MywxLjc2LDIuMjQ1LDIuOTc4LDMuOTE4LDMuNjAzSDE0LjMzNw0KCQkJQzYuNDE5LDIwNC44MjMsMCwyMTEuMTA1LDAsMjE4Ljg0OEMwLDIyNi41OTEsNi40MTksMjMyLjg2OCwxNC4zMzcsMjMyLjg2OHogTTg5LjkxNCwxNjMuOTY4bDEzLjMwMS0yMy4zMzVoMTguNjQ3bDM3LjA0Nyw2MS4zMjUNCgkJCWMwLjg0NSwxLjM5NiwyLjExNCwyLjMzOCwzLjUyOCwyLjg3aC02Mi4xNTZjMC4xMTktMC4wNDcsMC4yNDgtMC4wNjUsMC4zNjctMC4xMTdjMy41MDctMS41ODIsNS4wNzUtNS43MTIsMy40ODktOS4yMjINCgkJCUw4OS45MTQsMTYzLjk2OHoiLz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg=="
             };
 
             seriesFreq.legendSettings.labelText = "Series: [bold {#667E93}] transferts frequence[/]";
-            
+
+            this.chart.scrollbarX = new am4core.Scrollbar();
+            this.chart.scrollbarX.align = "center"
+            this.chart.scrollbarX.width = am4core.percent(75);
+            this.chart.scrollbarX.parent =this.chart.bottomAxesContainer;
+    
+
 
             let cursor = new am4plugins_timeline.CurveCursor();
             this.chart.cursor = cursor;
@@ -269,10 +285,10 @@ export class TimelineLineaireComponent {
             cursor.lineY.disabled = true;
             cursor.lineX.disabled = true;
 
-            dateAxis.renderer.tooltipLocation2 = 0;
+            
             categoryAxis.cursorTooltipEnabled = false;
 
-            this.chart.zoomOutButton.disabled = true;
+            this.chart.zoomOutButton.disabled = false;
 
 
             /** creation dune legende
@@ -315,6 +331,6 @@ export class TimelineLineaireComponent {
     }
     ngOnDestroy() {
         this.deleteCharts();
-        this.isComonentInit = false;
+        this.isComponentInit = false;
     }
 }

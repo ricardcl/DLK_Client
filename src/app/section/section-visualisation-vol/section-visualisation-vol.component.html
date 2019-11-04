@@ -15,13 +15,15 @@
         <div>
             <mat-tab-group>
 
-                <mat-tab >
+                <mat-tab>
                     <ng-template matTabLabel>
-                        <span matBadge="{{monvol.getListeErreurs().length}}" matBadgeOverlap="false" matBadgeColor="warn">Synthèse</span>
+                        <span matBadge="{{monvol.getListeErreurs().length}}" matBadgeOverlap="false"
+                            matBadgeColor="warn">Synthèse</span>
                     </ng-template>
 
 
-                    <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur">
+                    <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur"
+                        *ngIf="monvol.getListeErreurs().length !== 0">
 
                         <!-- Position Column -->
                         <ng-container matColumnDef="date">
@@ -46,15 +48,21 @@
                     </table>
 
                     <div>
-                        <div>Timelinefréquence</div>
+                        <mat-card-title>
+                            Timelinefréquence
+                        </mat-card-title>
+
                         <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"
                             [listeEtatTransfertFrequence]="getListeEtatTransfertFrequence()"></app-timeline-lineaire>
                     </div>
 
-                    <!--      <div>
-                        <div>Timeline logon/connexion</div>
+                    <div>
+
+                        <mat-card-title>
+                            Timeline logon/connexion
+                        </mat-card-title>
                         <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline>
-                    </div>-->
+                    </div>
                 </mat-tab>
                 <mat-tab label="Infos en vrac">
 
