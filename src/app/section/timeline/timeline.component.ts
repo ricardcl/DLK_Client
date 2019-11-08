@@ -2,6 +2,8 @@ import { Component, NgZone, Input } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import * as am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
+
 import { etatLogonConnexionSimplifiee } from 'src/app/models/checkAnswer';
 import { Etat } from 'src/app/models/enumEtat';
 //import am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
@@ -18,7 +20,7 @@ am4core.useTheme(am4themes_animated);
 
 export class TimelineComponent {
 
-  private chart: am4charts.XYChart = undefined;
+  private chart2: am4charts.XYChart = undefined;
   private isComponentInit: boolean = false;
 
   @Input()
@@ -40,21 +42,25 @@ export class TimelineComponent {
   }
 
   private deleteCharts(): void {
-    if (this.chart !== undefined) {
+    if (this.chart2 !== undefined) {
       this.zone.runOutsideAngular(() => {
-        this.chart.dispose();
+        this.chart2.dispose();
       });
-      this.chart = undefined;
+      this.chart2 = undefined;
     }
   }
 
   private majListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): etatLogonConnexionSimplifiee[] {
     let colorSet = new am4core.ColorSet();
     colorSet.saturation = 0.4;
-    let liste: etatLogonConnexionSimplifiee[] = [...<any>listeEtatLogonConnexion];
+    console.log("liste AVANT : ", listeEtatLogonConnexion);
+    //let liste: etatLogonConnexionSimplifiee[] = listeEtatLogonConnexion.slice();
+        let liste: etatLogonConnexionSimplifiee[] = [...<etatLogonConnexionSimplifiee[]>listeEtatLogonConnexion];
+
     liste.forEach((element, index) => {
 
       if (element.name == "logon") {
+        element.typeEtat = "logon";
         if (element.infoEtat == Etat.Logue) {
           element.color = colorSet.getIndex(0).brighten(0.4);
         }
@@ -63,6 +69,7 @@ export class TimelineComponent {
         }
       }
       if (element.name == "connexion") {
+        element.typeEtat = "connexion";
         element.color = colorSet.getIndex(2).brighten(0);
       }
     });
@@ -75,26 +82,25 @@ export class TimelineComponent {
     this.deleteCharts();
     this.zone.runOutsideAngular(() => {
 
-      let chart = am4core.create("chartdiv2", am4charts.XYChart);
-      chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-      chart.paddingRight = 30;
-      chart.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
-      chart.dateFormatter.dateFormat = "dd-MM HH mm ss";
-      chart.height = 300;
-      chart.data = this.majListeEtatLogonConnexion(this.listeEtatLogonConnexion);
+      this.chart2= am4core.create("chartdiv2", am4charts.XYChart);
+      this.chart2.hiddenState.properties.opacity = 0; // this creates initial fade-in
+      this.chart2.paddingRight = 30;
+      this.chart2.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
+      this.chart2.dateFormatter.dateFormat = "dd-MM HH mm ss";
+      this.chart2.height = 300;
+      this.chart2.data = this.majListeEtatLogonConnexion(this.listeEtatLogonConnexion);
 
 
 
-      let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-      categoryAxis.dataFields.category = "name";
+      let categoryAxis = this.chart2.yAxes.push(new am4charts.CategoryAxis());
+      categoryAxis.dataFields.category = "typeEtat";
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.inversed = true;
       // categoryAxis.renderer.height = am4core.percent(80);
       categoryAxis.height = 200;
 
 
-
-      let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      let dateAxis = this.chart2.xAxes.push(new am4charts.DateAxis());
       dateAxis.dateFormatter.dateFormat = "dd-MM HH mm ss";
       dateAxis.renderer.minGridDistance = 70;
       dateAxis.baseInterval = { count: 1, timeUnit: "second" };
@@ -106,7 +112,7 @@ export class TimelineComponent {
       dateAxis.renderer.tooltipLocation = 0;
 
 
-      let series1 = chart.series.push(new am4charts.ColumnSeries());
+      let series1 = this.chart2.series.push(new am4charts.ColumnSeries());
       series1.columns.template.width = am4core.percent(80);
       series1.columns.template.tooltipText = " [bold] etat : {infoEtat}[/]\n fromDate: {fromDate}  \n toDate: {toDate} ";
 
@@ -116,13 +122,14 @@ export class TimelineComponent {
       series1.columns.template.propertyFields.fill = "color"; // get color from data
       series1.columns.template.propertyFields.stroke = "color";
       series1.columns.template.strokeOpacity = 1;
-      series1.clustered = false;
+      series1.clustered = false;  //Setting to false will make columns overlap with other series.
 
       let bullet1 = series1.bullets.push(new am4charts.LabelBullet());
       bullet1.interactionsEnabled = false;
       bullet1.label.text = "{infoEtat}";
       bullet1.locationY = 0.5;
       bullet1.label.fill = am4core.color("#ffffff");
+
 
 
     });

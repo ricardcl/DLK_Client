@@ -56,7 +56,7 @@ export class SectionVisualisationVolComponent implements OnInit {
 
     public setListeErreurs() {
         if (this.monvol.getConditionsLogon() !== "OK") {
-            this.monvol.addListeErreurs({ date: "N/A", type: "logon NOK", infos: "coucou" });
+            this.monvol.addListeErreurs({ date: "N/A", type: "logon NOK", infos: "logon NOK" });
         }
         this.getListeEtatTransfertFrequence().forEach(element => {
             if (element.isTransfertAcq !== true) {
