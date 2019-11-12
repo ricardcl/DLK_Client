@@ -17,12 +17,18 @@ export class SectionVisualisationVolComponent implements OnInit {
         this.initComponent();
     }
 
-    constructor(private _gestionVolsService: GestionVolsService) { }
+   
     @Input()
     public monvol: Vol;
 
     private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string }];
     private volCharge: boolean;
+    private dataLogon: {logon: string, explication: string};
+
+    constructor(private _gestionVolsService: GestionVolsService) { 
+        this.dataLogon = {logon: "N/A", explication: "N/A"}
+    }
+
 
     public get isAnalysed(): boolean {
         return this._gestionVolsService.getNbVols() !== 0;
@@ -50,8 +56,10 @@ export class SectionVisualisationVolComponent implements OnInit {
             arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(), adrModeSInf: this.monvol.getadrModeSInf(),
             adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc()
         },];
+        this.evaluateEtatLogon();
         this.setListeErreurs();
         this.volCharge = true
+        
     }
 
     public setListeErreurs() {
@@ -65,6 +73,35 @@ export class SectionVisualisationVolComponent implements OnInit {
         });
         console.log("nb erreurs : ", this.monvol.getListeErreurs().length);
 
+    }
+    public evaluateEtatLogon(): void {
+    
+        if (this.monvol.getLogonAccepte() === "OK") {
+        this.dataLogon.logon = "OK";
+        this.dataLogon.explication = "OK";
+        }
+        else {
+            this.dataLogon.logon = "Impossible";
+            if (this.monvol.getLogonInitie() === "OK") {
+                this.dataLogon.explication = "Logon Rejeté par le STPV";
+                }
+                else {
+                    if (this.monvol.getConditionsLogon() === "OK") {
+                        this.dataLogon.explication = "Pas de logon Initié par le bord";
+                        }
+                        else {
+                            if (this.monvol.getEquipementCpdlc() !== "EQUIPE") {
+                                this.dataLogon.explication = "Vol non déclaré CPDLC";
+                                }
+                                else {
+                                        this.dataLogon.explication = "l'un des paramètres déclarés dans le plan de vol n'est pas cohérent avec celui envoyé par le bord ";
+                                        this.dataLogon.explication+= "adep: "+this.monvol.getAdep()+"ades: "+this.monvol.getAdes()+"arcid: "+this.monvol.getArcid()+"adrDeposee: "+this.monvol.getadrDeposee()+"adrModeS: "+this.monvol.getadrModeSInf();
+                                }
+                        }
+                }
+        }
+
+      
     }
 
     public getListeEtatLogonConnexion(): etatLogonConnexionSimplifiee[] {
