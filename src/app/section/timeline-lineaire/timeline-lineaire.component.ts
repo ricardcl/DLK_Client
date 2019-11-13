@@ -284,7 +284,15 @@ export class TimelineLineaireComponent {
             element.typeFreq = element.name
             element.icon = dance;
             element.text = element.frequence;
-            element.color = colorSet.getIndex(10).brighten(0);
+            if(element.isTransfertAcq){
+                element.color = am4core.color("#31AF40").lighten(0);
+            }
+            else if(element.isTRARTV || element.isFinTRFDL){
+                element.color = am4core.color("#E94343").lighten(0);
+            }
+           else {
+            element.color = am4core.color("#F67B08").lighten(0);
+           }
 
         });
 
