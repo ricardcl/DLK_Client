@@ -24,9 +24,13 @@ export class SectionVisualisationVolComponent implements OnInit {
     private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string }];
     private volCharge: boolean;
     private dataLogon: {logon: string, explication: string};
+    private dataConnexion: {connexion: string, explication: string};
+ 
 
     constructor(private _gestionVolsService: GestionVolsService) { 
         this.dataLogon = {logon: "N/A", explication: "N/A"}
+        this.dataConnexion = {connexion: "N/A", explication: "N/A"};
+ 
     }
 
 
@@ -53,7 +57,10 @@ export class SectionVisualisationVolComponent implements OnInit {
 
     public get isVolLogue():boolean {
         return this.monvol.getLogonAccepte() === "OK" ;
-        //return true;
+    }
+
+    public get isVolConnecte():boolean {
+        return this.monvol.getIsConnexionInitiee() ;
     }
 
 
@@ -63,6 +70,7 @@ export class SectionVisualisationVolComponent implements OnInit {
             adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc()
         },];
         this.evaluateEtatLogon();
+        this.evaluateEtatConnexion();
         this.setListeErreurs();
         this.volCharge = true
         
@@ -77,6 +85,10 @@ export class SectionVisualisationVolComponent implements OnInit {
                 this.monvol.addListeErreurs({ date: element.dateTransfert, type: "echec de transfert", infos: "timeout" + element.isFinTRFDL });
             }
         });
+        if (this.dataConnexion.connexion ="KO"){
+            this.monvol.addListeErreurs({ date: this.monvol.getDate(), type: "connexion NOK", infos: this.dataConnexion.explication });
+        }
+       
         console.log("nb erreurs : ", this.monvol.getListeErreurs().length);
 
     }
@@ -105,6 +117,30 @@ export class SectionVisualisationVolComponent implements OnInit {
                                 }
                         }
                 }
+        }
+
+      
+    }
+    public evaluateEtatConnexion(): void {
+    
+        if (this.monvol.getLogonAccepte() !== "OK") {
+            if( !this.monvol.getIsConnexionInitiee()  &&  !this.monvol.getIsConnexionEtablie() ){
+                this.dataConnexion.connexion = "KO";
+                this.dataConnexion.explication = "Pas de connexion possible car vol non logue ";
+            }
+        }
+        else {
+            this.dataConnexion.connexion = "KO";
+            if(!this.monvol.getIsConnexionInitiee()){
+                this.dataConnexion.explication = "Pas de connexion initiée par le STPV ";
+            }
+            else if(!this.monvol.getIsConnexionEtablie()) {
+                this.dataConnexion.explication = "Echec de connexion avec l'aeronef ";
+            }
+            else if (this.monvol.getIsConnexionPerdue()){
+                this.dataConnexion.explication = "Perte de connexion avec l'aeronef ";
+            }
+
         }
 
       

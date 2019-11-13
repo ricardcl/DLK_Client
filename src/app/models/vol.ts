@@ -46,6 +46,7 @@ export class Vol {
     private logonInitie: string;
     /**Acceptation du logon par le STPV*/
     private logonAccepte: string;
+
     /**adrDeposee et cmpAdrModeSInf identique (entre Lpln et Vemgsa)  */
     private cmpAdrModeS: string;
     /**adep identique entre Lpln et Vemgsa  */
@@ -58,13 +59,20 @@ export class Vol {
     private conditionsLogon: string;
     /** */
 
+    // PARAMETRES LIES A LA CONNEXION
+    /**Connexion initiee par le STPV vers l aeronef  */
+    private isConnexionInitiee: boolean;
+    /**Connexion etablie vers l aeronef  */
+    private isConnexionEtablie: boolean;
+    /**Perte de connexion avec l aeronef  */
+    private isConnexionPerdue: boolean;
 
     /**Attributs utilisés côté client */
     private listeErreurs: erreurVol[];
 
 
-    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date:string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
-        logonInitie: string, logonAccepte: string, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
+    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
+        logonInitie: string, logonAccepte: string, isConnexionInitiee: boolean,isConnexionEtablie: boolean,isConnexionPerdue: boolean, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
         conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
         this.id = id;
         this.arcid = arcid;
@@ -78,6 +86,9 @@ export class Vol {
         this.equipementCpdlc = equipementCpdlc;
         this.logonInitie = logonInitie;
         this.logonAccepte = logonAccepte;
+        this.isConnexionInitiee = isConnexionInitiee;
+        this.isConnexionEtablie = isConnexionEtablie;
+        this.isConnexionPerdue = isConnexionPerdue;
         this.cmpAdrModeS = cmpAdrModeS;
         this.cmpAdep = cmpAdep;
         this.cmpAdes = cmpAdes;
@@ -129,6 +140,19 @@ export class Vol {
     public setLogonAccepte(logonAccepte: string): void {
         this.logonAccepte = logonAccepte;
     }
+
+    public setIsConnexionInitiee(isConnexionInitiee: boolean): void {
+        this.isConnexionInitiee = isConnexionInitiee;
+    }
+
+    public setIsConnexionEtablie(isConnexionEtablie: boolean): void {
+        this.isConnexionEtablie = isConnexionEtablie;
+    }
+
+    public setIsConnexionPerdue(isConnexionPerdue: boolean): void {
+        this.isConnexionPerdue = isConnexionPerdue;
+    }
+
     public setArcid(arcid: string): void {
         this.arcid = arcid;
     }
@@ -222,6 +246,18 @@ export class Vol {
 
     public getLogonAccepte(): string {
         return this.logonAccepte;
+    }
+
+    public getIsConnexionInitiee(): boolean {
+        return this.isConnexionInitiee;
+    }
+
+    public getIsConnexionEtablie(): boolean {
+        return this.isConnexionEtablie;
+    }
+
+    public getIsConnexionPerdue(): boolean {
+        return this.isConnexionPerdue;
     }
 
     public getCmpAdrModeS(): string {
