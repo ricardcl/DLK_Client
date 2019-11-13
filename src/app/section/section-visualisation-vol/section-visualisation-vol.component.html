@@ -21,56 +21,62 @@
                             matBadgeColor="warn">Synthèse</span>
                     </ng-template>
 
+                    <ng-template matTabContent>
+                        <div *ngIf="monvol.getListeErreurs().length !== 0">
+                            <h1>
+                                Tableau des erreurs
+                            </h1>
+                            <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur">
 
-                    <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur"
-                        *ngIf="monvol.getListeErreurs().length !== 0">
+                                <!-- Position Column -->
+                                <ng-container matColumnDef="date">
+                                    <th mat-header-cell *matHeaderCellDef> date </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                                </ng-container>
 
-                        <!-- Position Column -->
-                        <ng-container matColumnDef="date">
-                            <th mat-header-cell *matHeaderCellDef> date </th>
-                            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-                        </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="type">
+                                    <th mat-header-cell *matHeaderCellDef> type d'erreur </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                                </ng-container>
 
-                        <!-- Name Column -->
-                        <ng-container matColumnDef="type">
-                            <th mat-header-cell *matHeaderCellDef> type </th>
-                            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-                        </ng-container>
+                                <!-- Weight Column -->
+                                <ng-container matColumnDef="explication">
+                                    <th mat-header-cell *matHeaderCellDef> explication </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.infos}} </td>
+                                </ng-container>
 
-                        <!-- Weight Column -->
-                        <ng-container matColumnDef="infos">
-                            <th mat-header-cell *matHeaderCellDef> infos </th>
-                            <td mat-cell *matCellDef="let element"> {{element.infos}} </td>
-                        </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsErreurs"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
+                            </table>
+                        </div>
+                        <div *ngIf="isVolLogue">
+                            <h2>
+                                Timeline fréquence
+                            </h2>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumnsErreurs"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
-                    </table>
+                            <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"
+                                [listeEtatTransfertFrequence]="getListeEtatTransfertFrequence()">
+                            </app-timeline-lineaire>
+                        </div>
 
-                    <div>
-                        <mat-card-title>
-                            Timelinefréquence
-                        </mat-card-title>
- 
-                        <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"
-                            [listeEtatTransfertFrequence]="getListeEtatTransfertFrequence()"></app-timeline-lineaire> 
-                    </div>
+                        <div *ngIf="isVolLogue">
 
-                    <div>
 
-                        <mat-card-title>
-                            Timeline logon/connexion
-                        </mat-card-title>
-                        <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()" ></app-timeline>
-                    </div>
+                            <h2>
+                                Timeline logon/connexion
+                            </h2>
+                            <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline>
+                        </div>
+                    </ng-template>
                 </mat-tab>
                 <mat-tab label="Infos en vrac">
 
 
                     <div class="isAnalysed">
 
-                            <div>logon: {{dataLogon.logon}}</div>
-                            <div>explication: {{dataLogon.explication}}</div>
+                        <div>logon: {{dataLogon.logon}}</div>
+                        <div>explication: {{dataLogon.explication}}</div>
 
                         <div> conditionsLogon: {{monvol.conditionsLogon}}</div>
 
@@ -95,7 +101,7 @@
                         <div>haslogCpdlc: {{monvol.haslogCpdlc}}</div>
                         <div>islogCpdlcComplete: {{monvol.islogCpdlcComplete}}</div>
 
-                  
+
 
                     </div>
 
