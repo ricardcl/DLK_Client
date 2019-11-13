@@ -16,6 +16,8 @@ export class Vol {
     private adep: string;
     /**Aeroport de destination*/
     private ades: string;
+    /**Date du vol */
+    private date: string;
     /*liste des logs Mix concernant le vol */
     private listeLogsMix: EtatCpdlc[];
     /*liste des logs Lpln concernant le vol */
@@ -58,18 +60,19 @@ export class Vol {
 
 
     /**Attributs utilisés côté client */
-    private listeErreurs:erreurVol[];
+    private listeErreurs: erreurVol[];
 
 
-    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
+    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date:string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
         logonInitie: string, logonAccepte: string, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
-        conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean,listeEtatLogonConnexion: etatLogonConnexionSimplifiee[],listeEtatTransfertFrequence:etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[] ) {
+        conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
         this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
         this.sl = sl;
         this.adep = adep;
         this.ades = ades;
+        this.date = date;
         this.adrModeSInf = adrModeSInf;
         this.adrDeposee = adrDeposee;
         this.equipementCpdlc = equipementCpdlc;
@@ -87,7 +90,7 @@ export class Vol {
         this.listeLogsLpln = listeLogsLpln;
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
-        this.listeErreurs =  []
+        this.listeErreurs = []
     }
 
 
@@ -142,6 +145,10 @@ export class Vol {
         this.cmpAdes = cmpAdes;
     }
 
+    public setDate(date: string): void {
+        this.date = date;
+    }
+
     public setCmpArcid(cmpArcid: string): void {
         this.cmpArcid = cmpArcid;
     }
@@ -164,7 +171,7 @@ export class Vol {
         this.listeEtatLogonConnexion = listeEtatLogonConnexion;
     }
 
-    public addListeErreurs(erreur : erreurVol): void {
+    public addListeErreurs(erreur: erreurVol): void {
         this.listeErreurs.push(erreur);
     }
 
@@ -203,6 +210,10 @@ export class Vol {
 
     public getAdes(): string {
         return this.ades;
+    }
+
+    public getDate(): string {
+        return this.date;
     }
 
     public getLogonInitie(): string {
@@ -245,7 +256,7 @@ export class Vol {
     public getListeEtatLogonConnexion(): etatLogonConnexionSimplifiee[] {
         return this.listeEtatLogonConnexion;
     }
-    
+
 
 
     public getListeVolLpln(): EtatCpdlc[] {

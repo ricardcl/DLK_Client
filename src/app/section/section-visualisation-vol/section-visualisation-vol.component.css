@@ -1,3 +1,16 @@
+h1{
+  font-family: 'Roboto Bold';
+  font-style: normal;
+  font-weight: 300;
+}
+
+h2{
+  font-family: 'Roboto Medium';
+  font-style: normal;
+  font-weight: 300;
+}
+
+
 .example-input-label,
 .example-add-tab-button,
 .example-delete-tab-button {
@@ -5,21 +18,31 @@
 }
 
 
-.tabGen {
-    width: 50%;
-  }
 
 .tabErreur{
   width: 50%;
   }
   .tabErreur *{
     color: #2e6da4;
+    text-align:center;
   }
 
   .tabErreur tr:hover {
     background: #777;
   }
-  
+
+  /* TODO : mettre en gras les titres de colonne !
+  .tabErreur.tr.mat-header-row {
+    font-weight: bold;
+    font-size: 28px;
+    color: tomato;
+  }*/
+
+.tabGen {
+  width: 50%;
+}
+
+
 .tabDet {
     width: 80%;
   }

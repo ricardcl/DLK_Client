@@ -51,6 +51,12 @@ export class SectionVisualisationVolComponent implements OnInit {
     }
 
 
+    public get isVolLogue():boolean {
+        return this.monvol.getLogonAccepte() === "OK" ;
+        //return true;
+    }
+
+
     public initComponent() {
         this.dataGenerale = [{
             arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(), adrModeSInf: this.monvol.getadrModeSInf(),
@@ -63,8 +69,8 @@ export class SectionVisualisationVolComponent implements OnInit {
     }
 
     public setListeErreurs() {
-        if (this.monvol.getConditionsLogon() !== "OK") {
-            this.monvol.addListeErreurs({ date: "N/A", type: "logon NOK", infos: "logon NOK" });
+        if (this.monvol.getLogonAccepte() !== "OK") {
+            this.monvol.addListeErreurs({ date: this.monvol.getDate(), type: "logon NOK", infos: this.dataLogon.explication });
         }
         this.getListeEtatTransfertFrequence().forEach(element => {
             if (element.isTransfertAcq !== true) {
@@ -116,7 +122,7 @@ export class SectionVisualisationVolComponent implements OnInit {
 
     displayedColumnsDet: string[] = ['date', 'heure', 'log', 'etat'];
 
-    displayedColumnsErreurs: string[] = ['date', 'type', 'infos'];
+    displayedColumnsErreurs: string[] = ['date', 'type', 'explication'];
 
     alternate: boolean = true;
     toggle: boolean = true;

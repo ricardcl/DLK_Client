@@ -93,6 +93,7 @@ export class ExchangeService {
       let plnid: number = data['plnid'];
       let adep: string = data['adep'];
       let ades: string = data['ades'];
+      let date: string = data['date'];
       let adrModeSInf: string = data['adrModeSInf'];
       let adrDeposee: string = data['adrDeposee'];
       let equipementCpdlc: string = data['equipementCpdlc'];
@@ -132,11 +133,11 @@ export class ExchangeService {
 
       if (type === "LPLN") {
 
-        this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
+        this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date,adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
           cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence,this.listeEtats, null, null);
       }
       if (type === "VEMGSA") {
-        this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, null, null, null, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
+        this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date,null, null, null, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
           cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence, null, this.listeEtats, null);
       }
       console.log("donnes recuperes de LPLN ou VEMGSA : ", this.vol);
@@ -164,6 +165,7 @@ export class ExchangeService {
       let plnid: number = dataM['plnid'];
       let adep: string = dataM['adep'];
       let ades: string = dataM['ades'];
+      let date: string = dataM['date'];
       let adrModeSInf: string = dataM['adrModeSInf'];
       let adrDeposee: string = dataM['adrDeposee'];
       let equipementCpdlc: string = dataM['equipementCpdlc'];
@@ -268,7 +270,7 @@ export class ExchangeService {
       };
 
 
-      this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
+      this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date,adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, cmpAdrModeS, cmpAdep, cmpAdes,
         cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
         console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);

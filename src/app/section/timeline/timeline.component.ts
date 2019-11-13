@@ -34,6 +34,11 @@ export class TimelineComponent {
     }
   }
 
+  ngOnDestroy() {
+    this.deleteCharts();
+    this.isComponentInit = false;
+  }
+
   ngAfterViewInit() {
     if (!this.isComponentInit) {
       this.timelinesUpdate();
@@ -50,39 +55,11 @@ export class TimelineComponent {
     }
   }
 
-  private majListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): etatLogonConnexionSimplifiee[] {
-    let colorSet = new am4core.ColorSet();
-    colorSet.saturation = 0.4;
-    console.log("liste AVANT : ", listeEtatLogonConnexion);
-    //let liste: etatLogonConnexionSimplifiee[] = listeEtatLogonConnexion.slice();
-        let liste: etatLogonConnexionSimplifiee[] = [...<etatLogonConnexionSimplifiee[]>listeEtatLogonConnexion];
-
-    liste.forEach((element, index) => {
-
-      if (element.name == "logon") {
-        element.typeEtat = "logon";
-        if (element.infoEtat == Etat.Logue) {
-          element.color = colorSet.getIndex(0).brighten(0.4);
-        }
-        else if (element.infoEtat == Etat.NonLogue) {
-          element.color = colorSet.getIndex(6).brighten(0);
-        }
-      }
-      if (element.name == "connexion") {
-        element.typeEtat = "connexion";
-        element.color = colorSet.getIndex(2).brighten(0);
-      }
-    });
-    return liste;
-  }
-
-
-
   private timelinesUpdate(): void {
     this.deleteCharts();
     this.zone.runOutsideAngular(() => {
 
-      this.chart2= am4core.create("chartdiv2", am4charts.XYChart);
+      this.chart2 = am4core.create("chartdiv2", am4charts.XYChart);
       this.chart2.hiddenState.properties.opacity = 0; // this creates initial fade-in
       this.chart2.paddingRight = 30;
       this.chart2.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
@@ -129,17 +106,34 @@ export class TimelineComponent {
       bullet1.label.text = "{infoEtat}";
       bullet1.locationY = 0.5;
       bullet1.label.fill = am4core.color("#ffffff");
-
-
-
     });
-
-
-
   }
 
-  ngOnDestroy() {
-    this.deleteCharts();
-    this.isComponentInit = false;
+
+  private majListeEtatLogonConnexion(listeEtatLogonConnexion: etatLogonConnexionSimplifiee[]): etatLogonConnexionSimplifiee[] {
+    let colorSet = new am4core.ColorSet();
+    colorSet.saturation = 0.4;
+    // console.log("liste AVANT : ", listeEtatLogonConnexion);
+    //let liste: etatLogonConnexionSimplifiee[] = listeEtatLogonConnexion.slice();
+    let liste: etatLogonConnexionSimplifiee[] = [...<etatLogonConnexionSimplifiee[]>listeEtatLogonConnexion];
+
+    liste.forEach((element, index) => {
+
+      if (element.name == "logon") {
+        element.typeEtat = "logon";
+        if (element.infoEtat == Etat.Logue) {
+          element.color = colorSet.getIndex(0).brighten(0.4);
+        }
+        else if (element.infoEtat == Etat.NonLogue) {
+          element.color = colorSet.getIndex(6).brighten(0);
+        }
+      }
+      if (element.name == "connexion") {
+        element.typeEtat = "connexion";
+        element.color = colorSet.getIndex(2).brighten(0);
+      }
+    });
+    return liste;
   }
+
 }
