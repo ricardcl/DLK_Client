@@ -3,7 +3,7 @@ import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
 import { EtatCpdlc } from '../models/etatCpdlc';
 import { DetailCpdlc } from '../models/detailCpdlc';
-import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConnexionSimplifiee, etatLogonConnexion } from '../models/checkAnswer';
+import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConnexionSimplifiee, etatLogonConnexion, erreurVol } from '../models/checkAnswer';
 import { GestionVolsService } from './gestion-vols.service';
 import { datesFile } from '../models/date';
 
@@ -79,7 +79,7 @@ export class ExchangeService {
 
     this.socket.on('analysedVol', (type, array) => {
       this.initExchange();
-      console.log("type de fichier LPL ou VEMGSA : ", type);
+      console.log("type de fichier LPLN ou VEMGSA : ", type);
 
       console.log('analysedVol from serveur : ', array);
       //DEBUG :
@@ -102,7 +102,6 @@ export class ExchangeService {
       let isConnexionInitiee: boolean = data['isConnexionInitiee'];
       let isConnexionEtablie: boolean = data['isConnexionEtablie'];
       let isConnexionPerdue: boolean = data['isConnexionPerdue'];
-
       let cmpAdrModeS: string = data['cmpAdrModeS'];
       let cmpAdep: string = data['cmpAdep'];
       let cmpAdes: string = data['cmpAdes'];
@@ -113,7 +112,7 @@ export class ExchangeService {
       let listeEtatLogonConnexion: etatLogonConnexion[] = data['listeEtatLogonConnexion']; 
       let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = data['timelineEtatLogonConnexion']; 
       let listeEtatTransfertFrequence: etatTransfertFrequence[]= data['listeEtatTransfertFrequence'];
-
+      let listeErreurs: erreurVol[] = data['listeErreurs'];
 
 
 
@@ -139,11 +138,11 @@ export class ExchangeService {
 
       let isConnexionInitiee: boolean = data['isConnexionInitiee'];
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date,adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte,isConnexionInitiee,isConnexionEtablie, isConnexionPerdue,  cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence,this.listeEtats, null, null);
+          cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence,this.listeEtats, null, null,listeErreurs);
       }
       if (type === "VEMGSA") {
         this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date,null, null, null, logonInitie, logonAccepte,isConnexionInitiee,isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
-          cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence, null, this.listeEtats, null);
+          cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion,listeEtatTransfertFrequence, null, this.listeEtats, null, listeErreurs);
       }
       console.log("donnes recuperes de LPLN ou VEMGSA : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
@@ -179,6 +178,7 @@ export class ExchangeService {
       let isConnexionInitiee: boolean = dataM['isConnexionInitiee'];
       let isConnexionEtablie: boolean = dataM['isConnexionEtablie'];
       let isConnexionPerdue: boolean = dataM['isConnexionPerdue'];
+
       let cmpAdrModeS: string = dataM['cmpAdrModeS'];
       let cmpAdep: string = dataM['cmpAdep'];
       let cmpAdes: string = dataM['cmpAdes'];
@@ -189,7 +189,7 @@ export class ExchangeService {
 
       let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = dataM['timelineEtatLogonConnexion'];
       let listeEtatTransfertFrequenceM: etatTransfertFrequence[]= dataM['listeEtatTransfertFrequence'];
-    
+      let listeErreurs: erreurVol[] = dataM['listeErreurs'];
 
       for (let key = 0; key < dataM['listeLogs'].length; key++) {
         const etatCpdlcTemp = dataM['listeLogs'][key];
@@ -203,6 +203,8 @@ export class ExchangeService {
         let log = etatCpdlcTemp['log'];
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
+
+
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
         //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
         //  console.log("test index: ", value);
@@ -279,7 +281,7 @@ export class ExchangeService {
 
 
       this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date,adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, isConnexionInitiee,isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
-        cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats);
+        cmpArcid, conditionsLogon,haslogCpdlc, islogCpdlcComplete,timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, this.listeEtatsLpln, this.listeEtatsVemgsa, this.listeEtats, listeErreurs);
         console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 

@@ -70,10 +70,15 @@ export class Vol {
     /**Attributs utilisés côté client */
     private listeErreurs: erreurVol[];
 
+    
+
+
+
+
 
     constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
         logonInitie: string, logonAccepte: string, isConnexionInitiee: boolean,isConnexionEtablie: boolean,isConnexionPerdue: boolean, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
-        conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[]) {
+        conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[] ) {
         this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
@@ -101,7 +106,8 @@ export class Vol {
         this.listeLogsLpln = listeLogsLpln;
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
-        this.listeErreurs = []
+        this.listeErreurs = listeErreurs;
+
     }
 
 

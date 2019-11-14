@@ -28,7 +28,6 @@
     "angular-mgl-timeline": "^0.3.1",
     "angular-vertical-timeline": "^0.6.0",
     "core-js": "^2.5.4",
-    "glyphicons-only-bootstrap": "^1.0.1",
     "moment": "^2.24.0",
     "rxjs": "~6.3.3",
     "socket.io-client": "^2.2.0",
