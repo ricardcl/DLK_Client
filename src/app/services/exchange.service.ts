@@ -124,7 +124,6 @@ export class ExchangeService {
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
 
-
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
           //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
           //  console.log("test index: ", value);
@@ -137,57 +136,52 @@ export class ExchangeService {
       let listeLogsVemgsa: EtatCpdlc[] = null;
       let listeLogsMix: EtatCpdlc[] = null;
 
-      switch (type) {
-        case "LPLN":
-          ////LOGS LPLN
-          let dataL: Array<any> = arrayLpln;
-          for (let key = 0; key < dataL['listeLogs'].length; key++) {
-            const etatCpdlcTemp = dataL['listeLogs'][key];
-            let id = etatCpdlcTemp['id'];
-            let title = etatCpdlcTemp['title'];
-            let date = etatCpdlcTemp['date'];
-            let jour = etatCpdlcTemp['jour'];
-            let heure = etatCpdlcTemp['heure'];
-            let etat = etatCpdlcTemp['etat'];
-            let associable = etatCpdlcTemp['associable'];
-            let log = etatCpdlcTemp['log'];
-            let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
-            this.listeEtatsLpln.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
-          };
+      
+      if ((type == "LPLN") ||  (type == "MIX" )){
+   
+        let dataL: Array<any> = arrayLpln;
+        for (let key = 0; key < dataL['listeLogs'].length; key++) {
+          const etatCpdlcTemp = dataL['listeLogs'][key];
+          let id = etatCpdlcTemp['id'];
+          let title = etatCpdlcTemp['title'];
+          let date = etatCpdlcTemp['date'];
+          let jour = etatCpdlcTemp['jour'];
+          let heure = etatCpdlcTemp['heure'];
+          let etat = etatCpdlcTemp['etat'];
+          let associable = etatCpdlcTemp['associable'];
+          let log = etatCpdlcTemp['log'];
+          let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
+          this.listeEtatsLpln.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
+        };
 
-          listeLogsLpln = this.listeEtats;
-          break;
-        case "VEMGSA":
-          ////LOGS VEMGSA
-          let dataV: Array<any> = arrayVemgsa;
-          for (let key = 0; key < dataV['listeLogs'].length; key++) {
-            const etatCpdlcTemp = dataV['listeLogs'][key];
-            let id = etatCpdlcTemp['id'];
-            let title = etatCpdlcTemp['title'];
-            let date = etatCpdlcTemp['date'];
-            let jour = etatCpdlcTemp['jour'];
-            let heure = etatCpdlcTemp['heure'];
-            let etat = etatCpdlcTemp['etat'];
-            let associable = etatCpdlcTemp['associable'];
-            let log = etatCpdlcTemp['log'];
-            let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
-            this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
-          };
-
-          adrModeSInf = null;
-          adrDeposee = null;
-          equipementCpdlc = null;
-          listeLogsVemgsa = this.listeEtats;
-          listeLogsMix = null;
-          break;
-        case "MIX":
-          listeLogsLpln = this.listeEtatsLpln;
-          listeLogsVemgsa = this.listeEtatsVemgsa;
-          listeLogsMix = this.listeEtats;
-          break;
-        default:
-          break;
+        listeLogsLpln = this.listeEtats;
       }
+
+      if ((type == "VEMGSA") ||  (type == "MIX" )){
+        let dataV: Array<any> = arrayVemgsa;
+        for (let key = 0; key < dataV['listeLogs'].length; key++) {
+          const etatCpdlcTemp = dataV['listeLogs'][key];
+          let id = etatCpdlcTemp['id'];
+          let title = etatCpdlcTemp['title'];
+          let date = etatCpdlcTemp['date'];
+          let jour = etatCpdlcTemp['jour'];
+          let heure = etatCpdlcTemp['heure'];
+          let etat = etatCpdlcTemp['etat'];
+          let associable = etatCpdlcTemp['associable'];
+          let log = etatCpdlcTemp['log'];
+          let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
+          this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
+        };
+
+
+        listeLogsVemgsa = this.listeEtats;
+      }
+      if (type == "MIX"){
+        listeLogsLpln = this.listeEtatsLpln;
+        listeLogsVemgsa = this.listeEtatsVemgsa;
+        listeLogsMix = this.listeEtats;
+      }
+
 
 
       this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, isConnexionInitiee, isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
