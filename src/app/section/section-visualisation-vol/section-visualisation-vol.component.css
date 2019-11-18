@@ -185,6 +185,8 @@ ul:before,
   background-color: #5bc0de !important;
 }
 
+
+/* Mise en page du contenu des tableaux de logs*/
 .log.th {
   text-align:center;
   width:30%;
@@ -208,3 +210,4 @@ ul:before,
 .etat{
   text-align:center;
 }
+/* Fin de mise en page du contenu des tableaux de logs*/
