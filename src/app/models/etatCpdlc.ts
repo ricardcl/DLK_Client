@@ -3,18 +3,20 @@ import { Etat } from './enumEtat';
 import { DetailCpdlc } from './detailCpdlc';
 
 export class EtatCpdlc {
-  private id: number = 0;
-  private title: string = "";
-  private date: string = "";
-  private jour: string = "";
-  private heure: string = "";
-  private etat: string ="";
-  private associable: boolean = false;
-  private log:string = "";
-  private detailLog : DetailCpdlc[];
+  private id: number;
+  private title: string;
+  private jour: string;
+  private heure: string;
+  private date: string;
+  private etat: string;
+  private associable: boolean;
+  private log: string;
+  private detailLog: DetailCpdlc[];
+  private explication: string;
+  private isTypeCPC: boolean; // VAUT 1 si CPDLC et 0 si  STPV 
 
 
-  constructor(id: number, title: string, date: string,jour: string, heure: string, etat: string, associable: boolean, log: string, detailLog: DetailCpdlc[]) {
+  constructor(id: number, title: string, date: string,jour: string, heure: string, etat: string, associable: boolean, log: string, detailLog: DetailCpdlc[], explication:string) {
     this.id = id;
     this.title = title;
     this.date = date;
@@ -24,6 +26,7 @@ export class EtatCpdlc {
     this.associable = associable;
     this.log = log;
     this.detailLog = [];
+    this.explication = explication;
   }
 
   /*getLogCpdlc() {
@@ -99,6 +102,15 @@ export class EtatCpdlc {
   getLog(): string{
     return this.log;
   }
+  getExplication():string{
+    return this.explication;
+  }
+
+  getDetaillog(){
+    return this.detailLog;
+  }
+
+  
 
   //SETTERS
   setTitle(title: string) {
@@ -114,6 +126,9 @@ export class EtatCpdlc {
     this.heure = heure;
   }
 
+  setExplication(explication: string) {
+    this.explication = explication;
+  }
   
   setEtat(etat: Etat) {
     this.etat = etat;
@@ -126,9 +141,6 @@ export class EtatCpdlc {
     this.log = log;
   }
 
-  getDetaillog(){
-    return this.detailLog;
-  }
 
 }
 

@@ -8,17 +8,24 @@
     </mat-card-title>
     <mat-card-subtitle>A remplir</mat-card-subtitle>
   </mat-card-header>
+  <mat-tab-group>
 
+    <mat-tab>
+      <ng-template matTabContent>
+        <app-timeline-frequence> </app-timeline-frequence>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
   <mat-card-content>
-
 
     <mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
 
       <mat-step [stepControl]="firstFormGroup">
+
         <form [formGroup]="firstFormGroup">
 
           <ng-template matStepLabel>
-             Sélection des fichiers à traiter
+            Sélection des fichiers à traiter
           </ng-template>
 
           <div class="formHeader">
@@ -36,7 +43,8 @@
           </div>
 
           <div *ngIf="isFileSelected" class="formButton">
-            <button mat-stroked-button (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>
           </div>
         </form>
@@ -50,8 +58,8 @@
           </ng-template>
           <div>
             <label>Type d'identifiant</label>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="identifiantSelectionne"
-              [ngModelOptions]="{standalone: true}">
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+              [(ngModel)]="identifiantSelectionne" [ngModelOptions]="{standalone: true}">
               <mat-radio-button *ngFor="let id of identifiants" [value]="id">
                 {{id}}
               </mat-radio-button>
@@ -73,11 +81,13 @@
           </div>
           <div *ngIf="((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button color="primary" (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button color="primary"
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
           </div>
           <div *ngIf="!((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="analyseDataInput()">Next</button>
 
           </div>
@@ -93,7 +103,8 @@
         <div *ngIf="isHorairesVemgsaMultiple">
           <label>Message VEMGSA : {{getMessageVEMGSA()}} </label>
           <label>Choisissez l'horaire correspondant au vol étudié</label>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="chosenHoraire">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            [(ngModel)]="chosenHoraire">
             <mat-radio-button class="example-radio-button" *ngFor="let horaire of GetHoraires()" [value]="horaire">
               {{horaire.dateMin}} {{horaire.dateMax}}
             </mat-radio-button>
@@ -101,9 +112,11 @@
           <div>L'horaire choisi est : {{chosenHoraire.dateMin}} {{chosenHoraire.dateMax}}</div>
           <div class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
 
-            <button *ngIf="isHoraireChosen" mat-stroked-button color="primary" (click)="analyseDataInput()">Next</button>
+            <button *ngIf="isHoraireChosen" mat-stroked-button color="primary"
+              (click)="analyseDataInput()">Next</button>
           </div>
         </div>
 
@@ -124,7 +137,8 @@
           </div>
           <div class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button color="primary" (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button color="primary"
+              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
             <button *ngIf="isCheckOK " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
 
           </div>

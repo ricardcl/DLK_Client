@@ -122,7 +122,8 @@ export class ExchangeService {
         let associable = etatCpdlcTemp['associable'];
         let log = etatCpdlcTemp['log'];
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
-        this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
+        let explication = etatCpdlcTemp['explication'];
+        this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog,explication));
 
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
           //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
@@ -151,7 +152,9 @@ export class ExchangeService {
           let associable = etatCpdlcTemp['associable'];
           let log = etatCpdlcTemp['log'];
           let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
-          this.listeEtatsLpln.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
+          let explication = etatCpdlcTemp['explication'];
+
+          this.listeEtatsLpln.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog,explication));
         };
 
         listeLogsLpln = this.listeEtats;
@@ -170,7 +173,8 @@ export class ExchangeService {
           let associable = etatCpdlcTemp['associable'];
           let log = etatCpdlcTemp['log'];
           let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
-          this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog));
+          let explication = etatCpdlcTemp['explication'];
+          this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog,explication));
         };
 
 

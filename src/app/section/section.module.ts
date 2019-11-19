@@ -20,9 +20,10 @@ import {MatIconModule} from '@angular/material/icon';
 import { TimelineComponent } from './timeline/timeline.component';
 import { TimelineLineaireComponent } from './timeline-lineaire/timeline-lineaire.component'; 
 import {MatBadgeModule} from '@angular/material/badge';
+import { TimelineFrequenceComponent } from './timeline-frequence/timeline-frequence.component';
 
 @NgModule({
-    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent],
+    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent, TimelineFrequenceComponent],
     imports: [
         CommonModule,
         FormsModule,
