@@ -4,6 +4,7 @@
   <mat-card-header>
 
     <mat-card-title>
+        <mat-icon aria-hidden="false" aria-label="assignment icon">assignment</mat-icon> 
       Formulaire Datalink
     </mat-card-title>
     <mat-card-subtitle>A remplir</mat-card-subtitle>
@@ -25,7 +26,9 @@
         <form [formGroup]="firstFormGroup">
 
           <ng-template matStepLabel>
-            Sélection des fichiers à traiter
+              <mat-icon aria-hidden="false" aria-label="insert_drive_file icon">insert_drive_file</mat-icon> 
+
+            Fichiers LPLN/VEMGSA
           </ng-template>
 
           <div class="formHeader">
@@ -54,7 +57,7 @@
       <mat-step [stepControl]="secondFormGroup">
         <form [formGroup]="secondFormGroup">
           <ng-template matStepLabel>
-            Identifiant du vol
+              <mat-icon aria-hidden="false" aria-label="fingerprint icon">fingerprint</mat-icon> Identifiant du vol
           </ng-template>
           <div>
             <label>Type d'identifiant</label>
@@ -96,6 +99,8 @@
 
       <mat-step>
         <ng-template matStepLabel>
+            <mat-icon aria-hidden="false" aria-label="check_circle_outline icon">check_circle_outline</mat-icon> 
+
           Validation des données
         </ng-template>
 
