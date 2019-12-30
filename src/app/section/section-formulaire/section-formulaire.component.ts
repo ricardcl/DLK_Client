@@ -33,8 +33,8 @@ export class SectionFormulaireComponent implements OnInit {
   private selectedLplnFile: File;
   private selectedVemgsaFile: File[];
   private vemgsaFilesNames: string[];
-  private plnid: FormControl;
-  private arcid: FormControl;
+  public plnid: FormControl;
+  public arcid: FormControl;
 
 
 
@@ -71,8 +71,8 @@ export class SectionFormulaireComponent implements OnInit {
   private validatedHoraire: boolean;
 
   /** PARTIE DU FORMULAIRE POUR LA GESTION DES PLNID/ARCID */
-  private identifiantSelectionne: string = 'Plnid';
-  private identifiants: string[] = ['Arcid', 'Plnid'];
+  public identifiantSelectionne: string = 'Plnid';
+  public identifiants: string[] = ['Arcid', 'Plnid'];
   private regexpPlnid: RegExp = /^\d{1,4}$/;
   private regexpArcid: RegExp = /^[a-z][a-z|0-9]{1,6}$/i;
 
@@ -88,15 +88,15 @@ export class SectionFormulaireComponent implements OnInit {
     return "";
   }
 
-  private get isArcid(): boolean {
+  public get isArcid(): boolean {
     return this.identifiantSelectionne === this.identifiants[0]
   }
 
-  private get isPlnid(): boolean {
+  public get isPlnid(): boolean {
     return this.identifiantSelectionne === this.identifiants[1];
   }
 
-  private get isFileSelected(): boolean {
+  public get isFileSelected(): boolean {
     return ((this.selectedVemgsaFile.length !== 0) || (this.selectedLplnFile !== null));
 
   }

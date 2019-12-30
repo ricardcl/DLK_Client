@@ -5,7 +5,7 @@
             <mat-icon aria-hidden="false" aria-label="flight icon">flight</mat-icon>
             Vol
         </mat-card-title>
-        <mat-card-subtitle>{{monvol.arcid}} {{monvol.plnid}}</mat-card-subtitle>
+        <mat-card-subtitle>{{monvol.getArcid()}} {{monvol.getPlnid()}}</mat-card-subtitle>
     </mat-card-header>
 
 
@@ -75,28 +75,28 @@
 
                     <div class="isAnalysed">
 
-                        <div> conditionsLogon: {{monvol.conditionsLogon}}</div>
+                        <div> conditionsLogon: {{monvol.getConditionsLogon()}}</div>
 
-                        <div>adrModeSInf: {{monvol.adrModeSInf}}</div>
-                        <div>adrDeposee: {{monvol.adrDeposee}}</div>
-                        <div>cmpAdrModeS: {{monvol.cmpAdrModeS}}</div>
+                        <div>adrModeSInf: {{monvol.getadrModeSInf()}}</div>
+                        <div>adrDeposee: {{monvol.getadrDeposee()}}</div>
+                        <div>cmpAdrModeS: {{monvol.getCmpAdrModeS()}}</div>
 
-                        <div>Adep: {{monvol.adep}}</div>
-                        <div>cmpAdep: {{monvol.cmpAdep}}</div>
+                        <div>Adep: {{monvol.getAdep()}}</div>
+                        <div>cmpAdep: {{monvol.getCmpAdep()}}</div>
 
-                        <div>Ades: {{monvol.ades}}</div>
-                        <div>cmpAdes: {{monvol.cmpAdes}}</div>
+                        <div>Ades: {{monvol.getAdes()}}</div>
+                        <div>cmpAdes: {{monvol.getCmpAdes()}}</div>
 
-                        <div>Arcid: {{monvol.arcid}}</div>
-                        <div>cmpArcid: {{monvol.cmpArcid}}</div>
+                        <div>Arcid: {{monvol.getArcid()}}</div>
+                        <div>cmpArcid: {{monvol.getCmpArcid()}}</div>
 
-                        <div>equipementCpdlc: {{monvol.equipementCpdlc}}</div>
+                        <div>equipementCpdlc: {{monvol.getEquipementCpdlc()}}</div>
 
-                        <div>logonInitie: {{monvol.logonInitie}}</div>
-                        <div>logonAccepte: {{monvol.logonAccepte}}</div>
+                        <div>logonInitie: {{monvol.getLogonInitie()}}</div>
+                        <div>logonAccepte: {{monvol.getLogonAccepte()}}</div>
 
-                        <div>haslogCpdlc: {{monvol.haslogCpdlc}}</div>
-                        <div>islogCpdlcComplete: {{monvol.islogCpdlcComplete}}</div>
+                        <div>haslogCpdlc: {{monvol.getHaslogCpdlc()}}</div>
+                        <div>islogCpdlcComplete: {{monvol.getIslogCpdlcComplete()}}</div>
 
 
 
