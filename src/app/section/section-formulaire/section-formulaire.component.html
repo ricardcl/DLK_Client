@@ -35,14 +35,18 @@
             <label for="inputFileVemgsa">Fichier(s) Vemgsa</label>
           </div>
           <div class="formFile">
-            <input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)" />
+            <!-- Cool input file :) -->
+            <!--input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)" /-->
+            <app-input-file [placeholder]="'Fichier Vemgsa'" [multiple]="'true'" (onChange)="updateSelectedVemgsa($event)"></app-input-file>
           </div>
           <div class="formHeader">
 
             <label for="inputFileLpln">Fichier Lpln</label>
           </div>
           <div class="formFile">
-            <input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" />
+            <!-- Cool input file :) -->
+             <!--input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" /-->
+             <app-input-file [placeholder]="'Fichier Lpln'" (onChange)="updateSelectedLpln($event[0])"></app-input-file>
           </div>
 
           <div *ngIf="isFileSelected" class="formButton">

@@ -1,0 +1,12 @@
+<!-- The field will display the file selected by the user -->
+<mat-form-field>
+    <input disabled matInput [placeholder]="placeholder" [value]="filterPath(hiddenInput.value)"/>
+</mat-form-field>
+
+<!-- Button "simulate" a click on the real input file -->
+<button type="button" mat-mini-fab color="accent" (click)="hiddenInput.click()">
+    <mat-icon>attach_file</mat-icon>
+</button>
+
+<!-- Real input file (not visible since we cannot change its CSS) -->
+<input #hiddenInput type="file" (change)="raiseOnChangeEvent(hiddenInput.files)" [multiple]="multiple" [style.visibility]="'hidden'" />

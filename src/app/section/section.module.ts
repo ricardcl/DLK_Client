@@ -21,9 +21,10 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { TimelineLineaireComponent } from './timeline-lineaire/timeline-lineaire.component'; 
 import {MatBadgeModule} from '@angular/material/badge';
 import { TimelineFrequenceComponent } from './timeline-frequence/timeline-frequence.component';
+import { InputFileComponent } from '../lib/input-file/input-file.component';
 
 @NgModule({
-    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent, TimelineFrequenceComponent],
+    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent, TimelineFrequenceComponent, InputFileComponent],
     imports: [
         CommonModule,
         FormsModule,
