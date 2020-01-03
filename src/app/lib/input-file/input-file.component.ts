@@ -34,7 +34,7 @@ export class InputFileComponent implements OnInit {
   /**
    * Select the real file input in the component template
    */
-  @ViewChild('hiddenInput')
+  @ViewChild('hiddenInput', { static: true })
   private hiddenInput : any; 
   /* -- -- */
 
