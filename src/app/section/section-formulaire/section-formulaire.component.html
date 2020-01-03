@@ -37,7 +37,7 @@
           <div class="formFile">
             <!-- Cool input file :) -->
             <!--input type="file" required multiple #vemgsaFile (change)="updateSelectedVemgsa(vemgsaFile.files)" /-->
-            <app-input-file [placeholder]="'Fichier Vemgsa'" [multiple]="'true'" (onChange)="updateSelectedVemgsa($event)"></app-input-file>
+            <app-input-file #vemgsaFile [placeholder]="'Fichier Vemgsa'" [multiple]="'true'" (onChange)="updateSelectedVemgsa($event)"></app-input-file>
           </div>
           <div class="formHeader">
 
@@ -46,12 +46,12 @@
           <div class="formFile">
             <!-- Cool input file :) -->
              <!--input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" /-->
-             <app-input-file [placeholder]="'Fichier Lpln'" (onChange)="updateSelectedLpln($event[0])"></app-input-file>
+             <app-input-file #lplnFile [placeholder]="'Fichier Lpln'" (onChange)="updateSelectedLpln($event[0])"></app-input-file>
           </div>
 
           <div *ngIf="isFileSelected" class="formButton">
             <button mat-stroked-button
-              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>
           </div>
         </form>
@@ -89,12 +89,12 @@
           <div *ngIf="((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
             <button mat-stroked-button color="primary"
-              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
           </div>
           <div *ngIf="!((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
             <button mat-stroked-button
-              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="analyseDataInput()">Next</button>
 
           </div>
@@ -122,7 +122,7 @@
           <div class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
             <button mat-stroked-button
-              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
 
             <button *ngIf="isHoraireChosen" mat-stroked-button color="primary"
               (click)="analyseDataInput()">Next</button>
@@ -147,7 +147,7 @@
           <div class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
             <button mat-stroked-button color="primary"
-              (click)="lplnFile.value = '';vemgsaFile.value = ''; initFormulaire();stepper.reset()">Reset</button>
+              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
             <button *ngIf="isCheckOK " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
 
           </div>

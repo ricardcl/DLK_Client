@@ -1,10 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-input-file',
   templateUrl: './input-file.component.html',
   styleUrls: ['./input-file.component.css']
 })
+/**
+ * Component which encapsulate an 'input type file tag' in order to change the look of this component.
+ * Remember that is not possible to directly change style on a 'input' tag.
+ */
 export class InputFileComponent implements OnInit {
   /* -- Component I/O -- */
   /**
@@ -26,21 +30,33 @@ export class InputFileComponent implements OnInit {
   public onChange = new EventEmitter<[File]> ();
   /* -- -- */
 
-  constructor() { }
+  /* -- Attributs -- */
+  /**
+   * Select the real file input in the component template
+   */
+  @ViewChild('hiddenInput')
+  private hiddenInput : any; 
+  /* -- -- */
 
-  ngOnInit() {
+  constructor() {}
+
+  ngOnInit() {}
+
+  /* -- Public methods -- */
+  public clearInputContent () : void {
+    if (this.hiddenInput !== undefined) {
+      this.hiddenInput.nativeElement.value = '';
+    }
   }
+  /* -- -- */
 
-  public raiseOnChangeEvent (inputFiles : [File]) : void {
+  /* -- Private methods -- */
+  private raiseOnChangeEvent (inputFiles : [File]) : void {
     this.onChange.emit(inputFiles);
   }
 
-  public filterPath (path : string) : string {
+  private filterPath (path : string) : string {
     return path.replace(/.*[\/\\]/, '');
   }
-
-  public clearInput () : void {
-    // TODO
-  }
-
+  /* -- -- */
 }
