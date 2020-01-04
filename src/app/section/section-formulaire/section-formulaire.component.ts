@@ -4,7 +4,7 @@ import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { Identifiants } from 'src/app/models/identifiants';
-import { datesFile } from 'src/app/models/date';
+import {  creneauHoraire } from 'src/app/models/date';
 
 
 
@@ -151,11 +151,11 @@ export class SectionFormulaireComponent implements OnInit {
     if (this.isArcid) {
 
       console.log("analyseDataInput", "this.arcid.value", this.arcid.value);
-      this._exchangeService.analyseDataInput(this.arcid.value.toUpperCase(), 0, lplnFileName, vemgsaFileName, this.chosenHoraire);
+      this._exchangeService.analyseDataInput(this.arcid.value.toUpperCase(), 0, lplnFileName, vemgsaFileName);
     }
     else {
       console.log("analyseDataInput", "this.plnid.value", this.plnid.value);
-      this._exchangeService.analyseDataInput("", this.plnid.value, lplnFileName, vemgsaFileName, this.chosenHoraire);
+      this._exchangeService.analyseDataInput("", this.plnid.value, lplnFileName, vemgsaFileName);
     }
 
     if (this.isHoraireChosen) {
@@ -221,11 +221,11 @@ export class SectionFormulaireComponent implements OnInit {
           break;
         case 4: message = "Connexion Datalink refusée ???? -> pas de  arcid  associé au plnid";
           break;
-        case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné";
-          resultVEMGSA.tabHoraires.forEach(element => {
-            message = message + "[" + element.dateMin + "," + element.dateMax + "]";
-          });
-          break;
+        //case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné";
+         // resultVEMGSA.tabHoraires.forEach(element => {
+         //   message = message + "[" + element.dateMin + "," + element.dateMax + "]";
+         // });
+         // break;
         case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = [" + resultVEMGSA.datesFichierVemgsa.dateMin + ',' + resultVEMGSA.datesFichierVemgsa.dateMax + ']';
           break;
         case 7: message = "Format des identifiants fournis incorrect";
@@ -240,9 +240,9 @@ export class SectionFormulaireComponent implements OnInit {
     return message;
   }
 
-  public GetHoraires(): datesFile[] {
-    let tabHoraires: datesFile[] = [];
-    tabHoraires = this._exchangeService.getcheckResult().checkVEMGSA.tabHoraires;
+  public GetHoraires(): creneauHoraire {
+    let tabHoraires: creneauHoraire ;
+    tabHoraires = this._exchangeService.getcheckResult().checkVEMGSA.datesFichierVemgsa;
     return tabHoraires;
   }
 
@@ -304,11 +304,11 @@ export class SectionFormulaireComponent implements OnInit {
 
     if (this.selectedLplnFile !== null) {
       console.log("this.selectedLplnFile.name: ", this.selectedLplnFile.name);
-      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames, this.chosenHoraire);
+      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
 
     }
     else {
-      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames, this.chosenHoraire);
+      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
 
     }
     //this.alerteCanicule.emit(2);

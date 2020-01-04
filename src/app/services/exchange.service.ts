@@ -5,7 +5,7 @@ import { EtatCpdlc } from '../models/etatCpdlc';
 import { DetailCpdlc } from '../models/detailCpdlc';
 import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConnexionSimplifiee, etatLogonConnexion, erreurVol } from '../models/checkAnswer';
 import { GestionVolsService } from './gestion-vols.service';
-import { datesFile } from '../models/date';
+//import { creneauHoraire } from '../models/date';
 
 
 
@@ -50,8 +50,8 @@ export class ExchangeService {
       console.log("this.checkAnswer.analysePossible: ", this.checkAnswer.analysePossible);
       console.log("this.checkAnswer.checkLPLN: ", this.checkAnswer.checkLPLN);
       console.log("this.checkAnswer.checkVEMGSA: ", this.checkAnswer.checkVEMGSA);
-      console.log("this.checkAnswer.arcid: ", this.checkAnswer.arcid);
-      console.log("this.checkAnswer.plnid: ", this.checkAnswer.plnid);
+      //console.log("this.checkAnswer.arcid: ", this.checkAnswer.arcid);
+      //console.log("this.checkAnswer.plnid: ", this.checkAnswer.plnid);
       console.log("this.checkAnswer.listeIdentifiants: ", this.checkAnswer.listeIdentifiants);
 
     });

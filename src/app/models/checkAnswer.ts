@@ -1,5 +1,5 @@
 import { Identifiants } from './identifiants';
-import { datesFile } from './date';
+import { creneauHoraire } from './date';
 import { Etat } from './enumEtat';
 import { Color } from '@amcharts/amcharts4/core';
 
@@ -9,18 +9,20 @@ export interface checkAnswerInitial {
     plnid?: number;
     arcid?: string;
     tabId?: Identifiants[]; //pour LPLN
-    tabHoraires?: datesFile[]; //pour VEMGSA
-    datesFichierVemgsa?: datesFile;
+    creneauHoraire?: creneauHoraire[]; //pour VEMGSA ou LPLN
+    datesFichierVemgsa?: creneauHoraire;
+}
+  
+export interface checkAnswer { 
+    analysePossible: boolean; 
+    plnid?: number; 
+    arcid?: string; 
+    creneauHoraire?: creneauHoraire;
+    listeIdentifiants?: Identifiants[];
+    checkLPLN?: checkAnswerInitial; 
+    checkVEMGSA?: checkAnswerInitial;    
 }
 
-export interface checkAnswer {
-    analysePossible: boolean;
-    plnid?: number;
-    arcid?: string;
-    listeIdentifiants?: Identifiants[];
-    checkLPLN?: checkAnswerInitial;
-    checkVEMGSA?: checkAnswerInitial; 
-}
 
 export interface etatTransfertFrequence { 
     frequence: string; 
