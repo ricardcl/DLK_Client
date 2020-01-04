@@ -4,7 +4,7 @@
   <mat-card-header>
 
     <mat-card-title>
-        <mat-icon aria-hidden="false" aria-label="assignment icon">assignment</mat-icon> 
+      <mat-icon aria-hidden="false" aria-label="assignment icon">assignment</mat-icon>
       Formulaire Datalink
     </mat-card-title>
     <mat-card-subtitle>A remplir</mat-card-subtitle>
@@ -26,7 +26,7 @@
         <form [formGroup]="firstFormGroup">
 
           <ng-template matStepLabel>
-              <mat-icon aria-hidden="false" aria-label="insert_drive_file icon">insert_drive_file</mat-icon> 
+            <mat-icon aria-hidden="false" aria-label="insert_drive_file icon">insert_drive_file</mat-icon>
 
             Fichiers LPLN/VEMGSA
           </ng-template>
@@ -61,12 +61,12 @@
       <mat-step [stepControl]="secondFormGroup">
         <form [formGroup]="secondFormGroup">
           <ng-template matStepLabel>
-              <mat-icon aria-hidden="false" aria-label="fingerprint icon">fingerprint</mat-icon> Identifiant du vol
+            <mat-icon aria-hidden="false" aria-label="fingerprint icon">fingerprint</mat-icon> Identifiant du vol
           </ng-template>
           <div>
             <label>Type d'identifiant</label>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-              [(ngModel)]="identifiantSelectionne" [ngModelOptions]="{standalone: true}">
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="identifiantSelectionne"
+              [ngModelOptions]="{standalone: true}">
               <mat-radio-button *ngFor="let id of identifiants" [value]="id">
                 {{id}}
               </mat-radio-button>
@@ -103,7 +103,7 @@
 
       <mat-step>
         <ng-template matStepLabel>
-            <mat-icon aria-hidden="false" aria-label="check_circle_outline icon">check_circle_outline</mat-icon> 
+          <mat-icon aria-hidden="false" aria-label="check_circle_outline icon">check_circle_outline</mat-icon>
 
           Validation des données
         </ng-template>
@@ -112,8 +112,7 @@
         <div *ngIf="isHorairesVemgsaMultiple">
           <label>Message VEMGSA : {{getMessageVEMGSA()}} </label>
           <label>Choisissez l'horaire correspondant au vol étudié</label>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-            [(ngModel)]="chosenHoraire">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="chosenHoraire">
             <mat-radio-button class="example-radio-button" *ngFor="let horaire of GetHoraires()" [value]="horaire">
               {{horaire.dateMin}} {{horaire.dateMax}}
             </mat-radio-button>
@@ -124,12 +123,21 @@
             <button mat-stroked-button
               (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
 
-            <button *ngIf="isHoraireChosen" mat-stroked-button color="primary"
-              (click)="analyseDataInput()">Next</button>
+            <button *ngIf="isHoraireChosen" mat-stroked-button color="primary" (click)="analyseDataInput()">Next</button>
           </div>
         </div>
 
         <div *ngIf="!isHorairesVemgsaMultiple ">
+          <label>Liste des identifiants trouvés</label>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="favoriteSeason">
+            <mat-radio-button class="example-radio-button" *ngFor="let id of getListeIdentifiantsTrouves()" [value]="id">
+              {{id.arcid}}
+              {{id.plnid}}
+              {{id.dates.dateMin}}
+              {{id.dates.dateMax}}
+            </mat-radio-button>
+          </mat-radio-group>
+
           <div *ngIf="isCheckOK">
             <label>Vol Trouve : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
           </div>
