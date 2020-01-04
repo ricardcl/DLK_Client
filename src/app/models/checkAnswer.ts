@@ -17,6 +17,7 @@ export interface checkAnswer {
     analysePossible: boolean;
     plnid?: number;
     arcid?: string;
+    listeIdentifiants?: Identifiants[];
     checkLPLN?: checkAnswerInitial;
     checkVEMGSA?: checkAnswerInitial; 
 }

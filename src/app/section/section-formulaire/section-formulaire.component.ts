@@ -277,6 +277,13 @@ export class SectionFormulaireComponent implements OnInit {
     return this._exchangeService.getcheckResult().plnid;
   }
 
+  public identifiantCompletSelectionne: string = '';
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+  public getListeIdentifiantsTrouves(): Identifiants[] {
+    return this._exchangeService.getcheckResult().listeIdentifiants;
+  }
+
   /*************************************************  ************************************************/
 
 

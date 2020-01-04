@@ -52,6 +52,8 @@ export class ExchangeService {
       console.log("this.checkAnswer.checkVEMGSA: ", this.checkAnswer.checkVEMGSA);
       console.log("this.checkAnswer.arcid: ", this.checkAnswer.arcid);
       console.log("this.checkAnswer.plnid: ", this.checkAnswer.plnid);
+      console.log("this.checkAnswer.listeIdentifiants: ", this.checkAnswer.listeIdentifiants);
+
     });
 
 
@@ -206,17 +208,16 @@ export class ExchangeService {
 
 
 
-  public analyseDataInput(arcid: string, plnid: number, fileLplnName: string, fileVemgsaName: string[], chosenHoraire: string): void {
-    console.log("analyseDataInputService : chosenHoraire", chosenHoraire);
+  public analyseDataInput(arcid: string, plnid: number, fileLplnName: string, fileVemgsaName: string[]): void {
     this.resetCheckAnswer();
-    this.socket.emit('analyseDataInput', arcid, Number(plnid), fileLplnName, fileVemgsaName, chosenHoraire);
+    this.socket.emit('analyseDataInput', arcid, Number(plnid), fileLplnName, fileVemgsaName);
 
   }
 
 
-  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[], chosenHoraire: string): void {
-    console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName, 'chosenHoraire : ');
-    this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer, chosenHoraire);
+  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[]): void {
+    console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
+    this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer);
 
   }
 
