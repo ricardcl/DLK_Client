@@ -4,8 +4,7 @@ import { UploadService } from 'src/app/services/upload.service';
 import { ExchangeService } from 'src/app/services/exchange.service';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { Identifiants } from 'src/app/models/identifiants';
-import {  creneauHoraire } from 'src/app/models/date';
-
+import { creneauHoraire } from 'src/app/models/date';
 
 
 
@@ -53,7 +52,7 @@ export class SectionFormulaireComponent implements OnInit {
     this.plnid = new FormControl('', [Validators.required, Validators.pattern(this.regexpPlnid)]);
     this.chosenHoraire = '';
     this.validatedHoraire = false;
-
+    this.idCompletSelectionne = null;
   }
 
 
@@ -222,10 +221,10 @@ export class SectionFormulaireComponent implements OnInit {
         case 4: message = "Connexion Datalink refusée ???? -> pas de  arcid  associé au plnid";
           break;
         //case 5: message = "Plusieurs creneaux horaires trouvés pour  l'identifiant donné";
-         // resultVEMGSA.tabHoraires.forEach(element => {
-         //   message = message + "[" + element.dateMin + "," + element.dateMax + "]";
-         // });
-         // break;
+        // resultVEMGSA.tabHoraires.forEach(element => {
+        //   message = message + "[" + element.dateMin + "," + element.dateMax + "]";
+        // });
+        // break;
         case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = [" + resultVEMGSA.datesFichierVemgsa.dateMin + ',' + resultVEMGSA.datesFichierVemgsa.dateMax + ']';
           break;
         case 7: message = "Format des identifiants fournis incorrect";
@@ -241,7 +240,7 @@ export class SectionFormulaireComponent implements OnInit {
   }
 
   public GetHoraires(): creneauHoraire {
-    let tabHoraires: creneauHoraire ;
+    let tabHoraires: creneauHoraire;
     tabHoraires = this._exchangeService.getcheckResult().checkVEMGSA.datesFichierVemgsa;
     return tabHoraires;
   }
@@ -269,19 +268,30 @@ export class SectionFormulaireComponent implements OnInit {
     return (this._exchangeService.getcheckResult().checkLPLN !== undefined);
   }
 
-  public getArcidTrouve(): string {
+  /** public getArcidTrouve(): string {
     return this._exchangeService.getcheckResult().arcid;
   }
 
   public getPlnidTrouve(): number {
     return this._exchangeService.getcheckResult().plnid;
-  }
+  }*/
+  public displayedColumnsIdVol: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax', 'inLpln', 'inVemgsa'];
 
-  public identifiantCompletSelectionne: string = '';
-  favoriteSeason: string;
-  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+  public idCompletSelectionne: Identifiants;
+
   public getListeIdentifiantsTrouves(): Identifiants[] {
     return this._exchangeService.getcheckResult().listeIdentifiants;
+  }
+
+  public selectionVol(row?: Identifiants) {
+    this.idCompletSelectionne = row;
+    console.log("idCompletSelectionne:", this.idCompletSelectionne);
+
+  }
+
+  public get isVolSelected(): boolean {
+    return (this.idCompletSelectionne !== null ) ;
+
   }
 
   /*************************************************  ************************************************/
@@ -294,21 +304,16 @@ export class SectionFormulaireComponent implements OnInit {
   public analyseFiles(): void {
     console.log("analyseFiles");
     console.log("selectedVemgsaFileName: ", this.vemgsaFilesNames);
-
-    console.log("this.chosenHoraire", this.chosenHoraire);
-
     console.log("this.vemgsaFilesNames.length: ", this.vemgsaFilesNames.length);
-    let arcid: string = this._exchangeService.getcheckResult().arcid;
-    let plnid: number = this._exchangeService.getcheckResult().plnid;
-    console.log("arcid", arcid, "plnid", plnid);
+
 
     if (this.selectedLplnFile !== null) {
       console.log("this.selectedLplnFile.name: ", this.selectedLplnFile.name);
-      this._exchangeService.analyseFiles(arcid, plnid, this.selectedLplnFile.name, this.vemgsaFilesNames);
+      this._exchangeService.analyseFiles(this.idCompletSelectionne, this.selectedLplnFile.name, this.vemgsaFilesNames);
 
     }
     else {
-      this._exchangeService.analyseFiles(arcid, plnid, "", this.vemgsaFilesNames);
+      this._exchangeService.analyseFiles(this.idCompletSelectionne, "", this.vemgsaFilesNames);
 
     }
     //this.alerteCanicule.emit(2);

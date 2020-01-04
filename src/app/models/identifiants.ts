@@ -1,8 +1,12 @@
+import { creneauHoraire } from './date';
 
 
 export interface Identifiants {
-    plnid: number ;
-    arcid: string;
+    plnid?: number ;
+    arcid?: string;
+    dates?: creneauHoraire;
+    inLpln?: boolean;
+    inVemgsa?: boolean;
     identifie?: boolean;
     tabId?: Identifiants[];
 }

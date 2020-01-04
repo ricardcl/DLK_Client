@@ -11,6 +11,10 @@ button {
 
 */
 
+table {
+  width: 100%;
+}
+
 .example-radio-group {
     display: flex;
     flex-direction: column;

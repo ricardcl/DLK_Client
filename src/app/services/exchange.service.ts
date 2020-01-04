@@ -5,6 +5,8 @@ import { EtatCpdlc } from '../models/etatCpdlc';
 import { DetailCpdlc } from '../models/detailCpdlc';
 import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConnexionSimplifiee, etatLogonConnexion, erreurVol } from '../models/checkAnswer';
 import { GestionVolsService } from './gestion-vols.service';
+import { creneauHoraire } from '../models/date';
+import { Identifiants } from '../models/identifiants';
 //import { creneauHoraire } from '../models/date';
 
 
@@ -215,9 +217,9 @@ export class ExchangeService {
   }
 
 
-  public analyseFiles(arcid: string, plnid: number, lplnFileName: string, vemgsaFileName: string[]): void {
-    console.log("analyseFilesService ", "arcid: ", arcid, "plnid: ", plnid, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
-    this.socket.emit('analysing', arcid, plnid, lplnFileName, vemgsaFileName, this.checkAnswer);
+  public analyseFiles(idCompletSelectionne:Identifiants,lplnFileName: string, vemgsaFileName: string[]): void {
+    console.log("analyseFilesService ", "arcid: ", idCompletSelectionne.arcid, "plnid: ", idCompletSelectionne.plnid, 'creneauHoraire',idCompletSelectionne.dates,'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
+    this.socket.emit('analysing',idCompletSelectionne,lplnFileName, vemgsaFileName, this.checkAnswer);
 
   }
 

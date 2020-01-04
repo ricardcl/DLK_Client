@@ -45,13 +45,12 @@
           </div>
           <div class="formFile">
             <!-- Cool input file :) -->
-             <!--input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" /-->
-             <app-input-file #lplnFile [placeholder]="'Fichier Lpln'" (onChange)="updateSelectedLpln($event[0])"></app-input-file>
+            <!--input type="file" #lplnFile (change)="updateSelectedLpln(lplnFile.files[0])" /-->
+            <app-input-file #lplnFile [placeholder]="'Fichier Lpln'" (onChange)="updateSelectedLpln($event[0])"></app-input-file>
           </div>
 
           <div *ngIf="isFileSelected" class="formButton">
-            <button mat-stroked-button
-              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>
           </div>
         </form>
@@ -88,13 +87,11 @@
           </div>
           <div *ngIf="((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button color="primary"
-              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button color="primary" (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
           </div>
           <div *ngIf="!((isArcid && arcid.invalid) || (isPlnid && plnid.invalid))" class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button
-              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
             <button mat-stroked-button color="primary" matStepperNext (click)="analyseDataInput()">Next</button>
 
           </div>
@@ -120,26 +117,78 @@
           <div>L'horaire choisi est : {{chosenHoraire.dateMin}} {{chosenHoraire.dateMax}}</div>
           <div class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button
-              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
+            <button mat-stroked-button (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
 
             <button *ngIf="isHoraireChosen" mat-stroked-button color="primary" (click)="analyseDataInput()">Next</button>
           </div>
         </div>
 
         <div *ngIf="!isHorairesVemgsaMultiple ">
-          <label>Liste des identifiants trouvés</label>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="favoriteSeason">
-            <mat-radio-button class="example-radio-button" *ngFor="let id of getListeIdentifiantsTrouves()" [value]="id">
-              {{id.arcid}}
-              {{id.plnid}}
-              {{id.dates.dateMin}}
-              {{id.dates.dateMax}}
-            </mat-radio-button>
-          </mat-radio-group>
 
           <div *ngIf="isCheckOK">
-            <label>Vol Trouve : {{getArcidTrouve()}} {{getPlnidTrouve()}} </label>
+            <label>Liste des identifiants trouvés</label>
+
+
+            <div>
+
+              <table mat-table [dataSource]="getListeIdentifiantsTrouves()" class="tabIdVol ">
+
+   
+
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef>
+                 
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                          <mat-radio-button class="example-radio-button" (click)="selectionVol(row)" >
+                          </mat-radio-button>
+                     </td>
+                </ng-container>
+     
+
+                <!-- Colonne date -->
+                <ng-container matColumnDef="arcid">
+                  <th mat-header-cell *matHeaderCellDef class="dates th"> Arcid </th>
+                  <td mat-cell *matCellDef="let element" class="dates td">
+                    {{element.arcid}}
+                  </td>
+                </ng-container>
+
+                <!-- Colonne heure -->
+                <ng-container matColumnDef="plnid">
+                  <th mat-header-cell *matHeaderCellDef class="heure th"> Plnid </th>
+                  <td mat-cell *matCellDef="let element" class="heure td"> {{element.plnid}} </td>
+                </ng-container>
+
+                <!-- Colonne title -->
+                <ng-container matColumnDef="dateMin">
+                  <th mat-header-cell *matHeaderCellDef class="log th"> dateMin </th>
+                  <td mat-cell *matCellDef="let element" class="log td"> {{element.dates.dateMin}} </td>
+                </ng-container>
+
+                <!-- Colonne Donnee  -->
+                <ng-container matColumnDef="dateMax">
+                  <th mat-header-cell *matHeaderCellDef class="etat th"> dateMax </th>
+                  <td mat-cell *matCellDef="let element" class="etat td"> {{element.dates.dateMax}} </td>
+                </ng-container>
+
+                <!-- Colonne Valeur -->
+                <ng-container matColumnDef="inLpln">
+                  <th mat-header-cell *matHeaderCellDef> inLpln </th>
+                  <td mat-cell *matCellDef="let element"> {{element.inLpln}} </td>
+                </ng-container>
+                <!-- Colonne Valeur -->
+                <ng-container matColumnDef="inVemgsa">
+                  <th mat-header-cell *matHeaderCellDef> inVemgsa </th>
+                  <td mat-cell *matCellDef="let element"> {{element.inVemgsa}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsIdVol"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsIdVol;"></tr>
+              </table>
+            </div>
+
           </div>
 
           <div *ngIf="isVEMGSA">
@@ -154,11 +203,11 @@
           </div>
           <div class="formButton">
             <button mat-stroked-button matStepperPrevious>Back</button>
-            <button mat-stroked-button color="primary"
-              (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
-            <button *ngIf="isCheckOK " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
+            <button mat-stroked-button color="primary" (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
+            <button *ngIf="isVolSelected " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
 
           </div>
+
 
         </div>
 
