@@ -6,7 +6,7 @@ import { DetailCpdlc } from '../models/detailCpdlc';
 import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConnexionSimplifiee, etatLogonConnexion, erreurVol } from '../models/checkAnswer';
 import { GestionVolsService } from './gestion-vols.service';
 import { creneauHoraire } from '../models/date';
-import { Identifiants } from '../models/identifiants';
+import { Identifiants, inputData } from '../models/identifiants';
 //import { creneauHoraire } from '../models/date';
 
 
@@ -61,13 +61,16 @@ export class ExchangeService {
 
 
 
-    this.socket.on('analysedVol', (type, arrayLpln, arrayVemgsa, arrayMix) => {
+    this.socket.on('analysedVol', (type,inputData:inputData, arrayLpln, arrayVemgsa, arrayMix) => {
       this.initExchange();
       console.log("type de fichier LPLN ou VEMGSA ou MIX : ", type);
       console.log('analysedVol from serveur ( lpln ): ', arrayLpln);
       console.log('analysedVol from serveur ( vemgsa ): ', arrayVemgsa);
       console.log('analysedVol from serveur ( mix ): ', arrayMix);
+      console.log('analysedVol inputData: ', inputData);
+      console.log('inputData',inputData.vemgsafilename);
       //DEBUG :
+
       let data: Array<any>;
       switch (type) {
         case "LPLN":
