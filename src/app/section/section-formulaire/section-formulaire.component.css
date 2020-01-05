@@ -11,6 +11,46 @@ button {
 
 */
 
+
+h2 
+{
+  color: #2e6da4;
+  text-decoration: underline ; 
+    font : 120% georgia, palatino, serif;
+    font-style : italic;
+}
+#msg1,#msg2{
+  color : grey;
+  font : 100% georgia, palatino, serif;
+}
+
+#tabIdVol{
+  margin-right: 5px;
+}
+#idBoutons
+{
+  width:100%;
+  margin-top: 30px;
+}
+#listeIdEtMsg
+{
+    width:100%;
+    overflow:auto
+   }
+
+
+ #listeIdEtMsg #msglplnVemgsa {
+  float:left;
+  width:40%;
+  border-right-style: dotted;
+ }
+
+ #listeIdEtMsg #listeId {
+ margin-left:42%;
+}
+
+
+
 table {
   width: 100%;
 }

@@ -5,7 +5,7 @@ import { SectionVisualisationVolComponent } from './section-visualisation-vol/se
 import { SectionFormulaireComponent } from './section-formulaire/section-formulaire.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule,MatCardModule,MatDatepickerModule } from '@angular/material';
+import { MatButtonModule,MatCardModule,MatDatepickerModule,MatListModule,MatDividerModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
@@ -23,6 +23,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { TimelineFrequenceComponent } from './timeline-frequence/timeline-frequence.component';
 import { InputFileComponent } from '../lib/input-file/input-file.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatGridListModule} from '@angular/material/grid-list'; 
 
 @NgModule({
     declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent, TimelineFrequenceComponent, InputFileComponent],
@@ -46,7 +47,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatDatepickerModule,
         MatMomentDateModule,
         MatBadgeModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatListModule,
+        MatDividerModule,
+        MatGridListModule
     ],
     exports: [SectionComponent]
 })

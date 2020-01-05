@@ -1,4 +1,3 @@
-
 <mat-card>
 
 
@@ -108,104 +107,97 @@
         </ng-template>
 
 
-        <div *ngIf="isCheckOK">
-          <label>Liste des identifiants trouvés</label>
-          <div>
-            <table mat-table [dataSource]="getListeIdentifiantsTrouves()" class="tabIdVol ">
 
 
 
-              <!-- Checkbox Column -->
-              <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
 
-                </th>
-                <td mat-cell *matCellDef="let row">
-                  <mat-radio-button class="example-radio-button" (click)="selectionVol(row)">
-                  </mat-radio-button>
-                </td>
-              </ng-container>
+        <div id="listeIdEtMsg">
 
+          <div id="msglplnVemgsa">
+            <div id="msg1" *ngIf="isVEMGSA">
+              <h2>Message VEMGSA</h2>
 
-              <!-- Colonne date -->
-              <ng-container matColumnDef="arcid">
-                <th mat-header-cell *matHeaderCellDef class="dates th"> Arcid </th>
-                <td mat-cell *matCellDef="let element" class="dates td">
-                  {{element.arcid}}
-                </td>
-              </ng-container>
+              <label>{{getMessageVEMGSA().message}} </label>
+              <button mat-raised-button matTooltip={{getMessageVEMGSA().aide}} aria-label="aide" *ngIf="isAide">
+                <mat-icon>contact_support</mat-icon>
+              </button>
+            </div>
 
-              <!-- Colonne heure -->
-              <ng-container matColumnDef="plnid">
-                <th mat-header-cell *matHeaderCellDef class="heure th"> Plnid </th>
-                <td mat-cell *matCellDef="let element" class="heure td"> {{element.plnid}} </td>
-              </ng-container>
-
-              <!-- Colonne title -->
-              <ng-container matColumnDef="dateMin">
-                <th mat-header-cell *matHeaderCellDef class="log th"> dateMin </th>
-                <td mat-cell *matCellDef="let element" class="log td"> {{element.dates.dateMin}} </td>
-              </ng-container>
-
-              <!-- Colonne Donnee  -->
-              <ng-container matColumnDef="dateMax">
-                <th mat-header-cell *matHeaderCellDef class="etat th"> dateMax </th>
-                <td mat-cell *matCellDef="let element" class="etat td"> {{element.dates.dateMax}} </td>
-              </ng-container>
-
-              <!-- Colonne Valeur -->
-              <ng-container matColumnDef="inLpln">
-                <th mat-header-cell *matHeaderCellDef> inLpln </th>
-                <td mat-cell *matCellDef="let element"> {{element.inLpln}} </td>
-              </ng-container>
-              <!-- Colonne Valeur -->
-              <ng-container matColumnDef="inVemgsa">
-                <th mat-header-cell *matHeaderCellDef> inVemgsa </th>
-                <td mat-cell *matCellDef="let element"> {{element.inVemgsa}} </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumnsIdVol"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumnsIdVol;"></tr>
-            </table>
+            <div id="msg2" *ngIf="isLPLN">
+              <h2>Message LPLN</h2>
+              <label>{{getMessageLPLN()}} </label>
+            </div>
           </div>
 
+
+          <div id="listeId" *ngIf="isCheckOK">
+
+            <h2 >Liste des identifiants trouvés</h2>
+            <div>
+              <table mat-table [dataSource]="getListeIdentifiantsTrouves()" class="tabIdVol">
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef>
+
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-radio-button class="example-radio-button" (click)="selectionVol(row)">
+                    </mat-radio-button>
+                  </td>
+                </ng-container>
+
+
+                <!-- Colonne date -->
+                <ng-container matColumnDef="arcid">
+                  <th mat-header-cell *matHeaderCellDef class="dates th"> Arcid </th>
+                  <td mat-cell *matCellDef="let element" class="dates td">
+                    {{element.arcid}}
+                  </td>
+                </ng-container>
+
+                <!-- Colonne heure -->
+                <ng-container matColumnDef="plnid">
+                  <th mat-header-cell *matHeaderCellDef class="heure th"> Plnid </th>
+                  <td mat-cell *matCellDef="let element" class="heure td"> {{element.plnid}} </td>
+                </ng-container>
+
+                <!-- Colonne title -->
+                <ng-container matColumnDef="dateMin">
+                  <th mat-header-cell *matHeaderCellDef class="log th"> dateMin </th>
+                  <td mat-cell *matCellDef="let element" class="log td"> {{element.dates.dateMin}} </td>
+                </ng-container>
+
+                <!-- Colonne Donnee  -->
+                <ng-container matColumnDef="dateMax">
+                  <th mat-header-cell *matHeaderCellDef class="etat th"> dateMax </th>
+                  <td mat-cell *matCellDef="let element" class="etat td"> {{element.dates.dateMax}} </td>
+                </ng-container>
+
+                <!-- Colonne Valeur -->
+                <ng-container matColumnDef="inLpln">
+                  <th mat-header-cell *matHeaderCellDef> inLpln </th>
+                  <td mat-cell *matCellDef="let element"> {{element.inLpln}} </td>
+                </ng-container>
+                <!-- Colonne Valeur -->
+                <ng-container matColumnDef="inVemgsa">
+                  <th mat-header-cell *matHeaderCellDef> inVemgsa </th>
+                  <td mat-cell *matCellDef="let element"> {{element.inVemgsa}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsIdVol"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsIdVol;"></tr>
+              </table>
+            </div>
+
+          </div>
         </div>
 
 
-        <div *ngIf="isVEMGSA">
-          <div class="formHeader">
-            <label>Message VEMGSA </label>
-          </div>
-          <label>{{getMessageVEMGSA().message}} </label>
-
-
-          <button mat-raised-button matTooltip={{getMessageVEMGSA().aide}} aria-label="coucou"  *ngIf="isAide">
-            Aide
-          </button>
-          <button mat-raised-button matTooltip="Info about the action" aria-label="Button that displays a tooltip when focused or hovered over">
-            Action
-          </button>
-
-
-        </div>
-
-        <div *ngIf="isLPLN">
-          <div class="formHeader">
-            <label>Message LPLN </label>
-          </div>
-          <label>{{getMessageLPLN()}} </label>
-        </div>
-        <div class="formButton">
+        <div id="idBoutons" class="formButton">
           <button mat-stroked-button matStepperPrevious>Back</button>
           <button mat-stroked-button color="primary" (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
           <button *ngIf="isVolSelected " mat-stroked-button color="accent" (click)=analyseFiles()>Analyse</button>
-
         </div>
-
-
-
-
-
       </mat-step>
     </mat-horizontal-stepper>
 
