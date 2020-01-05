@@ -184,10 +184,16 @@ export class SectionFormulaireComponent implements OnInit {
       switch (resultLPLN) {
         case 0: message = "Vol trouvé";
           break;
-        case 1: message = "identifiant non trouvé , les identifiants presents dans ce fichier LPLN sont: "
+        case 1:
           this._exchangeService.getcheckResult().checkLPLN.tabId.forEach(element => {
             message = message + "[" + element.arcid + "," + element.plnid + "]";
-          });
+          });        
+         if(message ==="" ){
+          message = "Pas d'identifiants trouvés dans ce fichier LPLN, vérifier le fichier LPLN fourni en entrée";
+         }
+         else{
+          message = "identifiant non trouvé , les identifiants presents dans ce fichier LPLN sont: " + message;
+         }
           break;
         case 2: message = "Format des identifiants fournis incorrect";
           break;
@@ -202,8 +208,11 @@ export class SectionFormulaireComponent implements OnInit {
   }
 
 
-  public getMessageVEMGSA(): string {
-    let message = "";
+  public getMessageVEMGSA(): {message:string,aide:string, isAide:boolean} {
+    let message : string = "";
+    let aide : string = "";
+    let isAide : boolean = false;
+
     if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined) {
 
 
@@ -212,9 +221,9 @@ export class SectionFormulaireComponent implements OnInit {
       switch (resultVEMGSA.valeurRetour) {
         case 0: message = "Vol trouvé"
           break;
-        case 1: message = "Fichier incomplet : plnid non trouvé" + " plage horaire etudiee = ...";
+        case 1: message = "Fichier incomplet : plnid non trouvé dans une plage horaire etudiee ";
           break;
-        case 2: message = "Fichier incomplet : arcid non trouvé" + " plage horaire etudiee = ...";
+        case 2: message = "Fichier incomplet : arcid non trouvé dans une plage horaire etudiee ";
           break;
         case 3: message = "Connexion Datalink refusée -> pas de  plnid  associé à l'arcid";
           break;
@@ -225,19 +234,33 @@ export class SectionFormulaireComponent implements OnInit {
         //   message = message + "[" + element.dateMin + "," + element.dateMax + "]";
         // });
         // break;
-        case 6: message = "Identifiant fourni non present dans le fichier VEMGSA" + "plage horaire etudiee = [" + resultVEMGSA.datesFichierVemgsa.dateMin + ',' + resultVEMGSA.datesFichierVemgsa.dateMax + ']';
+        case 5: message = "Identifiant fourni non present dans le fichier VEMGSA" ;
+        aide = "Si un vol n'est pas déclaré CPDLC ou qu'il ne demande pas à se loguer, il n'apparaît pas dans le fichier VEMGSA, "
+        isAide = true;
+        break;
+        case 6: message = "Format des identifiants fournis incorrect";
           break;
-        case 7: message = "Format des identifiants fournis incorrect";
-          break;
-        case 8: message = "Probleme lors de l ouverture du fichier VEMGSA";
+        case 7: message = "Probleme lors de l ouverture du fichier VEMGSA";
           break;
         default: message = "Erreur analyse VEMGSA";
           break;
       }
     }
 
-    return message;
+    return {message ,aide, isAide};
   }
+
+  public get isAide(): boolean {
+    let isAide: boolean = false;
+    if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined) {
+      let resultVEMGSA = this._exchangeService.getcheckResult().checkVEMGSA;
+      if (resultVEMGSA.valeurRetour == 5) {
+        isAide = true;
+      }
+    }
+    return isAide;
+  }
+  
 
   public GetHoraires(): creneauHoraire {
     let tabHoraires: creneauHoraire;
