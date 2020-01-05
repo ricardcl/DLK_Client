@@ -25,7 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { SectionModule } from './section/section.module';
 import { PageDocumentationComponent } from './page-documentation/page-documentation.component';
 import {MatGridListModule} from '@angular/material/grid-list'; 
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +62,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatTabsModule, 
     MatCheckboxModule, 
     MatIconModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTooltipModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

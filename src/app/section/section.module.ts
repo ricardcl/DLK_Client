@@ -22,6 +22,7 @@ import { TimelineLineaireComponent } from './timeline-lineaire/timeline-lineaire
 import {MatBadgeModule} from '@angular/material/badge';
 import { TimelineFrequenceComponent } from './timeline-frequence/timeline-frequence.component';
 import { InputFileComponent } from '../lib/input-file/input-file.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent, TimelineFrequenceComponent, InputFileComponent],
@@ -44,7 +45,8 @@ import { InputFileComponent } from '../lib/input-file/input-file.component';
         MatIconModule,
         MatDatepickerModule,
         MatMomentDateModule,
-        MatBadgeModule
+        MatBadgeModule,
+        MatTooltipModule
     ],
     exports: [SectionComponent]
 })

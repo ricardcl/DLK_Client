@@ -179,7 +179,7 @@
           <label>{{getMessageVEMGSA().message}} </label>
 
 
-          <button mat-raised-button matTooltip="Aide ddddddddddddddddd" aria-label="coucou">
+          <button mat-raised-button matTooltip={{getMessageVEMGSA().aide}} aria-label="coucou"  *ngIf="isAide">
             Aide
           </button>
           <button mat-raised-button matTooltip="Info about the action" aria-label="Button that displays a tooltip when focused or hovered over">
