@@ -7,6 +7,7 @@ import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConne
 import { GestionVolsService } from './gestion-vols.service';
 import { creneauHoraire } from '../models/date';
 import { Identifiants, inputData } from '../models/identifiants';
+import * as moment from 'moment';
 //import { creneauHoraire } from '../models/date';
 
 
@@ -61,14 +62,14 @@ export class ExchangeService {
 
 
 
-    this.socket.on('analysedVol', (type,inputData:inputData, arrayLpln, arrayVemgsa, arrayMix) => {
+    this.socket.on('analysedVol', (type, inputData: inputData, arrayLpln, arrayVemgsa, arrayMix) => {
       this.initExchange();
       console.log("type de fichier LPLN ou VEMGSA ou MIX : ", type);
       console.log('analysedVol from serveur ( lpln ): ', arrayLpln);
       console.log('analysedVol from serveur ( vemgsa ): ', arrayVemgsa);
       console.log('analysedVol from serveur ( mix ): ', arrayMix);
       console.log('analysedVol inputData: ', inputData);
-      console.log('inputData',inputData.vemgsafilename);
+      console.log('inputData', inputData.vemgsafilename);
       //DEBUG :
 
       let data: Array<any>;
@@ -99,23 +100,33 @@ export class ExchangeService {
       let date: string = data['date'];
       let adrModeSInf: string = data['adrModeSInf'];
       let adrDeposee: string = data['adrDeposee'];
-      let equipementCpdlc: string = data['equipementCpdlc'];
-      let logonInitie: string = data['logonInitie'];
-      let logonAccepte: string = data['logonAccepte'];
+      let equipementCpdlc: boolean = data['equipementCpdlc'];
+      let logonInitie: boolean = data['logonInitie'];
+      let logonAccepte: boolean = data['logonAccepte'];
       let isConnexionInitiee: boolean = data['isConnexionInitiee'];
       let isConnexionEtablie: boolean = data['isConnexionEtablie'];
       let isConnexionPerdue: boolean = data['isConnexionPerdue'];
 
-      let cmpAdrModeS: string = data['cmpAdrModeS'];
-      let cmpAdep: string = data['cmpAdep'];
-      let cmpAdes: string = data['cmpAdes'];
-      let cmpArcid: string = data['cmpArcid'];
-      let conditionsLogon: string = data['conditionsLogon'];
+      let cmpAdrModeS: boolean = data['cmpAdrModeS'];
+      let cmpAdep: boolean = data['cmpAdep'];
+      let cmpAdes: boolean = data['cmpAdes'];
+      let cmpArcid: boolean = data['cmpArcid'];
+      let conditionsLogon: boolean = data['conditionsLogon'];
       let haslogCpdlc: boolean = data['haslogCpdlc'];
       let islogCpdlcComplete: boolean = data['islogCpdlcComplete'];
 
       let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = data['timelineEtatLogonConnexion'];
       let listeEtatTransfertFrequenceM: etatTransfertFrequence[] = data['listeEtatTransfertFrequence'];
+
+      listeEtatTransfertFrequenceM.forEach(element => {
+        console.log("heure freq", element.dateTransfert);
+                 console.log("heure freq rrr", moment(element.dateTransfert, 'DD-MM HH mm ss'));
+
+
+        let momentDate2 = moment(element.dateTransfert, 'DD-MM HH mm ss');
+       console.log("momentDate2 heure", momentDate2.format('HH mm ss'));
+
+      });
       let listeErreurs: erreurVol[] = data['listeErreurs'];
 
       for (let key = 0; key < data['listeLogs'].length; key++) {
@@ -130,7 +141,7 @@ export class ExchangeService {
         let log = etatCpdlcTemp['log'];
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         let explication = etatCpdlcTemp['explication'];
-        this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog,explication));
+        this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog, explication));
 
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
           //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
@@ -144,9 +155,9 @@ export class ExchangeService {
       let listeLogsVemgsa: EtatCpdlc[] = null;
       let listeLogsMix: EtatCpdlc[] = null;
 
-      
-      if ((type == "LPLN") ||  (type == "MIX" )){
-   
+
+      if ((type == "LPLN") || (type == "MIX")) {
+
         let dataL: Array<any> = arrayLpln;
         for (let key = 0; key < dataL['listeLogs'].length; key++) {
           const etatCpdlcTemp = dataL['listeLogs'][key];
@@ -161,13 +172,13 @@ export class ExchangeService {
           let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
           let explication = etatCpdlcTemp['explication'];
 
-          this.listeEtatsLpln.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog,explication));
+          this.listeEtatsLpln.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog, explication));
         };
 
         listeLogsLpln = this.listeEtats;
       }
 
-      if ((type == "VEMGSA") ||  (type == "MIX" )){
+      if ((type == "VEMGSA") || (type == "MIX")) {
         let dataV: Array<any> = arrayVemgsa;
         for (let key = 0; key < dataV['listeLogs'].length; key++) {
           const etatCpdlcTemp = dataV['listeLogs'][key];
@@ -181,13 +192,13 @@ export class ExchangeService {
           let log = etatCpdlcTemp['log'];
           let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
           let explication = etatCpdlcTemp['explication'];
-          this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog,explication));
+          this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog, explication));
         };
 
 
         listeLogsVemgsa = this.listeEtats;
       }
-      if (type == "MIX"){
+      if (type == "MIX") {
         listeLogsLpln = this.listeEtatsLpln;
         listeLogsVemgsa = this.listeEtatsVemgsa;
         listeLogsMix = this.listeEtats;
@@ -220,9 +231,9 @@ export class ExchangeService {
   }
 
 
-  public analyseFiles(idCompletSelectionne:Identifiants,lplnFileName: string, vemgsaFileName: string[]): void {
-    console.log("analyseFilesService ", "arcid: ", idCompletSelectionne.arcid, "plnid: ", idCompletSelectionne.plnid, 'creneauHoraire',idCompletSelectionne.dates,'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
-    this.socket.emit('analysing',idCompletSelectionne,lplnFileName, vemgsaFileName, this.checkAnswer);
+  public analyseFiles(idCompletSelectionne: Identifiants, lplnFileName: string, vemgsaFileName: string[]): void {
+    console.log("analyseFilesService ", "arcid: ", idCompletSelectionne.arcid, "plnid: ", idCompletSelectionne.plnid, 'creneauHoraire', idCompletSelectionne.dates, 'lplnFileName : ', lplnFileName, 'vemgsaFileName : ', vemgsaFileName);
+    this.socket.emit('analysing', idCompletSelectionne, lplnFileName, vemgsaFileName, this.checkAnswer);
 
   }
 

@@ -20,8 +20,15 @@ h2
   #schemaFreq .Block {
      display: inline-block; 
      padding: 10px;
+     border-style: dotted;
+     justify-content: center;
+     text-align: center;
   }
-
+  
+  #schemaFreq .Fleche {
+    display: inline-block; 
+    justify-content: center;
+   }
 
 
 .example-input-label,
