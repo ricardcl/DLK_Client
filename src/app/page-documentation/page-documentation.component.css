@@ -1,16 +1,22 @@
+#documentation
+{
+    width:100%;
+    overflow:auto
+   }
 
-  
-  .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-  }
+   #documentation #menu {
+  float:left;
+  width:24%;
+  border-right-style: dotted;
+ }
+ 
+ #documentation #content {
+  margin-left:26%;
+ }
 
-  .mat-list-icon {
-    color: rgba(0, 0, 0, 0.54);
-  }
-  .example-card {
-    max-width: 400px;
-  }
-  .card-datalink {
-    max-width: 400px;
-  }
+  #documentation #divider {
+  width:23%;
+  margin-right: 10px;
+  margin-left: 10px;
+ }
+
