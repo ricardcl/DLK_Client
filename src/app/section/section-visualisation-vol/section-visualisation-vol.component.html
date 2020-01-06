@@ -134,7 +134,7 @@
                                     <h2 id="test_etats_frequence">test_etats_frequence_lpln</h2>
                                 </div>
 
-                                <div id="schemaFreq" *ngFor="let entry of monvol.getListeEtatTransfertFrequence(); let index = index; ">
+                                <div id="schemaFreq" *ngFor="let entry of monvol.getListeEtatTransfertFrequenceModifie(); let index = index; ">
                                     <h2>Transfert N° {{index+1}} </h2>
 
                                     <div id="transfertFreq" class="Block">
@@ -153,7 +153,7 @@
                                         </p>
                                         <!--Heure sous message -->
                                         <p>H: {{entry.dateTransfert}} </p>
-                                        <input type="date" id="start" name="trip-start" value="entry.dateTransfert" >
+                                      
                                     </div>
 
                                     <div class="Fleche" *ngIf="entry.isFinTRFDL">

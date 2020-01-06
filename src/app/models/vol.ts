@@ -1,5 +1,6 @@
 import { EtatCpdlc } from './etatCpdlc';
 import { etatTransfertFrequence, etatLogonConnexionSimplifiee, erreurVol } from './checkAnswer';
+import * as moment from 'moment';
 
 export class Vol {
     /** identifiant unique d'un vol (heure en ms ?) */
@@ -73,7 +74,7 @@ export class Vol {
     
 
 
-
+    private listeEtatTransfertFrequenceModifie : etatTransfertFrequence[];
 
 
     constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: boolean,
@@ -107,6 +108,7 @@ export class Vol {
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
         this.listeErreurs = listeErreurs;
+        this.listeEtatTransfertFrequenceModifie =[];
 
     }
 
@@ -314,4 +316,34 @@ export class Vol {
     public getListeErreurs(): erreurVol[] {
         return this.listeErreurs;
     }
+
+    /**
+     * Fonction permettant de recuperer uniquement l'heure des dates de transfert 
+     * pour un meilleur affichage dans l'onglet "info générales"
+     */
+  public getListeEtatTransfertFrequenceModifie():etatTransfertFrequence[]{
+
+      
+    this.listeEtatTransfertFrequenceModifie= JSON.parse(JSON.stringify(this.listeEtatTransfertFrequence));
+
+    this.listeEtatTransfertFrequenceModifie.forEach(element => {
+      if (element.dateTransfert !== undefined){
+       element.dateTransfert =  moment(element.dateTransfert, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+      if (element.dateFinTRFDL !== undefined){
+       element.dateFinTRFDL =  moment(element.dateFinTRFDL, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+      if (element.dateTRARTV !== undefined){
+       element.dateTRARTV =  moment(element.dateTRARTV, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+      if (element.dateTranfertAcq !== undefined){
+       element.dateTranfertAcq =  moment(element.dateTranfertAcq, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+                
+     });
+     return this.listeEtatTransfertFrequenceModifie;
+    }
+
 }
+
+

@@ -7,8 +7,6 @@ import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConne
 import { GestionVolsService } from './gestion-vols.service';
 import { creneauHoraire } from '../models/date';
 import { Identifiants, inputData } from '../models/identifiants';
-import * as moment from 'moment';
-//import { creneauHoraire } from '../models/date';
 
 
 
@@ -25,6 +23,7 @@ export class ExchangeService {
   private selectedplnid: number = 0;
   private vol: Vol;
   private checkAnswer = <checkAnswer>{};
+  
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
     this.initSocket();
@@ -37,6 +36,8 @@ export class ExchangeService {
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
     this.vol = null;
+   
+
   }
 
   private initSocket() {
@@ -116,17 +117,7 @@ export class ExchangeService {
       let islogCpdlcComplete: boolean = data['islogCpdlcComplete'];
 
       let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = data['timelineEtatLogonConnexion'];
-      let listeEtatTransfertFrequenceM: etatTransfertFrequence[] = data['listeEtatTransfertFrequence'];
-
-      listeEtatTransfertFrequenceM.forEach(element => {
-        console.log("heure freq", element.dateTransfert);
-                 console.log("heure freq rrr", moment(element.dateTransfert, 'DD-MM HH mm ss'));
-
-
-        let momentDate2 = moment(element.dateTransfert, 'DD-MM HH mm ss');
-       console.log("momentDate2 heure", momentDate2.format('HH mm ss'));
-
-      });
+      let listeEtatTransfertFrequenceM: etatTransfertFrequence[] = data['listeEtatTransfertFrequence'];    
       let listeErreurs: erreurVol[] = data['listeErreurs'];
 
       for (let key = 0; key < data['listeLogs'].length; key++) {

@@ -72,8 +72,11 @@ export class SectionVisualisationVolComponent implements OnInit {
     }
 
     public getListeEtatTransfertFrequence(): etatTransfertFrequence[] {
+
         return this.monvol.getListeEtatTransfertFrequence();
     }
+
+
     ////////////////AFFICHAGE DES LOGS 
     displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc'];
 
