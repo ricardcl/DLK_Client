@@ -16,8 +16,8 @@ h2
 {
   color: #2e6da4;
   text-decoration: underline ; 
-    font : 120% georgia, palatino, serif;
-    font-style : italic;
+  font : 120% georgia, palatino, serif;
+  font-style : italic;
 }
 #msg1,#msg2{
   color : grey;
