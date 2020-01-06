@@ -4,11 +4,24 @@ h1{
   font-weight: 300;
 }
 
-h2{
-  font-family: 'Roboto Medium';
-  font-style: normal;
-  font-weight: 300;
+
+h2 
+{
+  color: #2e6da4;
+  text-decoration: underline ; 
+  font : 120% georgia, palatino, serif;
+  font-style : italic;
 }
+
+#schemaFreq {
+      width: 100%;
+    }
+   
+  #schemaFreq .Block {
+     display: inline-block; 
+     padding: 10px;
+  }
+
 
 
 .example-input-label,

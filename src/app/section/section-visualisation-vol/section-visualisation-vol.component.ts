@@ -20,7 +20,7 @@ export class SectionVisualisationVolComponent implements OnInit {
     @Input()
     public monvol: Vol;
 
-    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string }];
+    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: boolean }];
     private volCharge: boolean;
     
     
@@ -48,11 +48,6 @@ export class SectionVisualisationVolComponent implements OnInit {
 
     public get isVolCharge(): boolean {
         return this.volCharge === true;
-    }
-
-
-    public get isVolLogue():boolean {
-        return this.monvol.getLogonAccepte() === "OK" ;
     }
 
     public get isVolConnecte():boolean {
