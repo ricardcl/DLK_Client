@@ -1,9 +1,12 @@
-<app-header></app-header>
-<app-navbar></app-navbar>
+<div #parentdiv class="sticky">
+    <app-header></app-header>
+    <!-- <app-navbar></app-navbar>-->
+    
+    <app-menu></app-menu>
+</div>  
 
-<app-menu></app-menu>
-
-<div class="page-principale">
+<div class="page-principale" [style.marginTop.px]="parentdiv.offsetHeight">
+  <!-- Margin top is the height of the fixed divs at the top of the app -->
   <router-outlet></router-outlet>
 </div>
 

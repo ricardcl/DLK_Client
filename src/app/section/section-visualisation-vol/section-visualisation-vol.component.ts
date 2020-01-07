@@ -20,7 +20,7 @@ export class SectionVisualisationVolComponent implements OnInit {
     @Input()
     public monvol: Vol;
 
-    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string }];
+    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: boolean }];
     private volCharge: boolean;
     
     
@@ -50,11 +50,6 @@ export class SectionVisualisationVolComponent implements OnInit {
         return this.volCharge === true;
     }
 
-
-    public get isVolLogue():boolean {
-        return this.monvol.getLogonAccepte() === "OK" ;
-    }
-
     public get isVolConnecte():boolean {
         return this.monvol.getIsConnexionInitiee() ;
     }
@@ -77,8 +72,11 @@ export class SectionVisualisationVolComponent implements OnInit {
     }
 
     public getListeEtatTransfertFrequence(): etatTransfertFrequence[] {
+
         return this.monvol.getListeEtatTransfertFrequence();
     }
+
+
     ////////////////AFFICHAGE DES LOGS 
     displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc'];
 

@@ -84,8 +84,8 @@ export class TimelineLineaireComponent {
             categoryAxis.height = 200;
             //categoryAxis.title.text = "Turnover ";
             //categoryAxis.fontWeight = "bold";
-           
-            
+
+
 
             let dateAxis = this.chart.xAxes.push(new am4charts.DateAxis<am4plugins_timeline.AxisRendererCurveX>());
             dateAxis.renderer.minGridDistance = 70;
@@ -283,16 +283,22 @@ export class TimelineLineaireComponent {
             element.name = "frequence";
             element.typeFreq = element.name
             element.icon = dance;
-            element.text = element.frequence;
-            if(element.isTransfertAcq){
+
+            if (element.frequence !== undefined) {
+                element.text = element.frequence;
+            }
+            else{
+                element.text = "fréquence non loggée";
+            }
+            if (element.isTransfertAcq) {
                 element.color = am4core.color("#31AF40").lighten(0);
             }
-            else if(element.isTRARTV || element.isFinTRFDL){
+            else if (element.isTRARTV || element.isFinTRFDL) {
                 element.color = am4core.color("#E94343").lighten(0);
             }
-           else {
-            element.color = am4core.color("#F67B08").lighten(0);
-           }
+            else {
+                element.color = am4core.color("#F67B08").lighten(0);
+            }
 
         });
 
@@ -334,7 +340,7 @@ export class TimelineLineaireComponent {
         });
 
 
-       // console.log("attention la liste finale: ", listeFinale);
+        // console.log("attention la liste finale: ", listeFinale);
 
         return listeFinale;
         // return this.listeEtatLogonConnexion;

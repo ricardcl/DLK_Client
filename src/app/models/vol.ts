@@ -1,5 +1,6 @@
 import { EtatCpdlc } from './etatCpdlc';
 import { etatTransfertFrequence, etatLogonConnexionSimplifiee, erreurVol } from './checkAnswer';
+import * as moment from 'moment';
 
 export class Vol {
     /** identifiant unique d'un vol (heure en ms ?) */
@@ -41,22 +42,22 @@ export class Vol {
     /**Adresse deposee par le pilote dans son plan de vol */
     private adrDeposee: string;
     /**Indique si le vol est declare equipe cpdlc */
-    private equipementCpdlc: string;
+    private equipementCpdlc: boolean;
     /**Reception d'une demande de logon */
-    private logonInitie: string;
+    private logonInitie: boolean;
     /**Acceptation du logon par le STPV*/
-    private logonAccepte: string;
+    private logonAccepte: boolean;
 
     /**adrDeposee et cmpAdrModeSInf identique (entre Lpln et Vemgsa)  */
-    private cmpAdrModeS: string;
+    private cmpAdrModeS: boolean;
     /**adep identique entre Lpln et Vemgsa  */
-    private cmpAdep: string;
+    private cmpAdep: boolean;
     /**ades identique entre Lpln et Vemgsa  */
-    private cmpAdes: string;
+    private cmpAdes: boolean;
     /**arcid identique entre Lpln et Vemgsa  */
-    private cmpArcid: string;
+    private cmpArcid: boolean;
     /**conditions du logon remplies/ logon effectue  */
-    private conditionsLogon: string;
+    private conditionsLogon: boolean;
     /** */
 
     // PARAMETRES LIES A LA CONNEXION
@@ -73,12 +74,12 @@ export class Vol {
     
 
 
+    private listeEtatTransfertFrequenceModifie : etatTransfertFrequence[];
 
 
-
-    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: string,
-        logonInitie: string, logonAccepte: string, isConnexionInitiee: boolean,isConnexionEtablie: boolean,isConnexionPerdue: boolean, cmpAdrModeS: string, cmpAdep: string, cmpAdes: string, cmpArcid: string,
-        conditionsLogon: string, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[] ) {
+    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: boolean,
+        logonInitie: boolean, logonAccepte: boolean, isConnexionInitiee: boolean,isConnexionEtablie: boolean,isConnexionPerdue: boolean, cmpAdrModeS: boolean, cmpAdep: boolean, cmpAdes: boolean, cmpArcid: boolean,
+        conditionsLogon: boolean, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[] ) {
         this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
@@ -107,6 +108,7 @@ export class Vol {
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
         this.listeErreurs = listeErreurs;
+        this.listeEtatTransfertFrequenceModifie =[];
 
     }
 
@@ -126,7 +128,7 @@ export class Vol {
         this.adrDeposee = adrDeposee;
     }
 
-    public setEquipementCpdlc(equipementCpdlc: string): void {
+    public setEquipementCpdlc(equipementCpdlc: boolean): void {
         this.equipementCpdlc = equipementCpdlc;
     }
 
@@ -139,11 +141,11 @@ export class Vol {
         this.ades = ades;
     }
 
-    public setLogonInitie(logonInitie: string): void {
+    public setLogonInitie(logonInitie: boolean): void {
         this.logonInitie = logonInitie;
     }
 
-    public setLogonAccepte(logonAccepte: string): void {
+    public setLogonAccepte(logonAccepte: boolean): void {
         this.logonAccepte = logonAccepte;
     }
 
@@ -163,15 +165,15 @@ export class Vol {
         this.arcid = arcid;
     }
 
-    public setCmpAdrModeS(cmpAdrModeS: string): void {
+    public setCmpAdrModeS(cmpAdrModeS: boolean): void {
         this.cmpAdrModeS = cmpAdrModeS;
     }
 
-    public setCmpAdep(cmpAdep: string): void {
+    public setCmpAdep(cmpAdep: boolean): void {
         this.cmpAdep = cmpAdep;
     }
 
-    public setCmpAdes(cmpAdes: string): void {
+    public setCmpAdes(cmpAdes: boolean): void {
         this.cmpAdes = cmpAdes;
     }
 
@@ -179,11 +181,11 @@ export class Vol {
         this.date = date;
     }
 
-    public setCmpArcid(cmpArcid: string): void {
+    public setCmpArcid(cmpArcid: boolean): void {
         this.cmpArcid = cmpArcid;
     }
 
-    public setConditionsLogon(conditionsLogon: string): void {
+    public setConditionsLogon(conditionsLogon: boolean): void {
         this.conditionsLogon = conditionsLogon;
     }
 
@@ -229,7 +231,7 @@ export class Vol {
     public getadrDeposee(): string {
         return this.adrDeposee;
     }
-    public getEquipementCpdlc(): string {
+    public getEquipementCpdlc(): boolean {
         return this.equipementCpdlc;
     }
 
@@ -246,11 +248,11 @@ export class Vol {
         return this.date;
     }
 
-    public getLogonInitie(): string {
+    public getLogonInitie(): boolean {
         return this.logonInitie;
     }
 
-    public getLogonAccepte(): string {
+    public getLogonAccepte(): boolean {
         return this.logonAccepte;
     }
 
@@ -266,23 +268,23 @@ export class Vol {
         return this.isConnexionPerdue;
     }
 
-    public getCmpAdrModeS(): string {
+    public getCmpAdrModeS(): boolean {
         return this.cmpAdrModeS;
     }
 
-    public getCmpAdep(): string {
+    public getCmpAdep(): boolean {
         return this.cmpAdep;
     }
 
-    public getCmpAdes(): string {
+    public getCmpAdes(): boolean {
         return this.cmpAdes;
     }
 
-    public getCmpArcid(): string {
+    public getCmpArcid(): boolean {
         return this.cmpArcid;
     }
 
-    public getConditionsLogon(): string {
+    public getConditionsLogon(): boolean {
         return this.conditionsLogon;
     }
 
@@ -314,4 +316,34 @@ export class Vol {
     public getListeErreurs(): erreurVol[] {
         return this.listeErreurs;
     }
+
+    /**
+     * Fonction permettant de recuperer uniquement l'heure des dates de transfert 
+     * pour un meilleur affichage dans l'onglet "info générales"
+     */
+  public getListeEtatTransfertFrequenceModifie():etatTransfertFrequence[]{
+
+      
+    this.listeEtatTransfertFrequenceModifie= JSON.parse(JSON.stringify(this.listeEtatTransfertFrequence));
+
+    this.listeEtatTransfertFrequenceModifie.forEach(element => {
+      if (element.dateTransfert !== undefined){
+       element.dateTransfert =  moment(element.dateTransfert, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+      if (element.dateFinTRFDL !== undefined){
+       element.dateFinTRFDL =  moment(element.dateFinTRFDL, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+      if (element.dateTRARTV !== undefined){
+       element.dateTRARTV =  moment(element.dateTRARTV, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+      if (element.dateTranfertAcq !== undefined){
+       element.dateTranfertAcq =  moment(element.dateTranfertAcq, 'DD-MM HH mm ss').format('HH mm ss');
+      }
+                
+     });
+     return this.listeEtatTransfertFrequenceModifie;
+    }
+
 }
+
+

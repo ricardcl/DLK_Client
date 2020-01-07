@@ -2,7 +2,7 @@
 
 
 
-export interface datesFile {
+export interface creneauHoraire {
     dateMin: string ;
     dateMax: string;
 }

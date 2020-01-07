@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageDocumentationComponent implements OnInit {
 
-  constructor() { }
+  
+  constructor() {
+      }
 
   ngOnInit() {
+  }
+  private panelOpenState: boolean[]  =  [false,false];
+ 
+
+  public togglePanel(numPanel:number) {
+    this.panelOpenState[numPanel] = !this.panelOpenState[numPanel]
+    console.log("panelOpenState", this.panelOpenState);
+
   }
 
 }

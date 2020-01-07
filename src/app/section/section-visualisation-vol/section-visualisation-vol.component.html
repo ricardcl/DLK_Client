@@ -5,356 +5,408 @@
             <mat-icon aria-hidden="false" aria-label="flight icon">flight</mat-icon>
             Vol
         </mat-card-title>
-        <mat-card-subtitle>{{monvol.arcid}} {{monvol.plnid}}</mat-card-subtitle>
+        <mat-card-subtitle>{{monvol.getArcid()}} {{monvol.getPlnid()}}</mat-card-subtitle>
     </mat-card-header>
 
-
     <mat-card-content>
+        <!-- TODO !!!!! afficher differement la timeline si pas de logon ou de connexion -->
 
+        <!-- TODO afficher les input Data : id choisi, nom des fichiers-->
 
-        <div>
-            <mat-tab-group>
+        <mat-tab-group>
+            <!--ONGLET SYNTHESE - TIMELINE  -->
+            <mat-tab>
+                <ng-template matTabLabel>
+                    <span matBadge="{{monvol.getListeErreurs().length}}" matBadgeOverlap="false" matBadgeColor="warn">Synthèse</span>
+                </ng-template>
 
-                <mat-tab>
-                    <ng-template matTabLabel>
-                        <span matBadge="{{monvol.getListeErreurs().length}}" matBadgeOverlap="false"
-                            matBadgeColor="warn">Synthèse</span>
-                    </ng-template>
+                <ng-template matTabContent>
+                    <div *ngIf="monvol.getListeErreurs().length !== 0">
+                        <h1>
+                            Tableau des erreurs
+                        </h1>
+                        <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur">
 
-                    <ng-template matTabContent>
-                        <div *ngIf="monvol.getListeErreurs().length !== 0">
-                            <h1>
-                                Tableau des erreurs
-                            </h1>
-                            <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur">
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="date">
+                                <th mat-header-cell *matHeaderCellDef> date </th>
+                                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                            </ng-container>
 
-                                <!-- Position Column -->
-                                <ng-container matColumnDef="date">
-                                    <th mat-header-cell *matHeaderCellDef> date </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-                                </ng-container>
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="type">
+                                <th mat-header-cell *matHeaderCellDef> type d'erreur </th>
+                                <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                            </ng-container>
 
-                                <!-- Name Column -->
-                                <ng-container matColumnDef="type">
-                                    <th mat-header-cell *matHeaderCellDef> type d'erreur </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-                                </ng-container>
+                            <!-- Weight Column -->
+                            <ng-container matColumnDef="explication">
+                                <th mat-header-cell *matHeaderCellDef> explication </th>
+                                <td mat-cell *matCellDef="let element"> {{element.infos}} </td>
+                            </ng-container>
 
-                                <!-- Weight Column -->
-                                <ng-container matColumnDef="explication">
-                                    <th mat-header-cell *matHeaderCellDef> explication </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.infos}} </td>
-                                </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsErreurs"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
+                        </table>
+                    </div>
+                    <div *ngIf="monvol.getLogonAccepte()">
+                        <h2>
+                            Timeline fréquence
+                        </h2>
 
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsErreurs"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
-                            </table>
-                        </div>
-                        <div *ngIf="isVolLogue">
-                            <h2>
-                                Timeline fréquence
-                            </h2>
-
-                            <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"
-                                [listeEtatTransfertFrequence]="getListeEtatTransfertFrequence()">
-                            </app-timeline-lineaire>
-                        </div>
-
-                        <div *ngIf="isVolLogue">
-
-
-                            <h2>
-                                Timeline logon/connexion
-                            </h2>
-                            <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline>
-                        </div>
-                    </ng-template>
-                </mat-tab>
-                <mat-tab label="Infos en vrac">
-
-
-                    <div class="isAnalysed">
-
-                        <div> conditionsLogon: {{monvol.conditionsLogon}}</div>
-
-                        <div>adrModeSInf: {{monvol.adrModeSInf}}</div>
-                        <div>adrDeposee: {{monvol.adrDeposee}}</div>
-                        <div>cmpAdrModeS: {{monvol.cmpAdrModeS}}</div>
-
-                        <div>Adep: {{monvol.adep}}</div>
-                        <div>cmpAdep: {{monvol.cmpAdep}}</div>
-
-                        <div>Ades: {{monvol.ades}}</div>
-                        <div>cmpAdes: {{monvol.cmpAdes}}</div>
-
-                        <div>Arcid: {{monvol.arcid}}</div>
-                        <div>cmpArcid: {{monvol.cmpArcid}}</div>
-
-                        <div>equipementCpdlc: {{monvol.equipementCpdlc}}</div>
-
-                        <div>logonInitie: {{monvol.logonInitie}}</div>
-                        <div>logonAccepte: {{monvol.logonAccepte}}</div>
-
-                        <div>haslogCpdlc: {{monvol.haslogCpdlc}}</div>
-                        <div>islogCpdlcComplete: {{monvol.islogCpdlcComplete}}</div>
-
-
-
+                        <app-timeline-lineaire [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"
+                            [listeEtatTransfertFrequence]="getListeEtatTransfertFrequence()">
+                        </app-timeline-lineaire>
                     </div>
 
-                    <div class="test_etats_frequence">
-                        <div class="test_etats_frequence">
-                            <h1 id="test_etats_frequence">test_etats_frequence_lpln</h1>
-                        </div>
-                        <ul class="frequences">
-                            <li *ngFor="let entry of monvol.getListeEtatTransfertFrequence()">
-                                <div class="timeline-body">
-                                    <p> frequence: {{entry.frequence}} </p>
-                                    <p> dateTransfert: {{entry.dateTransfert}} </p>
-                                    <p> positionTransfert: {{entry.positionTransfert}} </p>
-                                    <p> isFinTRFDL: {{entry.isFinTRFDL}} </p>
-                                    <p> dateFinTRFDL: {{entry.dateFinTRFDL}} </p>
-                                    <p> isTRARTV: {{entry.isTRARTV}} </p>
-                                    <p> dateTRARTV: {{entry.dateTRARTV}} </p>
-                                    <p> isTransfertAcq: {{entry.isTransfertAcq}} </p>
-                                    <p> dateTranfertAcq: {{entry.dateTranfertAcq}} </p>
+                    <div *ngIf="monvol.getLogonAccepte()">
+                        <h2>
+                            Timeline logon/connexion
+                        </h2>
+                        <app-timeline [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline>
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <!--FIN ONGLET SYNTHESE - TIMELINE  -->
+            <!--ONGLET INFO GENERALES  -->
+            <mat-tab label="Infos Générales">
+                <div class="isAnalysed">
+                    <mat-card>
+                        <mat-card-content>
+                            <h2 class="h2">Comparaison des données plan de vol et reçues pas Datalink</h2>
+
+                            <mat-list>
+
+                                <h3 mat-subheader>
+                                    <mat-icon mat-list-icon>folder</mat-icon> Folders
+                                </h3>
+                                <mat-checkbox class="margin" checked="monvol.getConditionsLogon()" disabled="true">Conditions
+                                    de Logon Remplies</mat-checkbox>
+
+
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getCmpAdrModeS()" disabled="true">CmpAdrModeS:
+                                        {{monvol.getadrModeSInf()}} {{monvol.getadrDeposee()}}</mat-checkbox>
+                                </p>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getCmpAdep()" disabled="true">CmpAdep:
+                                        {{monvol.getAdep()}}</mat-checkbox>
+                                </p>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getCmpAdes()" disabled="true">CmpAdes:
+                                        {{monvol.getAdes()}}</mat-checkbox>
+                                </p>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getCmpArcid()" disabled="true">CmpArcid:
+                                        {{monvol.getArcid()}}</mat-checkbox>
+                                </p>
+                                <mat-divider id="divider"></mat-divider>
+
+                                <h3 mat-subheader>
+                                    Différents Etats
+                                </h3>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getLogonInitie()" disabled="true">LogonInitie</mat-checkbox>
+                                </p>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getLogonAccepte()" disabled="true">LogonAccepte</mat-checkbox>
+                                </p>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getHaslogCpdlc()" disabled="true">HaslogCpdlc</mat-checkbox>
+                                </p>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getEquipementCpdlc()" disabled="true">Equipé
+                                        Cpdlc</mat-checkbox>
+                                </p>
+                                <p>
+                                    <mat-checkbox class="margin" checked="monvol.getIslogCpdlcComplete()" disabled="true">IslogCpdlcComplete</mat-checkbox>
+                                </p>
+
+                            </mat-list>
+
+                        </mat-card-content>
+                    </mat-card>
+
+                    <mat-card class="result">
+                        <mat-card-content>
+                            <div class="test_etats_frequence">
+                                <div class="test_etats_frequence">
+                                    <h2 id="test_etats_frequence">test_etats_frequence_lpln</h2>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
 
-                </mat-tab>
+                                <div id="schemaFreq" *ngFor="let entry of monvol.getListeEtatTransfertFrequenceModifie(); let index = index; ">
+                                    <h2>Transfert N° {{index+1}} </h2>
 
-                <mat-tab label="Lpln" *ngIf="isLpln">
+                                    <div id="transfertFreq" class="Block">
+                                        <!--icone -->
+                                        <img src="assets/images/eclair.png" />
+                                        <!--message sous icone -->
+                                        <p>Transfert de fréquence</p>
+                                        <p *ngIf="(entry.frequence !== undefined) && (entry.positionTransfert == undefined)">
+                                            {{entry.frequence}}
+                                        </p>
+                                        <p *ngIf="(entry.frequence == undefined) && (entry.positionTransfert !== undefined)">
+                                            vers
+                                            {{entry.positionTransfert}}</p>
+                                        <p *ngIf="(entry.frequence !== undefined) && (entry.positionTransfert !== undefined)">
+                                            {{entry.frequence}} vers {{entry.positionTransfert}}
+                                        </p>
+                                        <!--Heure sous message -->
+                                        <p>H: {{entry.dateTransfert}} </p>
+                                      
+                                    </div>
+
+                                    <div class="Fleche" *ngIf="entry.isFinTRFDL">
+                                        <img src="assets/images/fleche2.png" />
+                                    </div>
+                                    <div id="finTRFDL" *ngIf="entry.isFinTRFDL" class="Block">
+                                        <img src="assets/images/casque2.png" />
+                                        <p> Timeout</p>
+                                        <p> Retour à la voix obligatoire </p>
+                                        <p>H: {{entry.dateFinTRFDL}} </p>
+                                    </div>
+
+                                    <div class="Fleche" *ngIf="entry.isTRARTV">
+                                        <img src="assets/images/fleche2.png" />
+                                    </div>
+                                    <div id="TRARTV" *ngIf="entry.isTRARTV" class="Block">
+                                        <img src="assets/images/micro.png" />
+                                        <p>Retour à la voix effectué </p>
+                                        <p>H: {{entry.dateTRARTV}} </p>
+                                    </div>
+
+                                    <div class="Fleche" *ngIf="entry.isTransfertAcq">
+                                        <img src="assets/images/fleche2.png" />
+                                    </div>
+                                    <div id="transfertAcq" *ngIf="entry.isTransfertAcq" class="Block">
+                                        <img src="assets/images/check.png" />
+                                        <p> Transfert acquitté </p>
+                                        <p> par le pilote </p>
+                                        <p>H: {{entry.dateTranfertAcq}} </p>
+                                    </div>
+                                </div>
 
 
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-tab>
+            <!--FIN ONGLET INFOS GENERALES -->
+            <!--ONGLET LOGS LPLN  -->
+            <mat-tab label="Lpln" *ngIf="isLpln">
+                <div>
+                    <table mat-table [dataSource]="monvol.getListeVolLpln()" class="tabDet ">
 
+                        <!-- Colonne date -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef class="dates th"> Date </th>
+                            <td mat-cell *matCellDef="let element" class="dates td"> {{element.jour}} </td>
+                        </ng-container>
 
-                    <div>
-                        <table mat-table [dataSource]="monvol.getListeVolLpln()" class="tabDet ">
+                        <!-- Colonne heure -->
+                        <ng-container matColumnDef="heure">
+                            <th mat-header-cell *matHeaderCellDef class="heure th"> Heure </th>
+                            <td mat-cell *matCellDef="let element" class="heure td"> {{element.heure}} </td>
+                        </ng-container>
 
+                        <!-- Colonne title -->
+                        <ng-container matColumnDef="log">
+                            <th mat-header-cell *matHeaderCellDef class="log th"> Log </th>
+                            <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
+                        </ng-container>
 
+                        <!-- Colonne Donnee  -->
+                        <ng-container matColumnDef="etat">
+                            <th mat-header-cell *matHeaderCellDef class="etat th"> Etat </th>
+                            <td mat-cell *matCellDef="let element" class="etat td"> {{element.etat}} </td>
+                        </ng-container>
 
-                            <!-- Colonne date -->
-                            <ng-container matColumnDef="date">
-                                <th mat-header-cell *matHeaderCellDef class="dates th"> Date </th>
-                                <td mat-cell *matCellDef="let element" class="dates td"> {{element.jour}} </td>
-                            </ng-container>
+                        <!-- Colonne Valeur -->
+                        <ng-container matColumnDef="valeur">
+                            <th mat-header-cell *matHeaderCellDef> Valeur </th>
+                            <td mat-cell *matCellDef="let element"> {{element.explication}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+                    </table>
+                </div>
+            </mat-tab>
+            <!--FIN ONGLET LOGS LPLN  -->
+            <!--ONGLET LOGS VEMGSA  -->
+            <mat-tab label="Vemgsa" *ngIf="isVemgsa">
+                <div>
+                    <table mat-table [dataSource]="monvol.getListeVolVemgsa()" class="tabDet ">
+                        <!-- Colonne date -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef class="dates th"> Date </th>
+                            <td mat-cell *matCellDef="let element" class="dates td"> {{element.jour}} </td>
+                        </ng-container>
 
-                            <!-- Colonne heure -->
-                            <ng-container matColumnDef="heure">
-                                <th mat-header-cell *matHeaderCellDef class="heure th"> Heure </th>
-                                <td mat-cell *matCellDef="let element" class="heure td"> {{element.heure}} </td>
-                            </ng-container>
+                        <!-- Colonne heure -->
+                        <ng-container matColumnDef="heure">
+                            <th mat-header-cell *matHeaderCellDef class="heure th"> Heure </th>
+                            <td mat-cell *matCellDef="let element" class="heure td"> {{element.heure}} </td>
+                        </ng-container>
 
-                            <!-- Colonne title -->
-                            <ng-container matColumnDef="log">
-                                <th mat-header-cell *matHeaderCellDef class="log th"> Log </th>
-                                <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
-                            </ng-container>
-
-
-                            <!--- Note that these columns can be defined in any order.
+                        <!-- Colonne title -->
+                        <ng-container matColumnDef="log">
+                            <th mat-header-cell *matHeaderCellDef class="log th"> Log </th>
+                            <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
+                        </ng-container>
+                        <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
 
-                            <!-- Colonne Donnee  -->
-                            <ng-container matColumnDef="etat">
-                                <th mat-header-cell *matHeaderCellDef class="etat th"> Etat </th>
-                                <td mat-cell *matCellDef="let element" class="etat td"> {{element.etat}} </td>
-                            </ng-container>
+                        <!-- Colonne Donnee  -->
+                        <ng-container matColumnDef="etat">
+                            <th mat-header-cell *matHeaderCellDef class="etat th">Etat de la Comm CPDLC </th>
+                            <td mat-cell *matCellDef="let element" class="etat td"> {{element.etat}} </td>
+                        </ng-container>
 
-                            <!-- Colonne Valeur -->
-                            <ng-container matColumnDef="valeur">
-                                <th mat-header-cell *matHeaderCellDef> Valeur </th>
-                                <td mat-cell *matCellDef="let element"> {{element.explication}} </td>
-                            </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
-                        </table>
-                    </div>
-                </mat-tab>
-                <mat-tab label="Vemgsa" *ngIf="isVemgsa">
+                        <!-- Colonne Valeur -->
+                        <ng-container matColumnDef="valeur">
+                            <th mat-header-cell *matHeaderCellDef> Action CPDLC </th>
+                            <td mat-cell *matCellDef="let element"> {{element.explication}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+                    </table>
+                </div>
+            </mat-tab>
+            <!--FIN ONGLET LOGS VEMGSA  -->
+            <!--ONGLET LOGS MIX  -->
 
+            <mat-tab label="Mix" *ngIf="isMix">
+                <br>
+                <div>
+                    <table mat-table [dataSource]="dataGenerale" class="tabGen">
 
-
-                    <div>
-                        <table mat-table [dataSource]="monvol.getListeVolVemgsa()" class="tabDet ">
-
-
-
-
-                            <!-- Colonne date -->
-                            <ng-container matColumnDef="date">
-                                <th mat-header-cell *matHeaderCellDef class="dates th"> Date </th>
-                                <td mat-cell *matCellDef="let element" class="dates td"> {{element.jour}} </td>
-                            </ng-container>
-
-                            <!-- Colonne heure -->
-                            <ng-container matColumnDef="heure">
-                                <th mat-header-cell *matHeaderCellDef class="heure th"> Heure </th>
-                                <td mat-cell *matCellDef="let element" class="heure td"> {{element.heure}} </td>
-                            </ng-container>
-
-                            <!-- Colonne title -->
-                            <ng-container matColumnDef="log">
-                                <th mat-header-cell *matHeaderCellDef class="log th"> Log </th>
-                                <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
-                            </ng-container>
-                            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-
-                            <!-- Colonne Donnee  -->
-                            <ng-container matColumnDef="etat">
-                                <th mat-header-cell *matHeaderCellDef class="etat th">Etat de la Comm CPDLC </th>
-                                <td mat-cell *matCellDef="let element" class="etat td"> {{element.etat}} </td>
-                            </ng-container>
-
-                            <!-- Colonne Valeur -->
-                            <ng-container matColumnDef="valeur">
-                                <th mat-header-cell *matHeaderCellDef> Action CPDLC </th>
-                                <td mat-cell *matCellDef="let element"> {{element.explication}} </td>
-                            </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
-                        </table>
-                    </div>
-                </mat-tab>
-
-                <mat-tab label="Mix" *ngIf="isMix">
-
-
-                    <br>
-                    <div>
-
-                        <table mat-table [dataSource]="dataGenerale" class="tabGen">
-
-                            <!--- Note that these columns can be defined in any order.
+                        <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
-                            <!-- Colonne Donnee  -->
-                            <ng-container matColumnDef="donnee">
-                                <th mat-header-cell *matHeaderCellDef> Donnee </th>
-                                <td mat-cell *matCellDef="let element"> {{element.plnid}} </td>
-                            </ng-container>
+                        <!-- Colonne Donnee  -->
+                        <ng-container matColumnDef="donnee">
+                            <th mat-header-cell *matHeaderCellDef> Donnee </th>
+                            <td mat-cell *matCellDef="let element"> {{element.plnid}} </td>
+                        </ng-container>
 
-                            <!-- Colonne Valeur -->
-                            <ng-container matColumnDef="valeur">
-                                <th mat-header-cell *matHeaderCellDef> Valeur </th>
-                                <td mat-cell *matCellDef="let element"> {{element.arcid}} </td>
-                            </ng-container>
+                        <!-- Colonne Valeur -->
+                        <ng-container matColumnDef="valeur">
+                            <th mat-header-cell *matHeaderCellDef> Valeur </th>
+                            <td mat-cell *matCellDef="let element"> {{element.arcid}} </td>
+                        </ng-container>
 
-                            <!-- Colonne Valeur -->
-                            <ng-container matColumnDef="adrModeSInf">
-                                <th mat-header-cell *matHeaderCellDef> adrModeSInf </th>
-                                <td mat-cell *matCellDef="let element"> {{element.adrModeSInf}} </td>
-                            </ng-container>
+                        <!-- Colonne Valeur -->
+                        <ng-container matColumnDef="adrModeSInf">
+                            <th mat-header-cell *matHeaderCellDef> adrModeSInf </th>
+                            <td mat-cell *matCellDef="let element"> {{element.adrModeSInf}} </td>
+                        </ng-container>
 
-                            <!-- Colonne Valeur -->
-                            <ng-container matColumnDef="adrDeposee">
-                                <th mat-header-cell *matHeaderCellDef> adrDeposee </th>
-                                <td mat-cell *matCellDef="let element"> {{element.adrDeposee}} </td>
-                            </ng-container>
+                        <!-- Colonne Valeur -->
+                        <ng-container matColumnDef="adrDeposee">
+                            <th mat-header-cell *matHeaderCellDef> adrDeposee </th>
+                            <td mat-cell *matCellDef="let element"> {{element.adrDeposee}} </td>
+                        </ng-container>
 
-                            <!-- Colonne Valeur -->
-                            <ng-container matColumnDef="equipementCpdlc">
-                                <th mat-header-cell *matHeaderCellDef> equipementCpdlc </th>
-                                <td mat-cell *matCellDef="let element"> {{element.equipementCpdlc}} </td>
-                            </ng-container>
+                        <!-- Colonne Valeur -->
+                        <ng-container matColumnDef="equipementCpdlc">
+                            <th mat-header-cell *matHeaderCellDef> equipementCpdlc </th>
+                            <td mat-cell *matCellDef="let element"> {{element.equipementCpdlc}} </td>
+                        </ng-container>
 
-                            <tr mat-header-row *matHeaderRowDef="displayedColumnsGen"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsGen;"></tr>
-                        </table>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsGen"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsGen;"></tr>
+                    </table>
 
+                </div>
+
+                <br>
+                <div>
+                    <table mat-table [dataSource]="monvol.getListeVolMix()" class="tabDet ">
+
+
+                        <!-- Colonne title -->
+                        <ng-container matColumnDef="log">
+                            <th mat-header-cell *matHeaderCellDef class="log th"> Log </th>
+                            <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
+                        </ng-container>
+
+                        <!-- Colonne etat -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef class="dates th"> Date </th>
+                            <td mat-cell *matCellDef="let element" class="dates td"> {{element.jour}} </td>
+                        </ng-container>
+
+                        <!-- Colonne heure -->
+                        <ng-container matColumnDef="heure">
+                            <th mat-header-cell *matHeaderCellDef class="heure th"> Heure </th>
+                            <td mat-cell *matCellDef="let element" class="heure td"> {{element.heure}} </td>
+                        </ng-container>
+
+                        <!-- Colonne Donnee  -->
+                        <ng-container matColumnDef="etat">
+                            <th mat-header-cell *matHeaderCellDef class="etat th"> Etat de la Comm CPDLC </th>
+                            <td mat-cell *matCellDef="let element" class="etat td"> {{element.etat}} </td>
+                        </ng-container>
+
+                        <!-- Colonne Valeur -->
+                        <ng-container matColumnDef="valeur">
+                            <th mat-header-cell *matHeaderCellDef>Action CPDLC </th>
+                            <td mat-cell *matCellDef="let element"> {{element.explication}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+                    </table>
+                </div>
+
+
+
+
+
+
+
+                <div class="container">
+                    <div class="page-header">
+                        <h1 id="timeline">Timeline</h1>
                     </div>
-
-                    <br>
-                    <div>
-                        <table mat-table [dataSource]="monvol.getListeVolMix()" class="tabDet ">
-
-
-                            <!-- Colonne title -->
-                            <ng-container matColumnDef="log">
-                                <th mat-header-cell *matHeaderCellDef class="log th"> Log </th>
-                                <td mat-cell *matCellDef="let element" class="log td"> {{element.log}} </td>
-                            </ng-container>
-
-                            <!-- Colonne etat -->
-                            <ng-container matColumnDef="date">
-                                <th mat-header-cell *matHeaderCellDef class="dates th"> Date </th>
-                                <td mat-cell *matCellDef="let element" class="dates td"> {{element.jour}} </td>
-                            </ng-container>
-
-                            <!-- Colonne heure -->
-                            <ng-container matColumnDef="heure">
-                                <th mat-header-cell *matHeaderCellDef class="heure th"> Heure </th>
-                                <td mat-cell *matCellDef="let element" class="heure td"> {{element.heure}} </td>
-                            </ng-container>
-                            <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-                            <!-- Colonne Donnee  -->
-                            <ng-container matColumnDef="etat">
-                                <th mat-header-cell *matHeaderCellDef class="etat th"> Etat de la Comm CPDLC </th>
-                                <td mat-cell *matCellDef="let element" class="etat td"> {{element.etat}} </td>
-                            </ng-container>
-
-                            <!-- Colonne Valeur -->
-                            <ng-container matColumnDef="valeur">
-                                <th mat-header-cell *matHeaderCellDef>Action CPDLC </th>
-                                <td mat-cell *matCellDef="let element"> {{element.explication}} </td>
-                            </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
-                        </table>
-                    </div>
-
-
-
-
-
-
-
-                    <div class="container">
-                        <div class="page-header">
-                            <h1 id="timeline">Timeline</h1>
-                        </div>
-                        <ul class="timeline">
-                            <li *ngFor="let entry of monvol.getListeVolMix()">
-                                <ul class="timeline-not-inverted" *ngIf="isPositionated(entry.id) != true">
-                                    <div class="timeline-badge info"><i class="glyphicon glyphicon-star-empty"></i>
+                    <ul class="timeline">
+                        <li *ngFor="let entry of monvol.getListeVolMix()">
+                            <ul class="timeline-not-inverted" *ngIf="isPositionated(entry.id) != true">
+                                <div class="timeline-badge info"><i class="glyphicon glyphicon-star-empty"></i>
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4 class="timeline-title"> {{entry.title}} </h4>
+                                        <p><small class="text-muted"> {{entry.id}} </small></p>
                                     </div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h4 class="timeline-title"> {{entry.title}} </h4>
-                                            <p><small class="text-muted"> {{entry.id}} </small></p>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p>{{entrytitle}} </p>
-                                        </div>
+                                    <div class="timeline-body">
+                                        <p>{{entrytitle}} </p>
                                     </div>
-                                </ul>
-                                <ul class="timeline-inverted" *ngIf="isPositionated(entry.id) == true">
-                                    <div class="timeline-badge success"><i class="glyphicon glyphicon-floppy-disk"></i>
+                                </div>
+                            </ul>
+                            <ul class="timeline-inverted" *ngIf="isPositionated(entry.id) == true">
+                                <div class="timeline-badge success"><i class="glyphicon glyphicon-floppy-disk"></i>
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4 class="timeline-title"> {{entry.title}} </h4>
+                                        <p><small class="text-muted"> {{entry.id}} </small></p>
                                     </div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h4 class="timeline-title"> {{entry.title}} </h4>
-                                            <p><small class="text-muted"> {{entry.id}} </small></p>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p> {{entry.title}} </p>
-                                        </div>
+                                    <div class="timeline-body">
+                                        <p> {{entry.title}} </p>
                                     </div>
-                                </ul>
-                            </li>
+                                </div>
+                            </ul>
+                        </li>
 
 
-                        </ul>
-                    </div>
-                </mat-tab>
+                    </ul>
+                </div>
+            </mat-tab>
+            <!--FIN ONGLET LOGS MIX  -->
 
-            </mat-tab-group>
-        </div>
+        </mat-tab-group>
+
     </mat-card-content>
 
 </mat-card>
