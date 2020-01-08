@@ -54,7 +54,7 @@
 
           <div *ngIf="isFileSelected" class="formButton">
             <button mat-stroked-button (click)="lplnFile.clearInputContent();vemgsaFile.clearInputContent(); initFormulaire();stepper.reset()">Reset</button>
-            <button  *ngIf="!isTooManyVemgsa"  mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>
+            <button *ngIf="!isTooManyVemgsa" mat-stroked-button color="primary" matStepperNext (click)="uploadFiles()">Next</button>
           </div>
         </form>
       </mat-step>
@@ -134,7 +134,7 @@
 
           <div id="listeId" *ngIf="isCheckOK">
 
-            <h2 >Liste des identifiants trouvés</h2>
+            <h2>Liste des identifiants trouvés</h2>
             <div>
               <table mat-table [dataSource]="getListeIdentifiantsTrouves()" class="tabIdVol">
                 <!-- Checkbox Column -->
@@ -175,25 +175,34 @@
                   <td mat-cell *matCellDef="let element" class="etat td"> {{element.dates.dateMax}} </td>
                 </ng-container>
 
-                <!-- Colonne Valeur -->
-                <ng-container matColumnDef="inLpln">
+                <!-- Colonne Valeur  -->
+                <ng-container matColumnDef="inLpln" *ngIf="isLPLN">
                   <th mat-header-cell *matHeaderCellDef> inLpln </th>
                   <td mat-cell *matCellDef="let element">
-                      <img *ngIf="element.inLpln" src="assets/images/check1.png" />
-                      <img *ngIf="!element.inLpln" src="assets/images/uncheck1.png" />
-                      </td>
+                    <img *ngIf="(element.inLpln !== undefined) && element.inLpln" src="assets/images/check1.png" />
+                    <img *ngIf="(element.inLpln !== undefined) && !element.inLpln" src="assets/images/uncheck1.png" />
+                  </td>
                 </ng-container>
                 <!-- Colonne Valeur -->
-                <ng-container matColumnDef="inVemgsa">
+                <ng-container matColumnDef="inVemgsa" *ngIf="isVEMGSA">
                   <th mat-header-cell *matHeaderCellDef> inVemgsa </th>
-                  <td mat-cell *matCellDef="let element"> 
-                      <img *ngIf="element.inVemgsa" src="assets/images/check1.png" />
-                      <img *ngIf="!element.inVemgsa" src="assets/images/uncheck1.png" />
-                   </td>
+                  <td mat-cell *matCellDef="let element">
+                    <img *ngIf="(element.inVemgsa !== undefined) && element.inVemgsa" src="assets/images/check1.png" />
+                    <img *ngIf="(element.inVemgsa !== undefined) && !element.inVemgsa" src="assets/images/uncheck1.png" />
+                  </td>
                 </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsIdVol"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsIdVol;"></tr>
+                <div *ngIf="isVEMGSA && isLPLN">
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsIdVolMix"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsIdVolMix;"></tr>
+                </div>
+                <div *ngIf="isVEMGSA && !isLPLN">
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsIdVolVemgsa"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsIdVolVemgsa;"></tr>
+                </div>
+                <div *ngIf="!isVEMGSA && isLPLN">
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsIdVolLpln"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsIdVolLpln;"></tr>
+                </div>
               </table>
             </div>
 

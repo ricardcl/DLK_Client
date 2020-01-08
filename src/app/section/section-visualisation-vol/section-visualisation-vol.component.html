@@ -73,57 +73,81 @@
                 <div class="isAnalysed">
                     <mat-card>
                         <mat-card-content>
-                            <h2 class="h2">Comparaison des données plan de vol et reçues pas Datalink</h2>
+                            <h2 class="h2">Fichiers en entrée</h2>
 
-                            <mat-list>
+                            <div>
+                                <ul *ngIf="isLpln">
+                                    <li >Fichier LPLN
+                                        <ul> <img src="assets/images/file.png" />{{monvol.getInputData().lplnfilename}}</ul>
+                                    </li>
+                                </ul>
+                                <ul *ngIf="isVemgsa">
+                                    <li>Fichier VEMGSA
+                                        <ul *ngFor="let fichier of monvol.getInputData().vemgsafilename"><img src="assets/images/file.png" />{{fichier}}</ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h2 class="h2">Données Générales du vol</h2>
 
-                                <h3 mat-subheader>
-                                    <mat-icon mat-list-icon>folder</mat-icon> Folders
-                                </h3>
-                                <mat-checkbox class="margin" checked="monvol.getConditionsLogon()" disabled="true">Conditions
-                                    de Logon Remplies</mat-checkbox>
+                            <div>
+                                <table id="dataGenerale" class="tableDataGenerales">
+                                    <tr>
+                                        <th>plnid</th>
+                                        <th>arcid</th>
+                                        <th>equipementCpdlc</th>
+                                        <th>IslogCpdlcComplete</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{monvol.getPlnid()}}</td>
+                                        <td>{{monvol.getArcid()}}</td>
+                                        <td>{{monvol.getEquipementCpdlc()}}</td>
+                                        <td>{{monvol.getIslogCpdlcComplete()}}</td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                            <br>
+                            <h2>Comparaison des données plan de vol et reçues pas Datalink</h2>
 
 
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getCmpAdrModeS()" disabled="true">CmpAdrModeS:
-                                        {{monvol.getadrModeSInf()}} {{monvol.getadrDeposee()}}</mat-checkbox>
-                                </p>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getCmpAdep()" disabled="true">CmpAdep:
-                                        {{monvol.getAdep()}}</mat-checkbox>
-                                </p>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getCmpAdes()" disabled="true">CmpAdes:
-                                        {{monvol.getAdes()}}</mat-checkbox>
-                                </p>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getCmpArcid()" disabled="true">CmpArcid:
-                                        {{monvol.getArcid()}}</mat-checkbox>
-                                </p>
-                                <mat-divider id="divider"></mat-divider>
+                            <mat-checkbox class="margin" checked="monvol.getConditionsLogon()" disabled="true">Conditions
+                                de Logon Remplies</mat-checkbox>
 
-                                <h3 mat-subheader>
-                                    Différents Etats
-                                </h3>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getLogonInitie()" disabled="true">LogonInitie</mat-checkbox>
-                                </p>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getLogonAccepte()" disabled="true">LogonAccepte</mat-checkbox>
-                                </p>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getHaslogCpdlc()" disabled="true">HaslogCpdlc</mat-checkbox>
-                                </p>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getEquipementCpdlc()" disabled="true">Equipé
-                                        Cpdlc</mat-checkbox>
-                                </p>
-                                <p>
-                                    <mat-checkbox class="margin" checked="monvol.getIslogCpdlcComplete()" disabled="true">IslogCpdlcComplete</mat-checkbox>
-                                </p>
 
-                            </mat-list>
+                            <table id="dataConditionsLogon" class="tableDataGenerales">
+                                <tr>
+                                    <th>cmpArcid</th>
+                                    <th>cmpAdrModeS</th>
+                                    <th>cmpAdep</th>
+                                    <th>cmpAdes</th>
+                                </tr>
+                                <tr>
+                                    <td>{{monvol.getCmpArcid()}}</td>
+                                    <td>{{monvol.getCmpAdrModeS()}}</td>
+                                    <td>{{monvol.getCmpAdep()}}</td>
+                                    <td>{{monvol.getCmpAdes()}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{monvol.getArcid()}}</td>
+                                    <td>{{monvol.getadrModeSInf()}} - {{monvol.getadrDeposee()}}</td>
+                                    <td>{{monvol.getAdep()}}</td>
+                                    <td>{{monvol.getAdes()}}</td>
+                                </tr>
 
+                            </table>
+
+                            <br>
+
+                            <p>
+                                <mat-checkbox class="margin" checked="monvol.getLogonInitie()" disabled="true">LogonInitie</mat-checkbox>
+                            </p>
+                            <p>
+                                <mat-checkbox class="margin" checked="monvol.getLogonAccepte()" disabled="true">LogonAccepte</mat-checkbox>
+                            </p>
+                            <p>
+                                <mat-checkbox class="margin" checked="monvol.getHaslogCpdlc()" disabled="true">HaslogCpdlc</mat-checkbox>
+                            </p>
                         </mat-card-content>
                     </mat-card>
 
@@ -153,7 +177,7 @@
                                         </p>
                                         <!--Heure sous message -->
                                         <p>H: {{entry.dateTransfert}} </p>
-                                      
+
                                     </div>
 
                                     <div class="Fleche" *ngIf="entry.isFinTRFDL">
@@ -277,48 +301,7 @@
             <!--ONGLET LOGS MIX  -->
 
             <mat-tab label="Mix" *ngIf="isMix">
-                <br>
-                <div>
-                    <table mat-table [dataSource]="dataGenerale" class="tabGen">
 
-                        <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-                        <!-- Colonne Donnee  -->
-                        <ng-container matColumnDef="donnee">
-                            <th mat-header-cell *matHeaderCellDef> Donnee </th>
-                            <td mat-cell *matCellDef="let element"> {{element.plnid}} </td>
-                        </ng-container>
-
-                        <!-- Colonne Valeur -->
-                        <ng-container matColumnDef="valeur">
-                            <th mat-header-cell *matHeaderCellDef> Valeur </th>
-                            <td mat-cell *matCellDef="let element"> {{element.arcid}} </td>
-                        </ng-container>
-
-                        <!-- Colonne Valeur -->
-                        <ng-container matColumnDef="adrModeSInf">
-                            <th mat-header-cell *matHeaderCellDef> adrModeSInf </th>
-                            <td mat-cell *matCellDef="let element"> {{element.adrModeSInf}} </td>
-                        </ng-container>
-
-                        <!-- Colonne Valeur -->
-                        <ng-container matColumnDef="adrDeposee">
-                            <th mat-header-cell *matHeaderCellDef> adrDeposee </th>
-                            <td mat-cell *matCellDef="let element"> {{element.adrDeposee}} </td>
-                        </ng-container>
-
-                        <!-- Colonne Valeur -->
-                        <ng-container matColumnDef="equipementCpdlc">
-                            <th mat-header-cell *matHeaderCellDef> equipementCpdlc </th>
-                            <td mat-cell *matCellDef="let element"> {{element.equipementCpdlc}} </td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="displayedColumnsGen"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumnsGen;"></tr>
-                    </table>
-
-                </div>
 
                 <br>
                 <div>
@@ -380,7 +363,7 @@
                                         <p><small class="text-muted"> {{entry.id}} </small></p>
                                     </div>
                                     <div class="timeline-body">
-                                        <p>{{entrytitle}} </p>
+                                        <p>{{entry.title}} </p>
                                     </div>
                                 </div>
                             </ul>

@@ -1,6 +1,8 @@
 import { EtatCpdlc } from './etatCpdlc';
 import { etatTransfertFrequence, etatLogonConnexionSimplifiee, erreurVol } from './checkAnswer';
 import * as moment from 'moment';
+import { inputData } from './identifiants';
+
 
 export class Vol {
     /** identifiant unique d'un vol (heure en ms ?) */
@@ -70,16 +72,17 @@ export class Vol {
 
     /**Attributs utilisés côté client */
     private listeErreurs: erreurVol[];
+    private inputData: inputData;
 
-    
 
 
-    private listeEtatTransfertFrequenceModifie : etatTransfertFrequence[];
+    private listeEtatTransfertFrequenceModifie: etatTransfertFrequence[];
 
 
     constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: boolean,
-        logonInitie: boolean, logonAccepte: boolean, isConnexionInitiee: boolean,isConnexionEtablie: boolean,isConnexionPerdue: boolean, cmpAdrModeS: boolean, cmpAdep: boolean, cmpAdes: boolean, cmpArcid: boolean,
-        conditionsLogon: boolean, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[], listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[] ) {
+        logonInitie: boolean, logonAccepte: boolean, isConnexionInitiee: boolean, isConnexionEtablie: boolean, isConnexionPerdue: boolean, cmpAdrModeS: boolean, cmpAdep: boolean, cmpAdes: boolean, cmpArcid: boolean,
+        conditionsLogon: boolean, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[],
+         listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[], inputData:inputData) {
         this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
@@ -108,7 +111,8 @@ export class Vol {
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
         this.listeErreurs = listeErreurs;
-        this.listeEtatTransfertFrequenceModifie =[];
+        this.inputData=inputData;
+        this.listeEtatTransfertFrequenceModifie = [];
 
     }
 
@@ -317,31 +321,35 @@ export class Vol {
         return this.listeErreurs;
     }
 
+    public getInputData(): inputData {
+        return this.inputData;
+    }
+
     /**
      * Fonction permettant de recuperer uniquement l'heure des dates de transfert 
      * pour un meilleur affichage dans l'onglet "info générales"
      */
-  public getListeEtatTransfertFrequenceModifie():etatTransfertFrequence[]{
+    public getListeEtatTransfertFrequenceModifie(): etatTransfertFrequence[] {
 
-      
-    this.listeEtatTransfertFrequenceModifie= JSON.parse(JSON.stringify(this.listeEtatTransfertFrequence));
 
-    this.listeEtatTransfertFrequenceModifie.forEach(element => {
-      if (element.dateTransfert !== undefined){
-       element.dateTransfert =  moment(element.dateTransfert, 'DD-MM HH mm ss').format('HH mm ss');
-      }
-      if (element.dateFinTRFDL !== undefined){
-       element.dateFinTRFDL =  moment(element.dateFinTRFDL, 'DD-MM HH mm ss').format('HH mm ss');
-      }
-      if (element.dateTRARTV !== undefined){
-       element.dateTRARTV =  moment(element.dateTRARTV, 'DD-MM HH mm ss').format('HH mm ss');
-      }
-      if (element.dateTranfertAcq !== undefined){
-       element.dateTranfertAcq =  moment(element.dateTranfertAcq, 'DD-MM HH mm ss').format('HH mm ss');
-      }
-                
-     });
-     return this.listeEtatTransfertFrequenceModifie;
+        this.listeEtatTransfertFrequenceModifie = JSON.parse(JSON.stringify(this.listeEtatTransfertFrequence));
+
+        this.listeEtatTransfertFrequenceModifie.forEach(element => {
+            if (element.dateTransfert !== undefined) {
+                element.dateTransfert = moment(element.dateTransfert, 'DD-MM HH mm ss').format('HH mm ss');
+            }
+            if (element.dateFinTRFDL !== undefined) {
+                element.dateFinTRFDL = moment(element.dateFinTRFDL, 'DD-MM HH mm ss').format('HH mm ss');
+            }
+            if (element.dateTRARTV !== undefined) {
+                element.dateTRARTV = moment(element.dateTRARTV, 'DD-MM HH mm ss').format('HH mm ss');
+            }
+            if (element.dateTranfertAcq !== undefined) {
+                element.dateTranfertAcq = moment(element.dateTranfertAcq, 'DD-MM HH mm ss').format('HH mm ss');
+            }
+
+        });
+        return this.listeEtatTransfertFrequenceModifie;
     }
 
 }

@@ -312,7 +312,11 @@ export class SectionFormulaireComponent implements OnInit {
   public getPlnidTrouve(): number {
     return this._exchangeService.getcheckResult().plnid;
   }*/
-  public displayedColumnsIdVol: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax', 'inLpln', 'inVemgsa'];
+  public displayedColumnsIdVolMix: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inLpln','inVemgsa'];
+  public displayedColumnsIdVolLpln: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inLpln'];
+  public displayedColumnsIdVolVemgsa: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inVemgsa'];
+
+
 
   public idCompletSelectionne: Identifiants;
 

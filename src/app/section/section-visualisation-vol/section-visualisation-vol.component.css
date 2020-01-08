@@ -31,6 +31,41 @@ h2
    }
 
 
+   .tableDataGenerales {
+    font-family : Symbol, sans-serif;
+    border-collapse: collapse;
+  }
+  #dataGenerale, #dataConditionsLogon {
+    border-radius: 5px 5px 5px 5px;
+    border-collapse: collapse;
+       overflow: hidden;
+       width: 50%;
+  } 
+ 
+  /*table {
+    border-collapse: collapse;
+    border-radius: 1em;
+    overflow: hidden;
+  }*/
+
+  .tableDataGenerales th {
+    text-align: center;
+    background-color: white;
+    color: #7c7c7c;
+    padding: 8px;
+    font-weight: lighter;
+
+  }
+  .tableDataGenerales td {
+    text-align: center;
+    background-color: white;
+    color: black;
+   padding: 8px;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+  }
+
+
 .example-input-label,
 .example-add-tab-button,
 .example-delete-tab-button {
@@ -43,7 +78,7 @@ h2
   width: 50%;
   }
   .tabErreur *{
-    color: #2e6da4;
+    color: #439ceb;
     text-align:center;
   }
 
