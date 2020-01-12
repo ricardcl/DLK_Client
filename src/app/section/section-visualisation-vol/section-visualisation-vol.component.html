@@ -22,9 +22,9 @@
 
                 <ng-template matTabContent>
                     <div *ngIf="monvol.getListeErreurs().length !== 0">
-                        <h1>
+                        <h2>
                             Tableau des erreurs
-                        </h1>
+                        </h2>
                         <table mat-table [dataSource]="monvol.getListeErreurs()" class="tabErreur">
 
                             <!-- Position Column -->

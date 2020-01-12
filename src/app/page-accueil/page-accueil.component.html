@@ -5,4 +5,42 @@
       Page d'accueil
     </mat-card-title>
   </mat-card-header>
+  <mat-card-content>
+    <div>
+      <table mat-table [dataSource]="getDatabase()" class="tabDet ">
+
+        <!-- Colonne date -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef class="dates th"> id </th>
+          <td mat-cell *matCellDef="let element" class="dates td"> {{element.id}} </td>
+        </ng-container>
+
+        <!-- Colonne heure -->
+        <ng-container matColumnDef="entree_date">
+          <th mat-header-cell *matHeaderCellDef class="heure th"> entree_date </th>
+          <td mat-cell *matCellDef="let element" class="heure td"> {{element.entree_date}} </td>
+        </ng-container>
+
+        <!-- Colonne title -->
+        <ng-container matColumnDef="vol_date">
+          <th mat-header-cell *matHeaderCellDef class="log th"> vol_date </th>
+          <td mat-cell *matCellDef="let element" class="log td"> {{element.vol_date}} </td>
+        </ng-container>
+
+        <!-- Colonne Donnee  -->
+        <ng-container matColumnDef="plnid">
+          <th mat-header-cell *matHeaderCellDef class="etat th"> plnid </th>
+          <td mat-cell *matCellDef="let element" class="etat td"> {{element.plnid}} </td>
+        </ng-container>
+
+        <!-- Colonne Valeur -->
+        <ng-container matColumnDef="arcid">
+          <th mat-header-cell *matHeaderCellDef> arcid </th>
+          <td mat-cell *matCellDef="let element"> {{element.arcid}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
+      </table>
+    </div>
+  </mat-card-content>
 </mat-card>

@@ -23,6 +23,7 @@ export class ExchangeService {
   private selectedplnid: number = 0;
   private vol: Vol;
   private checkAnswer = <checkAnswer>{};
+  private database;
   
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
@@ -36,6 +37,7 @@ export class ExchangeService {
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
     this.vol = null;
+    this.database= null;
    
 
   }
@@ -47,6 +49,13 @@ export class ExchangeService {
       this.initExchange();
     });
 
+
+    this.socket.on('database', (array) => {
+      console.log('database: ', array);
+      this.database = array;
+      console.log("this.database",this.database);
+      
+        });
 
     this.socket.on('check', (array) => {
       console.log('analysedDataInput from serveur : check : ', array);
@@ -250,6 +259,10 @@ export class ExchangeService {
 
   public getcheckResult() {
     return this.checkAnswer;
+  }
+
+  public getDatabase() {
+    return this.database;
   }
 
 

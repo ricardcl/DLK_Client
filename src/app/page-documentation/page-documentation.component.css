@@ -1,17 +1,19 @@
 #documentation
 {
     width:100%;
-    overflow:auto
+    overflow:auto;
+    display: table;
    }
 
    #documentation #menu {
-  float:left;
   width:24%;
   border-right-style: dotted;
+  display: table-cell;
  }
  
  #documentation #content {
-  margin-left:26%;
+    display: table-cell;
+    padding-left: 25px;
  }
 
   #documentation #divider {

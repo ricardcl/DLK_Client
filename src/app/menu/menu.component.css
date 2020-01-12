@@ -21,3 +21,7 @@ mat-list {
     color: white;
   }
   
+  mat-list-item button {
+    position: absolute;
+    right: 10px;
+  }

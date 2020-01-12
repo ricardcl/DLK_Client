@@ -18,16 +18,16 @@ h2
     }
    
   #schemaFreq .Block {
-     display: inline-block; 
      padding: 10px;
      border-style: dotted;
-     justify-content: center;
      text-align: center;
+     display: table-cell;
+     vertical-align: middle;
   }
   
   #schemaFreq .Fleche {
-    display: inline-block; 
-    justify-content: center;
+    vertical-align: middle;
+    display: table-cell;
    }
 
 
@@ -77,14 +77,20 @@ h2
 .tabErreur{
   width: 50%;
   }
-  .tabErreur *{
+  .tabErreur th{
+    color: #7c7c7c;
+    text-align:center;
+  }
+
+  .tabErreur td{
     color: #439ceb;
     text-align:center;
   }
 
+  /* 
   .tabErreur tr:hover {
     background: #777;
-  }
+  }*/
 
   /* TODO : mettre en gras les titres de colonne !
   .tabErreur.tr.mat-header-row {
