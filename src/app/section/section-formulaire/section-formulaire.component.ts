@@ -87,12 +87,24 @@ export class SectionFormulaireComponent implements OnInit {
     return "";
   }
 
+  private getErrorMessageVemgsa() {
+    let result: string = "Fichiers Sélectionnés: ";
+    this.selectedVemgsaFile.forEach(element => {
+      result += element.name + " ; "
+    });
+    return result;
+  }
+
   public get isArcid(): boolean {
     return this.identifiantSelectionne === this.identifiants[0]
   }
 
   public get isPlnid(): boolean {
     return this.identifiantSelectionne === this.identifiants[1];
+  }
+
+  public get isTooManyVemgsa(): boolean {
+    return this.vemgsaFilesNames.length > 2;
   }
 
   public get isFileSelected(): boolean {
@@ -114,8 +126,10 @@ export class SectionFormulaireComponent implements OnInit {
   public updateSelectedVemgsa(file: File[]): void {
     for (let i = 0; i < file.length; i++) {
       console.log('updateSelectedVemgsa ' + file[i].name);
-      this.selectedVemgsaFile.push(file[i]);
-      this.vemgsaFilesNames.push(file[i].name);
+      if (!this.vemgsaFilesNames.includes(file[i].name)) {
+        this.selectedVemgsaFile.push(file[i]);
+        this.vemgsaFilesNames.push(file[i].name);
+      }
     }
   }
 
@@ -187,13 +201,13 @@ export class SectionFormulaireComponent implements OnInit {
         case 1:
           this._exchangeService.getcheckResult().checkLPLN.tabId.forEach(element => {
             message = message + "[" + element.arcid + "," + element.plnid + "]";
-          });        
-         if(message ==="" ){
-          message = "Pas d'identifiants trouvés dans ce fichier LPLN, vérifier le fichier LPLN fourni en entrée";
-         }
-         else{
-          message = "identifiant non trouvé , les identifiants presents dans ce fichier LPLN sont: " + message;
-         }
+          });
+          if (message === "") {
+            message = "Pas d'identifiants trouvés dans ce fichier LPLN, vérifier le fichier LPLN fourni en entrée";
+          }
+          else {
+            message = "identifiant non trouvé , les identifiants presents dans ce fichier LPLN sont: " + message;
+          }
           break;
         case 2: message = "Format des identifiants fournis incorrect";
           break;
@@ -208,10 +222,10 @@ export class SectionFormulaireComponent implements OnInit {
   }
 
 
-  public getMessageVEMGSA(): {message:string,aide:string, isAide:boolean} {
-    let message : string = "";
-    let aide : string = "";
-    let isAide : boolean = false;
+  public getMessageVEMGSA(): { message: string, aide: string, isAide: boolean } {
+    let message: string = "";
+    let aide: string = "";
+    let isAide: boolean = false;
 
     if (this._exchangeService.getcheckResult().checkVEMGSA !== undefined) {
 
@@ -234,10 +248,10 @@ export class SectionFormulaireComponent implements OnInit {
         //   message = message + "[" + element.dateMin + "," + element.dateMax + "]";
         // });
         // break;
-        case 5: message = "Identifiant fourni non present dans le fichier VEMGSA" ;
-        aide = "Si un vol n'est pas déclaré CPDLC ou qu'il ne demande pas à se loguer, il n'apparaît pas dans le fichier VEMGSA, "
-        isAide = true;
-        break;
+        case 5: message = "Identifiant fourni non present dans le fichier VEMGSA";
+          aide = "Si un vol n'est pas déclaré CPDLC ou qu'il ne demande pas à se loguer, il n'apparaît pas dans le fichier VEMGSA, "
+          isAide = true;
+          break;
         case 6: message = "Format des identifiants fournis incorrect";
           break;
         case 7: message = "Probleme lors de l ouverture du fichier VEMGSA";
@@ -247,7 +261,7 @@ export class SectionFormulaireComponent implements OnInit {
       }
     }
 
-    return {message ,aide, isAide};
+    return { message, aide, isAide };
   }
 
   public get isAide(): boolean {
@@ -260,7 +274,7 @@ export class SectionFormulaireComponent implements OnInit {
     }
     return isAide;
   }
-  
+
 
   public GetHoraires(): creneauHoraire {
     let tabHoraires: creneauHoraire;
@@ -298,7 +312,11 @@ export class SectionFormulaireComponent implements OnInit {
   public getPlnidTrouve(): number {
     return this._exchangeService.getcheckResult().plnid;
   }*/
-  public displayedColumnsIdVol: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax', 'inLpln', 'inVemgsa'];
+  public displayedColumnsIdVolMix: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inLpln','inVemgsa'];
+  public displayedColumnsIdVolLpln: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inLpln'];
+  public displayedColumnsIdVolVemgsa: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inVemgsa'];
+
+
 
   public idCompletSelectionne: Identifiants;
 
@@ -313,7 +331,7 @@ export class SectionFormulaireComponent implements OnInit {
   }
 
   public get isVolSelected(): boolean {
-    return (this.idCompletSelectionne !== null ) ;
+    return (this.idCompletSelectionne !== null);
 
   }
 

@@ -23,6 +23,7 @@ export class ExchangeService {
   private selectedplnid: number = 0;
   private vol: Vol;
   private checkAnswer = <checkAnswer>{};
+  private database;
   
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
@@ -36,6 +37,7 @@ export class ExchangeService {
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
     this.vol = null;
+    this.database= null;
    
 
   }
@@ -47,6 +49,13 @@ export class ExchangeService {
       this.initExchange();
     });
 
+
+    this.socket.on('database', (array) => {
+      console.log('database: ', array);
+      this.database = array;
+      console.log("this.database",this.database);
+      
+        });
 
     this.socket.on('check', (array) => {
       console.log('analysedDataInput from serveur : check : ', array);
@@ -119,6 +128,7 @@ export class ExchangeService {
       let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = data['timelineEtatLogonConnexion'];
       let listeEtatTransfertFrequenceM: etatTransfertFrequence[] = data['listeEtatTransfertFrequence'];    
       let listeErreurs: erreurVol[] = data['listeErreurs'];
+
 
       for (let key = 0; key < data['listeLogs'].length; key++) {
         const etatCpdlcTemp = data['listeLogs'][key];
@@ -198,7 +208,7 @@ export class ExchangeService {
 
 
       this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, isConnexionInitiee, isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
-        cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete, timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, listeLogsLpln, listeLogsVemgsa, listeLogsMix, listeErreurs);
+        cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete, timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, listeLogsLpln, listeLogsVemgsa, listeLogsMix, listeErreurs, inputData);
       console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);
 
@@ -249,6 +259,10 @@ export class ExchangeService {
 
   public getcheckResult() {
     return this.checkAnswer;
+  }
+
+  public getDatabase() {
+    return this.database;
   }
 
 

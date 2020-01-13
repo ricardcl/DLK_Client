@@ -35,18 +35,20 @@ h2
 #listeIdEtMsg
 {
     width:100%;
-    overflow:auto
+    overflow:auto;
+    display: table;
    }
 
 
  #listeIdEtMsg #msglplnVemgsa {
-  float:left;
   width:40%;
-  border-right-style: dotted;
+  display: table-cell;
  }
 
  #listeIdEtMsg #listeId {
- margin-left:42%;
+ display: table-cell;
+ border-left-style: dotted;
+ padding-left: 25px;
 }
 
 

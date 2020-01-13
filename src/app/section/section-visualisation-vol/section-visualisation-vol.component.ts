@@ -3,6 +3,7 @@ import { Vol } from 'src/app/models/vol';
 import { GestionVolsService } from 'src/app/services/gestion-vols.service';
 import { EtatCpdlc } from 'src/app/models/etatCpdlc';
 import { etatLogonConnexionSimplifiee, etatTransfertFrequence, erreurVol } from 'src/app/models/checkAnswer';
+import { inputData } from 'src/app/models/identifiants';
 
 
 @Component({
@@ -16,22 +17,20 @@ export class SectionVisualisationVolComponent implements OnInit {
         this.initComponent();
     }
 
-   
+
     @Input()
     public monvol: Vol;
-
-    private dataGenerale: [{ arcid: string, plnid: number, adrModeSInf: string, adrDeposee: string, equipementCpdlc: boolean }];
     private volCharge: boolean;
-    
-    
- 
 
-    constructor(private _gestionVolsService: GestionVolsService) { 
+
+
+    constructor(private _gestionVolsService: GestionVolsService) {
     }
 
 
     public get isAnalysed(): boolean {
         return this._gestionVolsService.getNbVols() !== 0;
+
     }
 
     public get isLpln(): boolean {
@@ -50,23 +49,16 @@ export class SectionVisualisationVolComponent implements OnInit {
         return this.volCharge === true;
     }
 
-    public get isVolConnecte():boolean {
-        return this.monvol.getIsConnexionInitiee() ;
+    public get isVolConnecte(): boolean {
+        return this.monvol.getIsConnexionInitiee();
     }
 
 
     public initComponent() {
-        
-        this.dataGenerale = [{
-            arcid: this.monvol.getArcid(), plnid: this.monvol.getPlnid(), adrModeSInf: this.monvol.getadrModeSInf(),
-            adrDeposee: this.monvol.getadrDeposee(), equipementCpdlc: this.monvol.getEquipementCpdlc()
-        },];
-
-        this.volCharge = true
-        
+        this.volCharge = true;
     }
 
-   
+
     public getListeEtatLogonConnexion(): etatLogonConnexionSimplifiee[] {
         return this.monvol.getListeEtatLogonConnexion();
     }
@@ -78,10 +70,7 @@ export class SectionVisualisationVolComponent implements OnInit {
 
 
     ////////////////AFFICHAGE DES LOGS 
-    displayedColumnsGen: string[] = ['donnee', 'valeur', 'adrModeSInf', 'adrDeposee', 'equipementCpdlc'];
-
     displayedColumnsDet: string[] = ['date', 'heure', 'log', 'etat', 'valeur'];
-
     displayedColumnsErreurs: string[] = ['date', 'type', 'explication'];
 
     alternate: boolean = true;
