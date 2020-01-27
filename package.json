@@ -28,6 +28,7 @@
     "angular-mgl-timeline": "^0.3.2",
     "angular-vertical-timeline": "^0.6.0",
     "core-js": "^3.6.1",
+    "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "rxjs": "^6.5.4",
     "socket.io-client": "^2.3.0",
