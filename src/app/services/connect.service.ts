@@ -15,6 +15,8 @@ export class ConnectService implements OnInit{
   constructor() { 
     console.log("constructor ConnectService");
     this.socket = io.connect('http://localhost:4000');
+    //    this.socket = io.connect('http://172.xx.xx.xx:4000');
+
 
   }
 
