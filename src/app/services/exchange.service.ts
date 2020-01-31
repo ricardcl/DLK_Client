@@ -24,7 +24,7 @@ export class ExchangeService {
   private vol: Vol;
   private checkAnswer = <checkAnswer>{};
   private database;
-  
+
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
     this.initSocket();
@@ -37,8 +37,8 @@ export class ExchangeService {
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
     this.vol = null;
-    this.database= null;
-   
+    
+
 
   }
 
@@ -51,11 +51,14 @@ export class ExchangeService {
 
 
     this.socket.on('database', (array) => {
-      console.log('database: ', array);
       this.database = array;
-      console.log("this.database",this.database);
-      
-        });
+      console.log("this.database", this.database);
+
+    });
+
+    this.socket.on('ftp', (array) => {
+      console.log('ftp: ', array);
+    });
 
     this.socket.on('check', (array) => {
       console.log('analysedDataInput from serveur : check : ', array);
@@ -126,7 +129,7 @@ export class ExchangeService {
       let islogCpdlcComplete: boolean = data['islogCpdlcComplete'];
 
       let timelineEtatLogonConnexion: etatLogonConnexionSimplifiee[] = data['timelineEtatLogonConnexion'];
-      let listeEtatTransfertFrequenceM: etatTransfertFrequence[] = data['listeEtatTransfertFrequence'];    
+      let listeEtatTransfertFrequenceM: etatTransfertFrequence[] = data['listeEtatTransfertFrequence'];
       let listeErreurs: erreurVol[] = data['listeErreurs'];
 
 
@@ -262,8 +265,14 @@ export class ExchangeService {
   }
 
   public getDatabase() {
+    //console.log("Exchange getDatabase", this.database);
     return this.database;
   }
+
+  public getVolFromDatabase(identifiant: string) {
+    this.socket.emit('getVolFromDatabase', identifiant);
+  }
+
 
 
 }

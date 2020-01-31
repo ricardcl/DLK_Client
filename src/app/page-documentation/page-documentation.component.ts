@@ -13,7 +13,7 @@ export class PageDocumentationComponent implements OnInit {
 
   ngOnInit() {
   }
-  private panelOpenState: boolean[]  =  [false,false];
+  public panelOpenState: boolean[]  =  [false,false];
  
 
   public togglePanel(numPanel:number) {

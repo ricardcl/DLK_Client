@@ -49,7 +49,7 @@ export interface etatLogonConnexionSimplifiee extends etatTransfertFrequence {
     toDate: string;
     name: string; //connexion/logon/frequence
     infoEtat?: string; //logue, non logue , connecte, non connecte
-    logs?:string;
+    logs?:string[]
     color?:Color;
     typeLog?: string;
     typeFreq?: string;

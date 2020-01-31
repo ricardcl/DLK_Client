@@ -51,11 +51,11 @@ export class InputFileComponent implements OnInit {
   /* -- -- */
 
   /* -- Private methods -- */
-  private raiseOnChangeEvent (inputFiles : [File]) : void {
+  public raiseOnChangeEvent (inputFiles : [File]) : void {
     this.onChange.emit(inputFiles);
   }
 
-  private filterPath (path : string) : string {
+  public filterPath (path : string) : string {
     return path.replace(/.*[\/\\]/, '');
   }
   /* -- -- */

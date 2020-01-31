@@ -287,7 +287,7 @@ export class TimelineLineaireComponent {
             if (element.frequence !== undefined) {
                 element.text = element.frequence;
             }
-            else{
+            else {
                 element.text = "fréquence non loggée";
             }
             if (element.isTransfertAcq) {
@@ -307,7 +307,15 @@ export class TimelineLineaireComponent {
             if (element.name == "logs") {
                 // element.typeLog = element.name ;
                 element.icon = book;
-                element.text = element.logs;
+                for (let index = 0; index < element.logs.length; index++) {
+                    const el = element.logs[index];
+                    if (index == 0) {
+                        element.text = el;
+                    }
+                    else {
+                        element.text += "\n" + el;
+                    }
+                }
                 element.color = colorSet.getIndex(8).brighten(0);
                 element.toDate = element.fromDate;
                 element.typeLog = "logs"
