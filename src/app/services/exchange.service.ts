@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { ConnectService } from './connect.service';
 import { Vol } from '../models/vol';
 import { EtatCpdlc } from '../models/etatCpdlc';
@@ -24,7 +24,7 @@ export class ExchangeService {
   private vol: Vol;
   private checkAnswer = <checkAnswer>{};
   private database;
-
+  //@Output() reload = new EventEmitter();
 
   constructor(private _connectService: ConnectService, private _gestionVolsService: GestionVolsService) {
     this.initSocket();
@@ -36,10 +36,7 @@ export class ExchangeService {
     this.listeEtatsLpln = [];
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
-    this.vol = null;
-    
-
-
+    this.vol = null;   
   }
 
   private initSocket() {
@@ -53,7 +50,7 @@ export class ExchangeService {
     this.socket.on('database', (array) => {
       this.database = array;
       console.log("this.database", this.database);
-
+      //this.reload.emit(this.database);
     });
 
     this.socket.on('ftp', (array) => {
@@ -69,7 +66,6 @@ export class ExchangeService {
       //console.log("this.checkAnswer.arcid: ", this.checkAnswer.arcid);
       //console.log("this.checkAnswer.plnid: ", this.checkAnswer.plnid);
       console.log("this.checkAnswer.listeIdentifiants: ", this.checkAnswer.listeIdentifiants);
-
     });
 
 

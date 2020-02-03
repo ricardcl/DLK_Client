@@ -26,6 +26,9 @@ import { SectionModule } from './section/section.module';
 import { PageDocumentationComponent } from './page-documentation/page-documentation.component';
 import {MatGridListModule} from '@angular/material/grid-list'; 
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material';
+import {MatSortModule} from '@angular/material/sort';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +66,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatCheckboxModule, 
     MatIconModule,
     MatGridListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule
 
   ],
   providers: [],
