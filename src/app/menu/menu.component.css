@@ -17,10 +17,16 @@ mat-list {
   }
 
   mat-list-item:hover:not(.active) {
-    background-color: #555;
-    color: white;
+    background-color: #3F51B5;
+    color:white;
+    opacity: 0.7;
   }
-  
+ 
+  .active {
+    background-color: #3F51B5;
+    color:white;
+
+}
   mat-list-item button {
     position: absolute;
     right: 10px;

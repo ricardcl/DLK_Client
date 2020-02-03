@@ -1,15 +1,26 @@
 <mat-list>
-  <mat-list-item class="sidenav-section" routerLink="/accueil" routerLinkActive="active"><mat-icon aria-hidden="false" aria-label="home icon">home</mat-icon> Accueil</mat-list-item>
   <mat-divider></mat-divider>
-  <mat-list-item class="sidenav-section" routerLink="/formulaire" routerLinkActive="active"><mat-icon aria-hidden="false" aria-label="assignment icon">assignment</mat-icon>Formulaire</mat-list-item>
+  <mat-list-item class="sidenav-section" routerLink="/accueil" routerLinkActive="active">
+    <mat-icon aria-hidden="false" aria-label="home icon">home</mat-icon> Accueil
+  </mat-list-item>
   <mat-divider></mat-divider>
-  <mat-list-item class="sidenav-section" routerLink="/documentation" routerLinkActive="active"><mat-icon aria-hidden="false" aria-label="info icon">info</mat-icon> Documentation</mat-list-item>
+  <mat-list-item class="sidenav-section" routerLink="/bdd" routerLinkActive="active">
+    <mat-icon aria-hidden="false" aria-label="cloud_download icon">cloud_download</mat-icon> Vols Sauvegardés
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item class="sidenav-section" routerLink="/formulaire" routerLinkActive="active">
+    <mat-icon aria-hidden="false" aria-label="assignment icon">assignment</mat-icon>Formulaire
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item class="sidenav-section" routerLink="/documentation" routerLinkActive="active">
+    <mat-icon aria-hidden="false" aria-label="info icon">info</mat-icon> Documentation
+  </mat-list-item>
   <mat-divider></mat-divider>
   <div *ngFor="let vol of getVols()">
     <mat-list-item class="sidenav-section" [routerLink]="['/visualisation', vol.getId()]" routerLinkActive="active">
       {{vol.getArcid()}}_{{vol.getPlnid()}}
-      <button mat-mini-fab color="primary" routerLink="/formulaire" (click)="deleteVol(vol)">
-        <mat-icon aria-hidden="false" aria-label="delete icon" >delete</mat-icon>
+      <button mat-mini-fab color="primary"[routerLink]="['/visualisation', vol.getId(), 'suppression']"  (click)="deleteVol(vol)" > 
+        <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
       </button>
     </mat-list-item>
     <mat-divider></mat-divider>

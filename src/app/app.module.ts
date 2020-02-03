@@ -28,6 +28,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
+import { PageBddComponent } from './page-bdd/page-bdd.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {MatSortModule} from '@angular/material/sort';
     PageNotFoundComponent,
     PageAccueilComponent,
     MenuComponent,
-    PageDocumentationComponent   
+    PageDocumentationComponent,
+    PageBddComponent   
   ],
   imports: [
     BrowserModule,

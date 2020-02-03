@@ -1,0 +1,23 @@
+.bddError{
+    color:#F44336;
+    }
+    .tabDet {
+        width: 80%;
+      }
+    
+     .tabDet th {
+        text-align: center;
+        background-color: white;
+        color: #7c7c7c;
+        padding: 8px;
+        font-weight: lighter;
+    
+      }
+      .tabDet td {
+        text-align: center;
+        background-color: white;
+        color: black;
+       padding: 8px;
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+      }
