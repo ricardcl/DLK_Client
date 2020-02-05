@@ -77,7 +77,7 @@
 
                             <div>
                                 <ul *ngIf="isLpln">
-                                    <li >Fichier LPLN
+                                    <li>Fichier LPLN
                                         <ul> <img src="assets/images/file.png" />{{monvol.getInputData().lplnfilename}}</ul>
                                     </li>
                                 </ul>
@@ -111,8 +111,12 @@
                             <h2>Comparaison des données plan de vol et reçues pas Datalink</h2>
 
 
-                            <mat-checkbox class="margin" checked="monvol.getConditionsLogon()" disabled="true">Conditions
-                                de Logon Remplies</mat-checkbox>
+
+                            <p>
+                                Conditions de Logon Remplies :
+                                <img *ngIf="monvol.getConditionsLogon()" src="assets/images/uncheck1.png" />
+                                <img *ngIf="!monvol.getConditionsLogon()" src="assets/images/check1.png" />
+                            </p>
 
 
                             <table id="dataConditionsLogon" class="tableDataGenerales">
@@ -139,15 +143,34 @@
 
                             <br>
 
-                            <p>
-                                <mat-checkbox class="margin" checked="monvol.getLogonInitie()" disabled="true">LogonInitie</mat-checkbox>
-                            </p>
-                            <p>
-                                <mat-checkbox class="margin" checked="monvol.getLogonAccepte()" disabled="true">LogonAccepte</mat-checkbox>
-                            </p>
-                            <p>
-                                <mat-checkbox class="margin" checked="monvol.getHaslogCpdlc()" disabled="true">HaslogCpdlc</mat-checkbox>
-                            </p>
+
+                            <table id="etatLogon" class="tableDataGenerales">
+                                <tr>
+                                    <th>etat</th>
+                                    <th>result</th>
+                                </tr>
+                                <tr>
+                                    <td>LogonInitie</td>
+                                    <td>
+                                        <img *ngIf="monvol.getLogonInitie()" src="assets/images/uncheck1.png" />
+                                        <img *ngIf="!monvol.getLogonInitie()" src="assets/images/check1.png" />
+                                    </td>
+                                </tr>
+                                <td>LogonAccepte</td>
+                                <td>
+                                    <img *ngIf="monvol.getLogonAccepte()" src="assets/images/uncheck1.png" />
+                                    <img *ngIf="!monvol.getLogonAccepte()" src="assets/images/check1.png" />
+                                </td>
+                                <tr>
+                                    <td>HaslogCpdlc</td>
+                                    <td>
+                                        <img *ngIf="monvol.getHaslogCpdlc()" src="assets/images/uncheck1.png" />
+                                        <img *ngIf="!monvol.getHaslogCpdlc()" src="assets/images/check1.png" />
+                                    </td>
+                                </tr>
+
+                            </table>
+
                         </mat-card-content>
                     </mat-card>
 

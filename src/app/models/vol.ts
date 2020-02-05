@@ -253,6 +253,7 @@ export class Vol {
     }
 
     public getLogonInitie(): boolean {
+        
         return this.logonInitie;
     }
 
