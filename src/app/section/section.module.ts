@@ -17,8 +17,7 @@ import { MatTabsModule, MatCheckboxModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SectionVisualisationComponent } from './section-visualisation/section-visualisation.component';
 import {MatIconModule} from '@angular/material/icon';
-import { TimelineComponent } from './timeline/timeline.component';
-import { TimelineLineaireComponent } from './timeline-lineaire/timeline-lineaire.component'; 
+import { TimelineSimpleComponent } from './timeline-simple/timeline-simple.component'; 
 import {MatBadgeModule} from '@angular/material/badge';
 import { TimelineFrequenceComponent } from './timeline-frequence/timeline-frequence.component';
 import { InputFileComponent } from '../lib/input-file/input-file.component';
@@ -26,7 +25,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatGridListModule} from '@angular/material/grid-list'; 
 
 @NgModule({
-    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineComponent, TimelineLineaireComponent, TimelineFrequenceComponent, InputFileComponent],
+    declarations: [SectionComponent, SectionFormulaireComponent, SectionVisualisationVolComponent, SectionVisualisationComponent, TimelineSimpleComponent, TimelineFrequenceComponent, InputFileComponent],
     imports: [
         CommonModule,
         FormsModule,

@@ -6,19 +6,16 @@ import * as am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
 
 import { etatLogonConnexionSimplifiee } from 'src/app/models/checkAnswer';
 import { Etat } from 'src/app/models/enumEtat';
-//import am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
-
-// Themes begin
+// Themes 
 am4core.useTheme(am4themes_animated);
-// Themes end
+
 
 @Component({
-  selector: 'app-timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+  selector: 'app-timeline-simple',
+  templateUrl: './timeline-simple.component.html',
+  styleUrls: ['./timeline-simple.component.css']
 })
-
-export class TimelineComponent {
+export class TimelineSimpleComponent {
 
   private chart2: am4charts.XYChart = undefined;
   private isComponentInit: boolean = false;
