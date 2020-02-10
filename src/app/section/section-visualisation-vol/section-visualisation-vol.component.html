@@ -114,8 +114,8 @@
 
                             <p>
                                 Conditions de Logon Remplies :
-                                <img *ngIf="monvol.getConditionsLogon()" src="assets/images/uncheck1.png" />
-                                <img *ngIf="!monvol.getConditionsLogon()" src="assets/images/check1.png" />
+                                <img *ngIf="monvol.getConditionsLogon()" src="assets/images/check1.png" />
+                                <img *ngIf="!monvol.getConditionsLogon()" src="assets/images/uncheck1.png" />
                             </p>
 
 
@@ -127,16 +127,28 @@
                                     <th>cmpAdes</th>
                                 </tr>
                                 <tr>
-                                    <td>{{monvol.getCmpArcid()}}</td>
-                                    <td>{{monvol.getCmpAdrModeS()}}</td>
-                                    <td>{{monvol.getCmpAdep()}}</td>
-                                    <td>{{monvol.getCmpAdes()}}</td>
+                                    <td>
+                                        <img *ngIf="monvol.getCmpArcid()" src="assets/images/check1.png" />
+                                        <img *ngIf="!monvol.getCmpArcid()" src="assets/images/uncheck1.png" />
+                                    </td>
+                                    <td>
+                                        <img *ngIf="monvol.getCmpAdrModeS()" src="assets/images/check1.png" />
+                                        <img *ngIf="!monvol.getCmpAdrModeS()" src="assets/images/uncheck1.png" />
+                                    </td>
+                                    <td>
+                                        <img *ngIf="monvol.getCmpAdep()" src="assets/images/check1.png" />
+                                        <img *ngIf="!monvol.getCmpAdep()" src="assets/images/uncheck1.png" />
+                                    </td>
+                                    <td>
+                                        <img *ngIf="monvol.getCmpAdes()" src="assets/images/check1.png" />
+                                        <img *ngIf="!monvol.getCmpAdes()" src="assets/images/uncheck1.png" />
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>{{monvol.getArcid()}}</td>
-                                    <td>{{monvol.getadrModeSInf()}} - {{monvol.getadrDeposee()}}</td>
-                                    <td>{{monvol.getAdep()}}</td>
-                                    <td>{{monvol.getAdes()}}</td>
+                                    <td>{{monvol.getadrDeposee()}} - {{monvol.getadrModeSBord()}}</td>
+                                    <td>{{monvol.getAdep()}} - {{monvol.getAdepBord()}}</td>
+                                    <td>{{monvol.getAdes()}} - {{monvol.getAdesBord()}}</td>
                                 </tr>
 
                             </table>
@@ -152,20 +164,20 @@
                                 <tr>
                                     <td>LogonInitie</td>
                                     <td>
-                                        <img *ngIf="monvol.getLogonInitie()" src="assets/images/uncheck1.png" />
-                                        <img *ngIf="!monvol.getLogonInitie()" src="assets/images/check1.png" />
+                                        <img *ngIf="monvol.getLogonInitie()" src="assets/images/check1.png" />
+                                        <img *ngIf="!monvol.getLogonInitie()" src="assets/images/uncheck1.png" />
                                     </td>
                                 </tr>
                                 <td>LogonAccepte</td>
                                 <td>
-                                    <img *ngIf="monvol.getLogonAccepte()" src="assets/images/uncheck1.png" />
-                                    <img *ngIf="!monvol.getLogonAccepte()" src="assets/images/check1.png" />
+                                    <img *ngIf="monvol.getLogonAccepte()" src="assets/images/check1.png" />
+                                    <img *ngIf="!monvol.getLogonAccepte()" src="assets/images/uncheck1.png" />
                                 </td>
                                 <tr>
                                     <td>HaslogCpdlc</td>
                                     <td>
-                                        <img *ngIf="monvol.getHaslogCpdlc()" src="assets/images/uncheck1.png" />
-                                        <img *ngIf="!monvol.getHaslogCpdlc()" src="assets/images/check1.png" />
+                                        <img *ngIf="monvol.getHaslogCpdlc()" src="assets/images/check1.png" />
+                                        <img *ngIf="!monvol.getHaslogCpdlc()" src="assets/images/uncheck1.png" />
                                     </td>
                                 </tr>
 

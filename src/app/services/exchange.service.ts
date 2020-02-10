@@ -106,8 +106,10 @@ export class ExchangeService {
       let plnid: number = data['plnid'];
       let adep: string = data['adep'];
       let ades: string = data['ades'];
+      let adepBord: string = data['adepBord'];
+      let adesBord: string = data['adesBord'];     
       let date: string = data['date'];
-      let adrModeSInf: string = data['adrModeSInf'];
+      let adrModeSBord: string = data['adrModeSBord'];
       let adrDeposee: string = data['adrDeposee'];
       let equipementCpdlc: boolean = data['equipementCpdlc'];
       let logonInitie: boolean = data['logonInitie'];
@@ -208,7 +210,7 @@ export class ExchangeService {
 
 
 
-      this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, date, adrModeSInf, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, isConnexionInitiee, isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
+      this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades,adepBord, adesBord, date, adrModeSBord, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, isConnexionInitiee, isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
         cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete, timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, listeLogsLpln, listeLogsVemgsa, listeLogsMix, listeErreurs, inputData);
       console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);

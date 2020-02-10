@@ -38,9 +38,9 @@ export class Vol {
 
     // PARAMETRES LIES AU LOGON
     /**Adresse  Mode S vide si route ifps = NON ... inutile a traiter -> a supprimer */
-    private adrModeS: string;
+    //private adrModeS: string;
     /**Adresse Mode S envoyee par l'equipement bord */
-    private adrModeSInf: string;
+    private adrModeSBord: string;
     /**Adresse deposee par le pilote dans son plan de vol */
     private adrDeposee: string;
     /**Indique si le vol est declare equipe cpdlc */
@@ -49,7 +49,10 @@ export class Vol {
     private logonInitie: boolean;
     /**Acceptation du logon par le STPV*/
     private logonAccepte: boolean;
-
+    /**Aeroport de depart envoyé par le Bord*/
+    private adepBord: string;
+    /**Aeroport de depart envoyé par le Bord*/
+    private adesBord: string;
     /**adrDeposee et cmpAdrModeSInf identique (entre Lpln et Vemgsa)  */
     private cmpAdrModeS: boolean;
     /**adep identique entre Lpln et Vemgsa  */
@@ -79,7 +82,7 @@ export class Vol {
     private listeEtatTransfertFrequenceModifie: etatTransfertFrequence[];
 
 
-    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, date: string, adrModeSInf: string, adrDeposee: string, equipementCpdlc: boolean,
+    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adepBord: string, adesBord:string,date: string, adrModeSBord: string, adrDeposee: string, equipementCpdlc: boolean,
         logonInitie: boolean, logonAccepte: boolean, isConnexionInitiee: boolean, isConnexionEtablie: boolean, isConnexionPerdue: boolean, cmpAdrModeS: boolean, cmpAdep: boolean, cmpAdes: boolean, cmpArcid: boolean,
         conditionsLogon: boolean, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[],
          listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[], inputData:inputData) {
@@ -89,8 +92,10 @@ export class Vol {
         this.sl = sl;
         this.adep = adep;
         this.ades = ades;
-        this.date = date;
-        this.adrModeSInf = adrModeSInf;
+        this.adepBord = adepBord;
+        this.adesBord = adesBord;
+        this.date = date;      
+        this.adrModeSBord = adrModeSBord;
         this.adrDeposee = adrDeposee;
         this.equipementCpdlc = equipementCpdlc;
         this.logonInitie = logonInitie;
@@ -124,8 +129,8 @@ export class Vol {
         this.sl = sl;
     }
 
-    public setadrModeSInf(adrModeSInf: string): void {
-        this.adrModeSInf = adrModeSInf;
+    public setadrModeSBord(adrModeSBord: string): void {
+        this.adrModeSBord = adrModeSBord;
     }
 
     public setadrDeposee(adrDeposee: string): void {
@@ -144,7 +149,13 @@ export class Vol {
     public setAdes(ades: string): void {
         this.ades = ades;
     }
+    public setAdepBord(adepBord: string): void {
+        this.adepBord = adepBord;
+    }
 
+    public setAdesBord(adesBord: string): void {
+        this.adesBord = adesBord;
+    }
     public setLogonInitie(logonInitie: boolean): void {
         this.logonInitie = logonInitie;
     }
@@ -228,8 +239,8 @@ export class Vol {
         return this.plnid;
     }
 
-    public getadrModeSInf(): string {
-        return this.adrModeSInf;
+    public getadrModeSBord(): string {
+        return this.adrModeSBord;
     }
 
     public getadrDeposee(): string {
@@ -247,7 +258,13 @@ export class Vol {
     public getAdes(): string {
         return this.ades;
     }
+    public getAdepBord(): string {
+        return this.adepBord;
+    }
 
+    public getAdesBord(): string {
+        return this.adesBord;
+    }
     public getDate(): string {
         return this.date;
     }
