@@ -3,7 +3,15 @@ import { creneauHoraire } from './date';
 import { Etat } from './enumEtat';
 import { Color } from '@amcharts/amcharts4/core';
 
-
+export interface interfaceBdd {
+    id: string;
+    plnid: string;
+    arcid: string;
+    entree_date: string;
+    vol_date: string;
+    contexte:string;
+  }
+  
 export interface checkAnswerInitial {
     valeurRetour: number;
     plnid?: number;

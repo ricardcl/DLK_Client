@@ -1,67 +1,71 @@
 <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <mat-icon aria-hidden="false" aria-label="home icon">cloud_download</mat-icon>
-           Accès aux vols sauvegardés
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngIf="isDatabase">
-            <div>
-              <table mat-table [dataSource]="Database" class="tabDet ">
-      
-                <!-- Colonne Download du vol -->
-                <ng-container matColumnDef="select">
-                  <th mat-header-cell *matHeaderCellDef>Download</th>
-                  <td mat-cell *matCellDef="let row">
-                    <button mat-mini-fab color="primary" (click)="DownloadVol(row)">
-                      <mat-icon aria-hidden="false" aria-label="archive icon">archive</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
-      
-                <!-- Colonne Type du vol -->
-                <ng-container matColumnDef="contexte">
-                    <th mat-header-cell *matHeaderCellDef class="type th"> Fichiers en entrée </th>
-                    <td mat-cell *matCellDef="let element" class="type td"> {{element.contexte}} </td>
-                  </ng-container>
-      
-                <!-- Colonne entree_date -->
-                <ng-container matColumnDef="entree_date">
-                  <th mat-header-cell *matHeaderCellDef class="heure th"> entree_date </th>
-                  <td mat-cell *matCellDef="let element" class="heure td"> {{element.entree_date}} </td>
-                </ng-container>
-      
-                <!-- Colonne vol_date -->
-                <ng-container matColumnDef="vol_date">
-                  <th mat-header-cell *matHeaderCellDef class="log th"> vol_date </th>
-                  <td mat-cell *matCellDef="let element" class="log td"> {{element.vol_date}} </td>
-                </ng-container>
-      
-                <!-- Colonne plnid  -->
-                <ng-container matColumnDef="plnid">
-                  <th mat-header-cell *matHeaderCellDef class="etat th"> plnid </th>
-                  <td mat-cell *matCellDef="let element" class="etat td"> {{element.plnid}} </td>
-                </ng-container>
-      
-                <!-- Colonne arcid -->
-                <ng-container matColumnDef="arcid">
-                  <th mat-header-cell *matHeaderCellDef class="etat th"> arcid </th>
-                  <td mat-cell *matCellDef="let element" class="etat td"> {{element.arcid}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-            </div>
-          </div>
-          <div *ngIf="!isDatabase ">
-      
-            <div class="bddError">
-              <br>
-              <mat-icon aria-hidden="false" aria-label="error_outline icon">error_outline</mat-icon>
-              Base de données indisponible
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon aria-hidden="false" aria-label="home icon">cloud_download</mat-icon>
+      Accès aux vols sauvegardés
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <div>
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="filtre($event)" placeholder="Ex: Arcid, Plnid ...">
+        </mat-form-field>
+        <table mat-table [dataSource]="Database" matSort class="tabDet ">
+
+          <!-- Colonne Download du vol -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>Download</th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-mini-fab color="primary" (click)="DownloadVol(row)">
+                <mat-icon aria-hidden="false" aria-label="archive icon">archive</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Colonne Type du vol -->
+          <ng-container matColumnDef="contexte">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="type th"> Fichiers en entrée </th>
+            <td mat-cell *matCellDef="let element" class="type td"> {{element.contexte}} </td>
+          </ng-container>
+
+          <!-- Colonne entree_date -->
+          <ng-container matColumnDef="entree_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="heure th"> entree_date </th>
+            <td mat-cell *matCellDef="let element" class="heure td"> {{element.entree_date}} </td>
+          </ng-container>
+
+          <!-- Colonne vol_date -->
+          <ng-container matColumnDef="vol_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="log th"> vol_date </th>
+            <td mat-cell *matCellDef="let element" class="log td"> {{element.vol_date}} </td>
+          </ng-container>
+
+          <!-- Colonne plnid  -->
+          <ng-container matColumnDef="plnid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="etat th"> plnid </th>
+            <td mat-cell *matCellDef="let element" class="etat td"> {{element.plnid}} </td>
+          </ng-container>
+
+          <!-- Colonne arcid -->
+          <ng-container matColumnDef="arcid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="etat th"> arcid </th>
+            <td mat-cell *matCellDef="let element" class="etat td"> {{element.arcid}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+    <div *ngIf="!isDatabase ">
+
+      <div class="bddError">
+        <br>
+        <mat-icon aria-hidden="false" aria-label="error_outline icon">error_outline</mat-icon>
+        Base de données indisponible
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
