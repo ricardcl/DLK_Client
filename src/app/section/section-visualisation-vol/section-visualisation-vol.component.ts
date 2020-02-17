@@ -73,58 +73,6 @@ export class SectionVisualisationVolComponent implements OnInit {
     displayedColumnsDet: string[] = ['date', 'heure', 'log', 'etat', 'valeur'];
     displayedColumnsErreurs: string[] = ['date', 'type', 'explication'];
 
-    alternate: boolean = true;
-    toggle: boolean = true;
-    color: boolean = true;
-    size: number = 40;
-    expandEnabled: boolean = true;
-    side: string = "left";
-
-    entries = [
-        {
-            header: 'header',
-            content: 'content'
-        }
-    ]
-
-    addEntry() {
-        this.entries.push({
-            header: 'header',
-            content: 'content'
-        })
-    }
-
-    removeEntry() {
-        this.entries.pop();
-    }
-
-    onHeaderClick(event) {
-        if (!this.expandEnabled) {
-            event.stopPropagation();
-        }
-    }
-
-    onDotClick(event) {
-        if (!this.expandEnabled) {
-            event.stopPropagation();
-        }
-    }
-
-    onExpandEntry(expanded, index) {
-        console.log(`Expand status of entry #${index} changed to ${expanded}`)
-    }
-
-    toggleSide() {
-        this.side = this.side === 'left' ? 'right' : 'left';
-    }
-
-    public isPositionated(value: number): boolean {
-        // console.log("id: ",value);
-
-        if (value / 2 == Math.round(value / 2)) return true;
-        else return false;
-    }
-
 
 
 
