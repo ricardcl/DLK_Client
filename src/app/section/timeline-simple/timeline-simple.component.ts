@@ -56,7 +56,7 @@ export class TimelineSimpleComponent {
     this.deleteCharts();
     this.zone.runOutsideAngular(() => {
 
-      this.chart2 = am4core.create("chartdiv2", am4charts.XYChart);
+      this.chart2 = am4core.create("chartdivSimple", am4charts.XYChart);
       this.chart2.hiddenState.properties.opacity = 0; // this creates initial fade-in
       this.chart2.paddingRight = 30;
       this.chart2.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
@@ -88,7 +88,8 @@ export class TimelineSimpleComponent {
 
       let series1 = this.chart2.series.push(new am4charts.ColumnSeries());
       series1.columns.template.width = am4core.percent(80);
-      series1.columns.template.tooltipText = " [bold] etat : {infoEtat}[/]\n fromDate: {fromDate}  \n toDate: {toDate} ";
+      //Tooltiptext : informations s'affichant au survol de la timeline
+      series1.columns.template.tooltipText = " [bold] etat : {infoEtat}[/]\n Début: {fromDate}  \n Fin: {toDate} ";
 
       series1.dataFields.openDateX = "fromDate";
       series1.dataFields.dateX = "toDate";
@@ -98,9 +99,10 @@ export class TimelineSimpleComponent {
       series1.columns.template.strokeOpacity = 1;
       series1.clustered = false;  //Setting to false will make columns overlap with other series.
 
+      //Bullet : Description s'affichant sur la timeline
       let bullet1 = series1.bullets.push(new am4charts.LabelBullet());
       bullet1.interactionsEnabled = false;
-      bullet1.label.text = "{infoEtat}";
+      bullet1.label.text = "[bold] {infoEtat}";
       bullet1.locationY = 0.5;
       bullet1.label.fill = am4core.color("#ffffff");
     });

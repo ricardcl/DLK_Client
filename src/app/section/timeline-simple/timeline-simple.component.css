@@ -1,5 +1,5 @@
-#chartdivFreq { 
-    width: 100%; 
-    min-height: 300px; 
-  } 
-  
+#chartdivSimple {  
+  width: 80%;  
+  min-height: 300px;  
+  margin-left: 100px;
+}  

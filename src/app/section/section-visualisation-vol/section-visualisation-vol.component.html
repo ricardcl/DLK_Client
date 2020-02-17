@@ -49,6 +49,13 @@
                             <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
                         </table>
                     </div>
+                     
+                    <div *ngIf="monvol.getLogonAccepte()">
+                        <h2>
+                            Timeline logon/connexion
+                        </h2>
+                        <app-timeline-simple [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline-simple>
+                    </div> 
                     <div *ngIf="monvol.getLogonAccepte()">
                         <h2>
                             Timeline fréquence
@@ -59,12 +66,7 @@
                         </app-timeline-frequence>
                     </div>
 
-                    <div *ngIf="monvol.getLogonAccepte()">
-                        <h2>
-                            Timeline logon/connexion
-                        </h2>
-                        <app-timeline-simple [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline-simple>
-                    </div>
+
                 </ng-template>
             </mat-tab>
             <!--FIN ONGLET SYNTHESE - TIMELINE  -->
@@ -283,7 +285,7 @@
 
                         <!-- Colonne Valeur -->
                         <ng-container matColumnDef="valeur">
-                            <th mat-header-cell *matHeaderCellDef> Valeur </th>
+                            <th mat-header-cell *matHeaderCellDef> Action CPDLC </th>
                             <td mat-cell *matCellDef="let element"> {{element.explication}} </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsDet"></tr>
@@ -376,50 +378,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
                     </table>
                 </div>
-
-
-
-
-
-
-
-                <div class="container">
-                    <div class="page-header">
-                        <h1 id="timeline">Timeline</h1>
-                    </div>
-                    <ul class="timeline">
-                        <li *ngFor="let entry of monvol.getListeVolMix()">
-                            <ul class="timeline-not-inverted" *ngIf="isPositionated(entry.id) != true">
-                                <div class="timeline-badge info"><i class="glyphicon glyphicon-star-empty"></i>
-                                </div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title"> {{entry.title}} </h4>
-                                        <p><small class="text-muted"> {{entry.id}} </small></p>
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p>{{entry.title}} </p>
-                                    </div>
-                                </div>
-                            </ul>
-                            <ul class="timeline-inverted" *ngIf="isPositionated(entry.id) == true">
-                                <div class="timeline-badge success"><i class="glyphicon glyphicon-floppy-disk"></i>
-                                </div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title"> {{entry.title}} </h4>
-                                        <p><small class="text-muted"> {{entry.id}} </small></p>
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p> {{entry.title}} </p>
-                                    </div>
-                                </div>
-                            </ul>
-                        </li>
-
-
-                    </ul>
-                </div>
+       
             </mat-tab>
             <!--FIN ONGLET LOGS MIX  -->
 

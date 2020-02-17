@@ -58,8 +58,8 @@ export class TimelineFrequenceComponent {
         this.zone.runOutsideAngular(() => {
 
             //explications : https://www.amcharts.com/docs/v4/chart-types/timeline/
-            this.chart = am4core.create("chartdiv", am4plugins_timeline.CurveChart);
-            this.chart.curveContainer.padding(20, 20, 20, 50); //left padding : a ajuster pour pouvoir afficher le nom de categorie
+            this.chart = am4core.create("chartdivFreq", am4plugins_timeline.CurveChart);
+            this.chart.curveContainer.padding(0, 0, 0, 0); //left padding : a ajuster pour pouvoir afficher le nom de categorie
             this.chart.maskBullets = false;
             this.chart.dateFormatter.inputDateFormat = "dd-MM HH mm ss";
             this.chart.dateFormatter.dateFormat = "dd-MM HH mm ss";
@@ -123,7 +123,6 @@ export class TimelineFrequenceComponent {
             serieLogonConnexion.columns.template.strokeOpacity = 0;
             serieLogonConnexion.columns.template.fillOpacity = 0.6;
             serieLogonConnexion.clustered = false; //Setting to false will make columns overlap with other series.
-
 
             /** icones de frequences */
             let seriesFreq = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
