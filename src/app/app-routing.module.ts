@@ -10,13 +10,12 @@ import { PageBddComponent } from './page-bdd/page-bdd.component';
 
 
 const routes: Routes = [
-  { path: 'accueil', component: PageAccueilComponent },
   { path: 'bdd', component: PageBddComponent },
   { path: 'formulaire', component: SectionFormulaireComponent },
   { path: 'documentation', component: PageDocumentationComponent },
   { path: 'visualisation/:id/suppression', component: SectionFormulaireComponent },
   { path: 'visualisation/:id', component: SectionVisualisationComponent },
-  { path: '', redirectTo: '/accueil', pathMatch: 'full' },
+  { path: '', redirectTo: '/formulaire', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 
 
