@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExchangeService } from '../services/exchange.service';
 
 @Component({
   selector: 'app-page-documentation',
@@ -8,12 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class PageDocumentationComponent implements OnInit {
 
   
-  constructor() {
+  constructor(private _exchangeService: ExchangeService) {
       }
 
   ngOnInit() {
   }
-  public panelOpenState: boolean[]  =  [false,false];
+  public panelOpenState: boolean[]  =  [false,false,false];
  
 
   public togglePanel(numPanel:number) {
@@ -21,5 +22,9 @@ export class PageDocumentationComponent implements OnInit {
     console.log("panelOpenState", this.panelOpenState);
 
   }
-
+  public DownloadVol(id) {
+    console.log("afficherVol");
+    console.log("idCompletSelectionne:",id);
+    this._exchangeService.getVolFromDatabase(id);
+  }
 }

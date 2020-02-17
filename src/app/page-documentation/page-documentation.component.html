@@ -12,40 +12,30 @@
 
         <mat-list>
 
-          <h3 mat-subheader (click)="togglePanel(0)">Folders</h3>
+          <h2 mat-subheader (click)="togglePanel(0);togglePanel(1)">Notions Data Link</h2>
 
           <mat-list-item (click)="togglePanel(0)">
             <mat-icon mat-list-icon>folder</mat-icon>
-            <h4 mat-line>Les différents états de connexion du vol</h4>
-            <p mat-line> _datefolder_name1 </p>
+            <h2 mat-line>Les différents états Data Link</h2>
           </mat-list-item>
 
-          <mat-list-item (click)="togglePanel(0)">
+          <mat-list-item (click)="togglePanel(1)">
             <mat-icon mat-list-icon>folder</mat-icon>
-            <h4 mat-line>transfert par le pilote</h4>
-            <p mat-line> _datefolder_name2 </p>
+            <h2 mat-line>Transferts de fréquence</h2>
           </mat-list-item>
 
           <mat-divider id="divider"></mat-divider>
 
-          <h3 mat-subheader (click)="togglePanel(1)">Notes</h3>
+          <h2 mat-subheader (click)="togglePanel(2)">Exemples de vols analysés</h2>
 
-          <mat-list-item (click)="togglePanel(1)">
+          <mat-list-item (click)="togglePanel(2)">
             <mat-icon mat-list-icon>note</mat-icon>
-            <h4 mat-line>conditions de logon</h4>
-            <p mat-line> date_note_name </p>
+            <h2 mat-line>Vol nominal</h2>
           </mat-list-item>
 
-          <mat-list-item (click)="togglePanel(1)">
+          <mat-list-item (click)="togglePanel(2)">
             <mat-icon mat-list-icon>note</mat-icon>
-            <h4 mat-line>conditions de connexion</h4>
-            <p mat-line> date_note_name2 </p>
-          </mat-list-item>
-
-          <mat-list-item (click)="togglePanel(1)">
-            <mat-icon mat-list-icon>note</mat-icon>
-            <h4 mat-line>conditions de transférabilité</h4>
-            <p mat-line> date_note_name3 </p>
+            <h2 mat-line>Echec de transfert</h2>
           </mat-list-item>
 
         </mat-list>
@@ -56,14 +46,13 @@
 
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Les différents états Data Link
+              <h2> Les différents états Data Link</h2>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <p>Logon/Connexion</p>
           <ul id="basics" class="cd-faq-group">
             <li>
-              <a class="cd-faq-trigger">LOGON</a>
+              <h3>LOGON</h3>
               <div class="cd-faq-content">
                 <p>La fonctionnalité « Data Link Initiation Capability » permet d’établir une liaison entre les systèmes
                   sol et le bord pour bénéficier des autres services CPDLC.
@@ -78,7 +67,7 @@
             </li>
 
             <li>
-              <a class="cd-faq-trigger">CONNEXION</a>
+              <h3>CONNEXION</h3>
               <div class="cd-faq-content">
                 <p>Une fois le vol loggé, le STPV peut initier une connexion CPDLC vers celui-ci </p>
                 <p> - lorsque le plan de vol est passe à l’état MAE </p>
@@ -88,7 +77,7 @@
             </li>
 
             <li>
-              <a class="cd-faq-trigger">DECONNEXION</a>
+              <h3>DECONNEXION</h3>
               <div class="cd-faq-content">
                 <p>La déconnexion est initiée par le STPV lorsque le vol n'est plus éligible</p>
                 <p>Une rupture de connexion peut également être provoquée par l'un des éléments de la chaîne Data Link (
@@ -100,40 +89,77 @@
           </ul> <!-- cd-faq-group -->
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="panelOpenState[1]">
-
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Transfert de fréquence
+              <h2> Transfert de Fréquence et conditions de transférabilités</h2>
             </mat-panel-title>
           </mat-expansion-panel-header>
-
-          <p>Transfert de fréquence</p>
           <ul id="mobile" class="cd-faq-group">
             <li>
-              <a class="cd-faq-trigger">Transfert de fréquence</a>
+              <h3>Transfert de fréquence</h3>
               <div class="cd-faq-content">
-                <p>Une fois logué et connecté, le STPV calcule l’état de transférabilité des vols dans chaque secteur.
+                <p>Une fois logué et connecté, le STPV calcule l’état de transférabilité des vols dans chaque
+                  secteur.
                 </p>
                 <p> Si un vol est jugé transférable, un éclair blanc apparaît à côté de l’étiquette ODS. </p>
-                <p> Pour valider la demande de transfert, le contrôleur doit d’abord cliquer sur l’éclair ce qui permet
+                <p> Pour valider la demande de transfert, le contrôleur doit d’abord cliquer sur l’éclair ce qui
+                  permet
                   d’afficher le champ « Info DL » présentant la fréquence de transfert et le secteur suivant. </p>
-                <p> Après avoir vérifié les informations affichées, un clic sur le champ « Info DL » génère la demande
+                <p> Après avoir vérifié les informations affichées, un clic sur le champ « Info DL » génère la
+                  demande
                   de transfert. Un carré blanc autour de l’éclair indique alors que le transfert est en cours. </p>
 
               </div> <!-- cd-faq-content -->
             </li>
 
             <li>
-              <a class="cd-faq-trigger">Paragraphe 2</a>
+              <h3>Conditions d'affichage de l'éclair sur ODS</h3>
               <div class="cd-faq-content">
-                <p>Contenu Paragraphe 2</p>
+
+                <p> Pour être affiché transférable ( éclair blanc ) un vol doit remplir plusieurs conditions</p>
+
+                <p> - le secteur de la vue doit être entre l'état MAS et l'état VTR</p>
+
+                <p> - le vol doit être déclaré Datalink et connecté CPDLC au STPV</p>
+
+                <p> - le vol doit être dans le volume de sécurité du secteur défini par ODS</p>
+
+                <p> - la Représentation Interne du vol n’est pas à l’état « Vol Fiche en cours » : c'est à dire pas de
+                  MOD en cours</p>
+              </div> <!-- cd-faq-content -->
+            </li>
+          </ul> <!-- cd-faq-group -->
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="panelOpenState[2]">
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+             <h2> Exemple de vols analysés</h2>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ul id="mobile" class="cd-faq-group">
+            <li>
+              <h3>Vol nominal</h3>
+              <div class="cd-faq-content">
+                <p> [EWG9PB,9005]
+                
+                <button mat-mini-fab color="primary" (click)="DownloadVol(42)">
+                  <mat-icon aria-hidden="false" aria-label="archive icon">archive</mat-icon>
+                </button>
+              </p>
               </div> <!-- cd-faq-content -->
             </li>
 
             <li>
-              <a class="cd-faq-trigger">Paragraphe 3</a>
+              <h3>Echec de transfert</h3>
               <div class="cd-faq-content">
-                <p>Contenu Paragraphe 3</p>
+                <p> [EZY39PJ,577]
+                
+                <button mat-mini-fab color="primary" (click)="DownloadVol(44)">
+                  <mat-icon aria-hidden="false" aria-label="archive icon">archive</mat-icon>
+                </button>
+              </p>
               </div> <!-- cd-faq-content -->
             </li>
           </ul> <!-- cd-faq-group -->
