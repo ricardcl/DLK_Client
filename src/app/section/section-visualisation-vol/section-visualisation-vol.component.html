@@ -17,7 +17,8 @@
             <!--ONGLET SYNTHESE - TIMELINE  -->
             <mat-tab>
                 <ng-template matTabLabel>
-                    <span matBadge="{{monvol.getListeErreurs().length}}" matBadgeOverlap="false" matBadgeColor="warn">Synthèse</span>
+                    <span matBadge="{{monvol.getListeErreurs().length}}" matBadgeOverlap="false"
+                        matBadgeColor="warn">Synthèse</span>
                 </ng-template>
 
                 <ng-template matTabContent>
@@ -49,13 +50,14 @@
                             <tr mat-row *matRowDef="let row; columns: displayedColumnsErreurs;"></tr>
                         </table>
                     </div>
-                     
+
                     <div *ngIf="monvol.getLogonAccepte()">
                         <h2>
                             Timeline logon/connexion
                         </h2>
-                        <app-timeline-simple [listeEtatLogonConnexion]="getListeEtatLogonConnexion()"></app-timeline-simple>
-                    </div> 
+                        <app-timeline-simple [listeEtatLogonConnexion]="getListeEtatLogonConnexion()">
+                        </app-timeline-simple>
+                    </div>
                     <div *ngIf="monvol.getLogonAccepte()">
                         <h2>
                             Timeline fréquence
@@ -80,12 +82,14 @@
                             <div>
                                 <ul *ngIf="isLpln">
                                     <li>Fichier LPLN
-                                        <ul> <img src="assets/images/file.png" />{{monvol.getInputData().lplnfilename}}</ul>
+                                        <ul> <img src="assets/images/file.png" />{{monvol.getInputData().lplnfilename}}
+                                        </ul>
                                     </li>
                                 </ul>
                                 <ul *ngIf="isVemgsa">
                                     <li>Fichier VEMGSA
-                                        <ul *ngFor="let fichier of monvol.getInputData().vemgsafilename"><img src="assets/images/file.png" />{{fichier}}</ul>
+                                        <ul *ngFor="let fichier of monvol.getInputData().vemgsafilename"><img
+                                                src="assets/images/file.png" />{{fichier}}</ul>
                                     </li>
                                 </ul>
                             </div>
@@ -97,13 +101,11 @@
                                         <th>plnid</th>
                                         <th>arcid</th>
                                         <th>equipementCpdlc</th>
-                                        <th>IslogCpdlcComplete</th>
                                     </tr>
                                     <tr>
                                         <td>{{monvol.getPlnid()}}</td>
                                         <td>{{monvol.getArcid()}}</td>
                                         <td>{{monvol.getEquipementCpdlc()}}</td>
-                                        <td>{{monvol.getIslogCpdlcComplete()}}</td>
                                     </tr>
 
                                 </table>
@@ -131,19 +133,21 @@
                                 <tr>
                                     <td>
                                         <img *ngIf="monvol.getCmpArcid()" src="assets/images/check1.png" />
-                                        <img *ngIf="!monvol.getCmpArcid()" src="assets/images/uncheck1.png" />
+                                        <img *ngIf="!monvol.getCmpArcid()"
+                                            src="assets/images/point_interrogation.png" />
                                     </td>
                                     <td>
                                         <img *ngIf="monvol.getCmpAdrModeS()" src="assets/images/check1.png" />
-                                        <img *ngIf="!monvol.getCmpAdrModeS()" src="assets/images/uncheck1.png" />
+                                        <img *ngIf="!monvol.getCmpAdrModeS()"
+                                            src="assets/images/point_interrogation.png" />
                                     </td>
                                     <td>
                                         <img *ngIf="monvol.getCmpAdep()" src="assets/images/check1.png" />
-                                        <img *ngIf="!monvol.getCmpAdep()" src="assets/images/uncheck1.png" />
+                                        <img *ngIf="!monvol.getCmpAdep()" src="assets/images/point_interrogation.png" />
                                     </td>
                                     <td>
                                         <img *ngIf="monvol.getCmpAdes()" src="assets/images/check1.png" />
-                                        <img *ngIf="!monvol.getCmpAdes()" src="assets/images/uncheck1.png" />
+                                        <img *ngIf="!monvol.getCmpAdes()" src="assets/images/point_interrogation.png" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -160,23 +164,23 @@
 
                             <table id="etatLogon" class="tableDataGenerales">
                                 <tr>
-                                    <th>etat</th>
-                                    <th>result</th>
+                                    <th>Etat</th>
+                                    <th>Résultat</th>
                                 </tr>
                                 <tr>
-                                    <td>LogonInitie</td>
+                                    <td>Logon Initié </td>
                                     <td>
                                         <img *ngIf="monvol.getLogonInitie()" src="assets/images/check1.png" />
                                         <img *ngIf="!monvol.getLogonInitie()" src="assets/images/uncheck1.png" />
                                     </td>
                                 </tr>
-                                <td>LogonAccepte</td>
+                                <td>Logon Accepté par le STPV</td>
                                 <td>
                                     <img *ngIf="monvol.getLogonAccepte()" src="assets/images/check1.png" />
                                     <img *ngIf="!monvol.getLogonAccepte()" src="assets/images/uncheck1.png" />
                                 </td>
                                 <tr>
-                                    <td>HaslogCpdlc</td>
+                                    <td>Présence de logs CPDLC</td>
                                     <td>
                                         <img *ngIf="monvol.getHaslogCpdlc()" src="assets/images/check1.png" />
                                         <img *ngIf="!monvol.getHaslogCpdlc()" src="assets/images/uncheck1.png" />
@@ -190,12 +194,15 @@
 
                     <mat-card class="result">
                         <mat-card-content>
-                            <div class="test_etats_frequence">
+                            <div class="test_etats_frequence" *ngIf="monvol.getConditionsLogon()">
                                 <div class="test_etats_frequence">
                                     <h2 id="test_etats_frequence">test_etats_frequence_lpln</h2>
                                 </div>
-
-                                <div id="schemaFreq" *ngFor="let entry of monvol.getListeEtatTransfertFrequenceModifie(); let index = index; ">
+                                <div *ngIf="monvol.getListeEtatTransfertFrequenceModifie().length ==0 ">
+                                    <p>Aucun transfert de fréquence Initié par le contrôleur sur cette période</p>
+                                </div>
+                                <div id="schemaFreq"
+                                    *ngFor="let entry of monvol.getListeEtatTransfertFrequenceModifie(); let index = index; ">
                                     <h2>Transfert N° {{index+1}} </h2>
 
                                     <div id="transfertFreq" class="Block">
@@ -203,13 +210,16 @@
                                         <img src="assets/images/eclair.png" />
                                         <!--message sous icone -->
                                         <p>Transfert de fréquence</p>
-                                        <p *ngIf="(entry.frequence !== undefined) && (entry.positionTransfert == undefined)">
+                                        <p
+                                            *ngIf="(entry.frequence !== undefined) && (entry.positionTransfert == undefined)">
                                             {{entry.frequence}}
                                         </p>
-                                        <p *ngIf="(entry.frequence == undefined) && (entry.positionTransfert !== undefined)">
+                                        <p
+                                            *ngIf="(entry.frequence == undefined) && (entry.positionTransfert !== undefined)">
                                             vers
                                             {{entry.positionTransfert}}</p>
-                                        <p *ngIf="(entry.frequence !== undefined) && (entry.positionTransfert !== undefined)">
+                                        <p
+                                            *ngIf="(entry.frequence !== undefined) && (entry.positionTransfert !== undefined)">
                                             {{entry.frequence}} vers {{entry.positionTransfert}}
                                         </p>
                                         <!--Heure sous message -->
@@ -378,7 +388,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumnsDet;"></tr>
                     </table>
                 </div>
-       
+
             </mat-tab>
             <!--FIN ONGLET LOGS MIX  -->
 
