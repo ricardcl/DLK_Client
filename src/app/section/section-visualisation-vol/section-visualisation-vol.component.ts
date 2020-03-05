@@ -71,7 +71,7 @@ export class SectionVisualisationVolComponent implements OnInit {
 
     ////////////////AFFICHAGE DES LOGS 
     displayedColumnsDet: string[] = ['date', 'heure', 'log', 'etat', 'valeur'];
-    displayedColumnsErreurs: string[] = ['date', 'type', 'explication'];
+    displayedColumnsErreurs: string[] = ['date', 'heure','type', 'explication'];
 
 
 

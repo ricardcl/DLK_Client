@@ -71,6 +71,7 @@ export interface etatLogonConnexionSimplifiee extends etatTransfertFrequence {
 
 export interface erreurVol {
     date: string;
+    heure ?: string[];
     type : string;
     infos : string;
 }
