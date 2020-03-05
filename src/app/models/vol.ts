@@ -119,6 +119,8 @@ export class Vol {
         this.inputData=inputData;
         this.listeEtatTransfertFrequenceModifie = [];
 
+
+
     }
 
 
@@ -218,9 +220,6 @@ export class Vol {
         this.listeEtatLogonConnexion = listeEtatLogonConnexion;
     }
 
-    public addListeErreurs(erreur: erreurVol): void {
-        this.listeErreurs.push(erreur);
-    }
 
     /**
  * Unique ID for a vol
@@ -354,22 +353,30 @@ export class Vol {
 
         this.listeEtatTransfertFrequenceModifie.forEach(element => {
             if (element.dateTransfert !== undefined) {
-                element.dateTransfert = moment(element.dateTransfert, 'DD-MM HH mm ss').format('HH mm ss');
+                element.dateTransfert = this.getHeureFromDateJJMMHH(element.dateTransfert);
             }
             if (element.dateFinTRFDL !== undefined) {
-                element.dateFinTRFDL = moment(element.dateFinTRFDL, 'DD-MM HH mm ss').format('HH mm ss');
+                element.dateFinTRFDL =  this.getHeureFromDateJJMMHH(element.dateFinTRFDL);
             }
             if (element.dateTRARTV !== undefined) {
-                element.dateTRARTV = moment(element.dateTRARTV, 'DD-MM HH mm ss').format('HH mm ss');
+                element.dateTRARTV =  this.getHeureFromDateJJMMHH(element.dateTRARTV);
             }
             if (element.dateTranfertAcq !== undefined) {
-                element.dateTranfertAcq = moment(element.dateTranfertAcq, 'DD-MM HH mm ss').format('HH mm ss');
+                element.dateTranfertAcq =  this.getHeureFromDateJJMMHH(element.dateTranfertAcq);
             }
 
         });
         return this.listeEtatTransfertFrequenceModifie;
     }
 
+
+
+    public getJourFromDateJJMMHH(dateTransfert: string): string {
+        return moment(dateTransfert, 'DD-MM HH mm ss').format('DD[/]MM')
+    }
+    public getHeureFromDateJJMMHH(dateTransfert: string): string {
+        return moment(dateTransfert, 'DD-MM HH mm ss').format('HH[H]mm[\']ss')
+    }
 }
 
 
