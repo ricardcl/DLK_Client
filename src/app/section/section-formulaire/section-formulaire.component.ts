@@ -305,13 +305,6 @@ export class SectionFormulaireComponent implements OnInit {
     return (this._exchangeService.getcheckResult().checkLPLN !== undefined);
   }
 
-  /** public getArcidTrouve(): string {
-    return this._exchangeService.getcheckResult().arcid;
-  }
-
-  public getPlnidTrouve(): number {
-    return this._exchangeService.getcheckResult().plnid;
-  }*/
   public displayedColumnsIdVolMix: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inLpln','inVemgsa'];
   public displayedColumnsIdVolLpln: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inLpln'];
   public displayedColumnsIdVolVemgsa: string[] = ['select', 'arcid', 'plnid', 'dateMin', 'dateMax','inVemgsa'];
@@ -347,17 +340,13 @@ export class SectionFormulaireComponent implements OnInit {
     console.log("selectedVemgsaFileName: ", this.vemgsaFilesNames);
     console.log("this.vemgsaFilesNames.length: ", this.vemgsaFilesNames.length);
 
-
     if (this.selectedLplnFile !== null) {
       console.log("this.selectedLplnFile.name: ", this.selectedLplnFile.name);
       this._exchangeService.analyseFiles(this.idCompletSelectionne, this.selectedLplnFile.name, this.vemgsaFilesNames);
-
     }
     else {
       this._exchangeService.analyseFiles(this.idCompletSelectionne, "", this.vemgsaFilesNames);
-
     }
-    //this.alerteCanicule.emit(2);
   }
 
 

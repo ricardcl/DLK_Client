@@ -7,6 +7,7 @@ import { checkAnswer, checkAnswerInitial, etatTransfertFrequence, etatLogonConne
 import { GestionVolsService } from './gestion-vols.service';
 import { creneauHoraire } from '../models/date';
 import { Identifiants, inputData } from '../models/identifiants';
+import * as moment from 'moment';
 
 
 
@@ -36,7 +37,7 @@ export class ExchangeService {
     this.listeEtatsLpln = [];
     this.listeEtatsVemgsa = [];
     this.selectedplnid = 0;
-    this.vol = null;   
+    this.vol = null;
   }
 
   private initSocket() {
@@ -66,6 +67,7 @@ export class ExchangeService {
       //console.log("this.checkAnswer.arcid: ", this.checkAnswer.arcid);
       //console.log("this.checkAnswer.plnid: ", this.checkAnswer.plnid);
       console.log("this.checkAnswer.listeIdentifiants: ", this.checkAnswer.listeIdentifiants);
+
     });
 
 
@@ -107,7 +109,7 @@ export class ExchangeService {
       let adep: string = data['adep'];
       let ades: string = data['ades'];
       let adepBord: string = data['adepBord'];
-      let adesBord: string = data['adesBord'];     
+      let adesBord: string = data['adesBord'];
       let date: string = data['date'];
       let adrModeSBord: string = data['adrModeSBord'];
       let adrDeposee: string = data['adrDeposee'];
@@ -144,7 +146,7 @@ export class ExchangeService {
         let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
         let explication = etatCpdlcTemp['explication'];
         let infoEtat = etatCpdlcTemp['infoEtat'];
-        this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog, explication,infoEtat));
+        this.listeEtats.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog, explication, infoEtat));
 
         Object.keys(etatCpdlcTemp['detailLog']).forEach(function (value) {
           //  console.log("test value: ", etatCpdlcTemp['detailLog'][value]);
@@ -196,7 +198,7 @@ export class ExchangeService {
           let detailLog: DetailCpdlc[] = etatCpdlcTemp['detailLog'];
           let explication = etatCpdlcTemp['explication'];
           let infoEtat = etatCpdlcTemp['infoEtat'];
-          this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog, explication,infoEtat));
+          this.listeEtatsVemgsa.push(new EtatCpdlc(id, title, date, jour, heure, etat, associable, log, detailLog, explication, infoEtat));
         };
 
 
@@ -210,7 +212,7 @@ export class ExchangeService {
 
 
 
-      this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades,adepBord, adesBord, date, adrModeSBord, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, isConnexionInitiee, isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
+      this.vol = new Vol(id, arcid, plnid, "AIX", adep, ades, adepBord, adesBord, date, adrModeSBord, adrDeposee, equipementCpdlc, logonInitie, logonAccepte, isConnexionInitiee, isConnexionEtablie, isConnexionPerdue, cmpAdrModeS, cmpAdep, cmpAdes,
         cmpArcid, conditionsLogon, haslogCpdlc, islogCpdlcComplete, timelineEtatLogonConnexion, listeEtatTransfertFrequenceM, listeLogsLpln, listeLogsVemgsa, listeLogsMix, listeErreurs, inputData);
       console.log("donnes recuperes de  MIX : ", this.vol);
       this._gestionVolsService.addVol(this.vol);

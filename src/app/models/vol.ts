@@ -82,10 +82,10 @@ export class Vol {
     private listeEtatTransfertFrequenceModifie: etatTransfertFrequence[];
 
 
-    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adepBord: string, adesBord:string,date: string, adrModeSBord: string, adrDeposee: string, equipementCpdlc: boolean,
+    constructor(id: string, arcid: string, plnid: number, sl: string, adep: string, ades: string, adepBord: string, adesBord: string, date: string, adrModeSBord: string, adrDeposee: string, equipementCpdlc: boolean,
         logonInitie: boolean, logonAccepte: boolean, isConnexionInitiee: boolean, isConnexionEtablie: boolean, isConnexionPerdue: boolean, cmpAdrModeS: boolean, cmpAdep: boolean, cmpAdes: boolean, cmpArcid: boolean,
         conditionsLogon: boolean, haslogCpdlc: boolean, islogCpdlcComplete: boolean, listeEtatLogonConnexion: etatLogonConnexionSimplifiee[], listeEtatTransfertFrequence: etatTransfertFrequence[], listeLogsLpln: EtatCpdlc[],
-         listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[], inputData:inputData) {
+        listeLogsVemgsa: EtatCpdlc[], listeLogsMix: EtatCpdlc[], listeErreurs: erreurVol[], inputData: inputData) {
         this.id = id;
         this.arcid = arcid;
         this.plnid = plnid;
@@ -94,7 +94,7 @@ export class Vol {
         this.ades = ades;
         this.adepBord = adepBord;
         this.adesBord = adesBord;
-        this.date = date;      
+        this.date = date;
         this.adrModeSBord = adrModeSBord;
         this.adrDeposee = adrDeposee;
         this.equipementCpdlc = equipementCpdlc;
@@ -116,11 +116,91 @@ export class Vol {
         this.listeLogsVemgsa = listeLogsVemgsa;
         this.listeLogsMix = listeLogsMix;
         this.listeErreurs = listeErreurs;
-        this.inputData=inputData;
+        this.inputData = inputData;
         this.listeEtatTransfertFrequenceModifie = [];
 
 
+        //Affichage des date /heures du tableau des erreurs en format lisible
+        this.listeErreurs.forEach(element => {
+            //         return moment(dateTransfert, 'DD-MM HH mm ss').format('DD[/]MM')
+            if (element.date !== undefined) {
+                console.log("av date : ", element.date, element.date.length);
+                if (element.date.length == 10) {
+                    element.date = moment(element.date, 'DD-MM-YYYY').format('DD[/]MM[/]YYYY')
+                }
+                else {
+                    element.date = moment(element.date, 'DD-MM').format('DD[/]MM')
+                }
+                console.log("ap date : ", element.date);
+            }
 
+            if (element.heure !== undefined) {
+                for (let index = 0; index < element.heure.length; index++) {
+                    console.log("av : ", element.heure[index]);
+                    element.heure[index] = moment(element.heure[index], 'HH mm ss').format('HH[H]mm[\']ss');
+                    console.log("ap : ", element.heure[index]);
+                };
+            }
+
+        });
+
+        //Affichage des date /heures des logs LPLN en format lisible
+        if (this.listeLogsLpln !== null) {
+            this.listeLogsLpln.forEach(element => {
+                console.log("element.getJour():", element.getJour());
+                console.log("element.getHeure():", element.getHeure());
+                console.log("element.getDate():", element.getDate());
+
+                if (element.getJour().length == 10) {
+                    element.setJour(moment(element.getJour(), 'DD-MM-YYYY').format('DD[/]MM[/]YYYY'));
+                    element.setHeure(moment(element.getHeure(), 'DD-MM-YYYY HH mm ss').format('HH[H]mm[\']ss'));
+
+                }
+                else {
+                    element.setJour(moment(element.getJour(), 'DD-MM').format('DD[/]MM'));
+                    element.setHeure(moment(element.getHeure(), 'DD-MM HH mm ss').format('HH[H]mm[\']ss'));
+                }
+
+            });
+        }
+
+        //Affichage des date /heures des logs VEMGSA en format lisible
+        if (this.listeLogsVemgsa !== null) {
+            this.listeLogsVemgsa.forEach(element => {
+                console.log("element.getJour():", element.getJour());
+                console.log("element.getHeure():", element.getHeure());
+                console.log("element.getDate():", element.getDate());
+
+                if (element.getJour().length == 10) {
+                    element.setJour(moment(element.getJour(), 'DD-MM-YYYY').format('DD[/]MM[/]YYYY'));
+                    element.setHeure(moment(element.getHeure(), 'DD-MM-YYYY HH mm ss').format('HH[H]mm[\']ss'));
+
+                }
+                else {
+                    element.setJour(moment(element.getJour(), 'DD-MM').format('DD[/]MM'));
+                    element.setHeure(moment(element.getHeure(), 'DD-MM HH mm ss').format('HH[H]mm[\']ss'));
+                }
+            });
+        }
+
+        //Affichage des date /heures des logs MIX en format lisible
+        if (this.listeLogsMix !== null) {
+            this.listeLogsMix.forEach(element => {
+                console.log("element.getJour():", element.getJour());
+                console.log("element.getHeure():", element.getHeure());
+                console.log("element.getDate():", element.getDate());
+
+                if (element.getJour().length == 10) {
+                    element.setJour(moment(element.getJour(), 'DD-MM-YYYY').format('DD[/]MM[/]YYYY'));
+                    element.setHeure(moment(element.getHeure(), 'DD-MM-YYYY HH mm ss').format('HH[H]mm[\']ss'));
+
+                }
+                else {
+                    element.setJour(moment(element.getJour(), 'DD-MM').format('DD[/]MM'));
+                    element.setHeure(moment(element.getHeure(), 'DD-MM HH mm ss').format('HH[H]mm[\']ss'));
+                }
+            });
+        }
     }
 
 
@@ -238,11 +318,11 @@ export class Vol {
         return this.plnid;
     }
 
-    public getadrModeSBord(): string {
+    public getAdrModeSBord(): string {
         return this.adrModeSBord;
     }
 
-    public getadrDeposee(): string {
+    public getAdrDeposee(): string {
         return this.adrDeposee;
     }
     public getEquipementCpdlc(): boolean {
@@ -269,7 +349,7 @@ export class Vol {
     }
 
     public getLogonInitie(): boolean {
-        
+
         return this.logonInitie;
     }
 
@@ -356,13 +436,13 @@ export class Vol {
                 element.dateTransfert = this.getHeureFromDateJJMMHH(element.dateTransfert);
             }
             if (element.dateFinTRFDL !== undefined) {
-                element.dateFinTRFDL =  this.getHeureFromDateJJMMHH(element.dateFinTRFDL);
+                element.dateFinTRFDL = this.getHeureFromDateJJMMHH(element.dateFinTRFDL);
             }
             if (element.dateTRARTV !== undefined) {
-                element.dateTRARTV =  this.getHeureFromDateJJMMHH(element.dateTRARTV);
+                element.dateTRARTV = this.getHeureFromDateJJMMHH(element.dateTRARTV);
             }
             if (element.dateTranfertAcq !== undefined) {
-                element.dateTranfertAcq =  this.getHeureFromDateJJMMHH(element.dateTranfertAcq);
+                element.dateTranfertAcq = this.getHeureFromDateJJMMHH(element.dateTranfertAcq);
             }
 
         });

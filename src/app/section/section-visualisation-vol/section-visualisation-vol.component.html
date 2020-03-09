@@ -158,7 +158,7 @@
                                 </tr>
                                 <tr>
                                     <td>{{monvol.getArcid()}}</td>
-                                    <td>{{monvol.getadrDeposee()}} - {{monvol.getadrModeSBord()}}</td>
+                                    <td>{{monvol.getAdrDeposee()}} - {{monvol.getAdrModeSBord()}}</td>
                                     <td>{{monvol.getAdep()}} - {{monvol.getAdepBord()}}</td>
                                     <td>{{monvol.getAdes()}} - {{monvol.getAdesBord()}}</td>
                                 </tr>
@@ -202,10 +202,10 @@
                         <mat-card-content>
                             <div class="test_etats_frequence" *ngIf="monvol.getConditionsLogon()">
                                 <div class="test_etats_frequence">
-                                    <h2 id="test_etats_frequence">test_etats_frequence_lpln</h2>
+                                    <h2 id="test_etats_frequence">Transferts de fréquence</h2>
                                 </div>
                                 <div *ngIf="monvol.getListeEtatTransfertFrequenceModifie().length ==0 ">
-                                    <p>Aucun transfert de fréquence Initié par le contrôleur sur cette période</p>
+                                    <p>Aucun transfert de fréquence initié par le contrôleur sur cette période</p>
                                 </div>
                                 <div id="schemaFreq"
                                     *ngFor="let entry of monvol.getListeEtatTransfertFrequenceModifie(); let index = index; ">
