@@ -31,7 +31,7 @@
     "angular-vertical-timeline": "^0.6.0",
     "core-js": "^3.6.1",
     "material-design-icons": "^3.0.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "rxjs": "^6.5.4",
     "socket.io-client": "^2.3.0",
     "socketio-file-upload": "^0.7.0",
